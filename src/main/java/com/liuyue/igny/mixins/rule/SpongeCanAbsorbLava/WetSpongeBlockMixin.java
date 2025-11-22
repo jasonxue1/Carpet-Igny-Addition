@@ -1,0 +1,107 @@
+package com.liuyue.igny.mixins.rule.SpongeCanAbsorbLava;
+
+import com.liuyue.igny.IGNYSettings;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Objects;
+
+import static net.minecraft.world.level.block.Block.dropResources;
+
+@Mixin(WetSpongeBlock.class)
+public class WetSpongeBlockMixin {
+    @Inject(method = "onPlace", at = @At("HEAD"), cancellable = true)
+    private void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl, CallbackInfo ci){
+        tryAbsorb(blockState, level, blockPos, blockState2, bl);
+    }
+    @Unique
+    public void tryAbsorb(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+        if (!blockState2.is(blockState.getBlock())) {
+        if (removeFluidBreadthFirstSearch(level, blockPos)) {
+            level.setBlock(blockPos, Blocks.SPONGE.defaultBlockState(), 2);
+            level.playSound(null, blockPos, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+    }}
+
+    @Unique
+    private static final Direction[] ALL_DIRECTIONS = Direction.values();
+    @Unique
+    private boolean removeFluidBreadthFirstSearch(Level level, BlockPos blockPos) {
+        return BlockPos.breadthFirstTraversal(
+                blockPos,
+                6,
+                65,
+                (blockPosx, consumer) -> {
+                    for (Direction direction : ALL_DIRECTIONS) {
+                        consumer.accept(blockPosx.relative(direction));
+                    }
+                },
+                blockPos2 -> {
+                    if (blockPos2.equals(blockPos)) {
+                        //#if MC>=12104
+                        //$$ return BlockPos.TraversalNodeStatus.SKIP;
+                        //#else
+                        return true;
+                        //#endif
+                    } else {
+                        BlockState blockState = level.getBlockState(blockPos2);
+                        FluidState fluidState = level.getFluidState(blockPos2);
+                        if (!shouldAbsorb(fluidState)) {
+                            //#if MC>=12104
+                            //$$ return BlockPos.TraversalNodeStatus.SKIP;
+                            //#else
+                            return false;
+                            //#endif
+                        } else if (blockState.getBlock() instanceof BucketPickup bucketPickup
+                                && !bucketPickup.pickupBlock(null, level, blockPos2, blockState).isEmpty()) {
+                            //#if MC>=12104
+                            //$$ return BlockPos.TraversalNodeStatus.ACCEPT;
+                            //#else
+                            return true;
+                            //#endif
+                        } else {
+                            if (blockState.getBlock() instanceof LiquidBlock) {
+                                level.setBlock(blockPos2, Blocks.AIR.defaultBlockState(), 3);
+                            } else {
+                                if (!blockState.is(Blocks.KELP)
+                                        && !blockState.is(Blocks.KELP_PLANT)
+                                        && !blockState.is(Blocks.SEAGRASS)
+                                        && !blockState.is(Blocks.TALL_SEAGRASS)) {
+                                    //#if MC>=12104
+                                    //$$ return BlockPos.TraversalNodeStatus.SKIP;
+                                    //#else
+                                    return false;
+                                    //#endif
+                                }
+
+                                BlockEntity blockEntity = blockState.hasBlockEntity() ? level.getBlockEntity(blockPos2) : null;
+                                dropResources(blockState, level, blockPos2, blockEntity);
+                                level.setBlock(blockPos2, Blocks.AIR.defaultBlockState(), 3);
+                            }
+                            //#if MC>=12104
+                            //$$ return BlockPos.TraversalNodeStatus.ACCEPT;
+                            //#else
+                            return true;
+                            //#endif
+                        }
+                    }
+                }
+        )
+                > 1;
+    }
+    @Unique
+    private boolean shouldAbsorb(FluidState fluidState){return fluidState.is(FluidTags.LAVA) && Objects.equals(IGNYSettings.SpongeCanAbsorbLava, "wet_sponge");
+    }
+}

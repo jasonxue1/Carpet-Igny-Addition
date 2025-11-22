@@ -1,0 +1,20 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.liuyue.igny.mixins",
+    "compatibilityLevel": "{{COMPATIBILITY_LEVEL}}",
+    "mixins": [
+        "MinecraftServerMixin",
+        "carpet.SettingsManagerMixin",
+        "rule.FakePlayerCanPush.LivingEntityMixin",
+        "rule.PlayerLevitationFreeShulkerBullet.ShulkerBulletMixin",
+        "rule.PlayerMiningFatigueFreeGuardian.GuardianAttackGoalMixin",
+        "rule.SpongeCanAbsorbLava.SpongeBlockMixin",
+        "rule.SpongeCanAbsorbLava.WetSpongeBlockMixin",
+        "rule.WardenNeverDig.WardenMixin"
+    ],
+    "client": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "carpet.rule.WardenNeverDig.desc":"Warden Never Dig",
+  "carpet.rule.PlayerLevitationFreeShulkerBullet.desc":"Player Immune to Shulker Levitation",
+  "carpet.rule.PlayerMiningFatigueFreeGuardian.desc": "Player Immune to Guardian Mining Fatigue",
+  "carpet.rule.ShowRuleChangeHistory.desc": "Show Rule Change History",
+  "carpet.rule.FakePlayerCanPush.desc": "Can Push Fake Player",
+  "carpet.rule.SpongeCanAbsorbLava.desc": "Sponges can absorb lava",
+  "carpet.rule.SpongeCanAbsorbLava.extra.0": "true: Dry sponges absorb lava (turn into wet sponges)",
+  "carpet.rule.SpongeCanAbsorbLava.extra.1": "wet_sponge: Wet sponges absorb lava (turn into dry sponges)",
+  "carpet.rule.SpongeCanAbsorbLava.extra.2": "false: Sponges do not absorb lava"
+}

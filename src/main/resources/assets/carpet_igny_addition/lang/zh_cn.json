@@ -1,0 +1,17 @@
+{
+  "carpet.rule.WardenNeverDig.name": "监守者永不钻地",
+  "carpet.rule.WardenNeverDig.desc": "让监守者永远不会钻地",
+  "carpet.rule.PlayerLevitationFreeShulkerBullet.name": "潜影贝攻击玩家没有漂浮状态",
+  "carpet.rule.PlayerLevitationFreeShulkerBullet.desc": "让潜影贝攻击玩家时没有漂浮效果",
+  "carpet.rule.PlayerMiningFatigueFreeGuardian.name": "守卫者攻击玩家没有挖掘疲劳",
+  "carpet.rule.PlayerMiningFatigueFreeGuardian.desc": "让守卫者攻击玩家时没有挖掘疲劳效果",
+  "carpet.rule.ShowRuleChangeHistory.name": "显示规则变更历史",
+  "carpet.rule.ShowRuleChangeHistory.desc": "在规则详情中显示最近的操作记录",
+  "carpet.rule.FakePlayerCanPush.name": "假玩家可以被推动",
+  "carpet.rule.FakePlayerCanPush.desc": "让假玩家可以被推动",
+  "carpet.rule.SpongeCanAbsorbLava.name": "海绵吸收岩浆",
+  "carpet.rule.SpongeCanAbsorbLava.desc": "海绵可以吸收岩浆",
+  "carpet.rule.SpongeCanAbsorbLava.extra.0": "true: 干海绵吸收岩浆（会变成湿海绵）",
+  "carpet.rule.SpongeCanAbsorbLava.extra.1": "wet_sponge: 湿海绵吸收岩浆（会变成干海绵）",
+  "carpet.rule.SpongeCanAbsorbLava.extra.2": "false: 海绵不吸收岩浆"
+}
