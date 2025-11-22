@@ -17,26 +17,15 @@ public class PlayerCommandPermissions {
 
         String ruleValue = IGNYSettings.CommandPlayerEnderChestDrop;
 
-        switch (ruleValue.toLowerCase()) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-            case "ops":
-                return source.hasPermission(2);
-            case "0":
-                return source.hasPermission(0);
-            case "1":
-                return source.hasPermission(1);
-            case "2":
-                return source.hasPermission(2);
-            case "3":
-                return source.hasPermission(3);
-            case "4":
-                return source.hasPermission(4);
-            default:
-                return source.hasPermission(2);
-        }
+        return switch (ruleValue.toLowerCase()) {
+            case "true" -> true;
+            case "false" -> false;
+            case "0" -> source.hasPermission(0);
+            case "1" -> source.hasPermission(1);
+            case "3" -> source.hasPermission(3);
+            case "4" -> source.hasPermission(4);
+            default -> source.hasPermission(2);
+        };
     }
 
     public static boolean canDropEnderChest(CommandSourceStack source) {

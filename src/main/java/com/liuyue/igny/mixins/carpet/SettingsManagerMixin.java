@@ -16,9 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.List;
 import java.util.Optional;
 import carpet.utils.Translations;
 
@@ -52,11 +50,10 @@ public class SettingsManagerMixin {
                     target = "Lcarpet/utils/Messenger;m(Lnet/minecraft/commands/CommandSourceStack;[Ljava/lang/Object;)V",
                     ordinal = 3,
                     shift = At.Shift.AFTER
-            ),
-            locals = LocalCapture.CAPTURE_FAILHARD
+            )
     )
     private void addOperationInfoAfterCurrentValue(
-            CommandSourceStack source, CarpetRule<?> rule, CallbackInfoReturnable<Integer> cir, String displayName, List tags) {
+            CommandSourceStack source, CarpetRule<?> rule, CallbackInfoReturnable<Integer> cir) {
         if (!IGNYSettings.ShowRuleChangeHistory) {
             return;
         }
