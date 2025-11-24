@@ -1,5 +1,7 @@
 # Carpet-Igny-Addition
 
+[![License](https://img.shields.io/github/license/liuyuexiaoyu1/Carpet-Igny-Addition)](https://choosealicense.com/licenses/mit/)
+
 [中文](README.md) | **English**
 
 ## Required Mods
