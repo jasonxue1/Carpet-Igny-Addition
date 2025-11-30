@@ -6,7 +6,7 @@
   "igny.settings.command.total_rules": "total rules",
   "igny.command.enderchest.no_permission": "You don't have permission to drop ender chest items",
   "igny.command.enderchest.real_player_op_only": "Only operators can drop ender chest items of real players",
-  "igny.command.fixnotepitch.success": "Successfully changed the pitch of %s note blocks to zero",
+  "igny.command.fixnotepitch.success": "Successfully changed %s note blocks to pitch %s",
 
   "carpet.rule.WardenNeverDig.desc":"Warden Never Dig",
   "carpet.rule.PlayerLevitationFreeShulkerBullet.desc":"Player Immune to Shulker Levitation",

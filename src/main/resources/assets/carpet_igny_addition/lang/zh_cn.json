@@ -6,7 +6,7 @@
   "igny.settings.command.total_rules": "总规则数",
   "igny.command.enderchest.no_permission": "你没有权限丢弃末影箱物品",
   "igny.command.enderchest.real_player_op_only": "只有OP可以丢弃真实玩家的末影箱物品",
-  "igny.command.fixnotepitch.success": "成功将 %s 个音符盒的音高修改为0",
+  "igny.command.fixnotepitch.success": "成功将 %s 个音符盒的音高修改为 %s",
 
   "carpet.rule.WardenNeverDig.name": "监守者永不钻地",
   "carpet.rule.WardenNeverDig.desc": "让监守者永远不会钻地",
