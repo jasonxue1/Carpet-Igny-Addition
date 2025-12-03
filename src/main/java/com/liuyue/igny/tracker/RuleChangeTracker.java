@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class RuleChangeTracker {
 
-    public static void init(MinecraftServer server) {
+    public static void init(MinecraftServer server){
             RuleChangeDataManager.setServer(server);
     }
 

@@ -92,7 +92,7 @@ public abstract class SettingsManagerMixin {
     @Shadow
     protected abstract int setRule(CommandSourceStack source, CarpetRule<?> rule, String newValue);
 
-    @Inject(method = "registerCommand", at = @At("HEAD"))
+    @Inject(method = "registerCommand", at = @At("HEAD"), cancellable = true)
     private void onRegisterCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandBuildContext, CallbackInfo ci) {
         if (dispatcher.getRoot().getChildren().stream().anyMatch(node -> node.getName().equalsIgnoreCase(this.identifier)))
         {
@@ -140,6 +140,7 @@ public abstract class SettingsManagerMixin {
                                         executes((c) -> customSetRule(c.getSource(), contextRule(c), StringArgumentType.getString(c, "value"), BoolArgumentType.getBool(c, "setDefault"))))));
 
         dispatcher.register(literalargumentbuilder);
+        ci.cancel();
     }
     @Unique
     private boolean canUseSetDefault(CommandSourceStack source){
