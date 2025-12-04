@@ -228,3 +228,12 @@ This feature comes from Carpet Tis Addition, which backports the zombifiedPiglin
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
+
+### LocatorBarNoFakePlayer `MC>=1.21.6`
+
+The locator bar does not show fake players.
+
+- Type: `boolean`
+- Default Value: `false`
+- Suggested Options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`

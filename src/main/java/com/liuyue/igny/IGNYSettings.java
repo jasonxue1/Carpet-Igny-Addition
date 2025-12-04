@@ -153,9 +153,19 @@ public class IGNYSettings
     )
     public static String SetDefaultArgument = "ops";
 
-    @Rule(
-            categories = {IGNY, FEATURE},
-            options = {"false", "true"}
-    )
-    public static Boolean ZombifiedPiglinDropLootIfAngryReintroduced = false;
+    //#if MC>=12105
+    //$$ @Rule(
+    //$$        categories = {IGNY, FEATURE},
+    //$$        options = {"false", "true"}
+    //$$ )
+    //$$ public static Boolean ZombifiedPiglinDropLootIfAngryReintroduced = false;
+    //#endif
+
+    //#if MC>=12106
+    //$$ @Rule(
+    //$$        categories = {IGNY, FEATURE},
+    //$$        options = {"false", "true"}
+    //$$ )
+    //$$ public static Boolean LocatorBarNoFakePlayer = false;
+    //#endif
 }

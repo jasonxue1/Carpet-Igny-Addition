@@ -65,5 +65,7 @@
   "carpet.rule.SetDefaultArgument.desc": "在/carpet <rule> <value> <setDefault>中，控制<setDefault>参数的指令权限，用于让规则直接设为默认",
   "carpet.rule.ZombifiedPiglinDropLootIfAngryReintroduced.name": "重新引入僵尸猪灵在愤怒时掉落战利品",
   "carpet.rule.ZombifiedPiglinDropLootIfAngryReintroduced.desc": "开启后，僵尸猪灵在愤怒、设置玩家为攻击目标的100gt内死亡，将可掉落如被玩家击杀一样的掉落物和经验球",
-  "carpet.rule.ZombifiedPiglinDropLootIfAngryReintroduced.extra.0": "它将相关表现还原回了 MC < 25w02a（1.21.5 的快照）的表现，撤销了 MC-56653 的修复"
+  "carpet.rule.ZombifiedPiglinDropLootIfAngryReintroduced.extra.0": "它将相关表现还原回了 MC < 25w02a（1.21.5 的快照）的表现，撤销了 MC-56653 的修复",
+  "carpet.rule.LocatorBarNoFakePlayer.name": "定位栏无假玩家",
+  "carpet.rule.LocatorBarNoFakePlayer.desc": "定位栏不显示假玩家"
 }

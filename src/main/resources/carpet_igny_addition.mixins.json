@@ -22,6 +22,7 @@
     "rule.HappyGhastNoClip.ShulkerBoxBlockEntityMixin",
     "rule.HappyGhastNoClip.StandingAndWallBlockItemMixin",
     "rule.KillFakePlayerRemoveVehicle.EntityPlayerMPFakeMixin",
+    "rule.LocatorBarNoFakePlayer.ServerWaypointManagerMixin",
     "rule.MinecartMotionFix.EntityMixin",
     "rule.MinecartMotionFix.NetherPortalBlockMixin",
     "rule.NoWardenDarkness.WardenMixin",
