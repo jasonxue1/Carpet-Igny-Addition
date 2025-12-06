@@ -128,10 +128,10 @@ public class VaultTask implements ITask {
         currentCycle = 0;
         stageTickCounter = 0;
         totalTickCounter = 0;
-        currentStage = Stage.SPAWNING;
-        pendingFakeName = null;
         currentFakePlayer = originalPlayer;
-        carpet.CarpetSettings.allowSpawningOfflinePlayers = true;
+        startRightClicking();
+        currentStage = Stage.RIGHT_CLICKING;
+        pendingFakeName = null;
 
         TaskManager.register(this);
 
