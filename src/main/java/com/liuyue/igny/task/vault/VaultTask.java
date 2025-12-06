@@ -225,12 +225,6 @@ public class VaultTask implements ITask {
                 currentFakePlayer = candidate;
                 pendingFakeName = null;
                 startRightClicking();
-                return;
-            }
-
-            if (stageTickCounter >= SPAWN_TIMEOUT_TICKS) {
-                stop();
-                broadcastMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c无法在 §f" + SPAWN_TIMEOUT_TICKS + " §ctick内生成假人，停止任务");
             }
         }
     }
