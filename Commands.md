@@ -12,14 +12,16 @@
 ## 玩家动作 (playerOperate)
 
 ### 语法
-- `/player Operate <player>/list ..` 
+- `/playerOperate <player>/list ..` 
     - `...vault`
+    - `...pressUse <interval> <duration> [<cycles>]`
     - `...stop`
 
 ### 效果
-- `/player Operate <player>/list ..`
+- `/playerOperate <player>/list ..`
     - `...vault [<maxCycles>]` 使假玩家执行开宝库的任务
         - 使`<player>`长按右键100游戏刻后下线，并在游戏刻21刻后召唤一个`<player>_1`假人，视角和坐标不变，`<player>_1`假人继续长按右键100刻后下线，21刻后召唤`<player>_2`，一直循环到`<player>_[<maxCycles>]`，`[<maxCycles>]`默认为130
+    - `...pressUse <interval> <duration> [<cycles>]` 使假玩家间隔`<interval>`tick长按右键`<duration>`tick，重复`[<cycles>]`次，`[<cycles>]`默认为Infinite，当`[<cycles>]`为1时，`<interval>`值无用。
     - `...stop`
         - 停止该玩家的所有任务 
 

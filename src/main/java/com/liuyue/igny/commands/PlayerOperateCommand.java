@@ -1,8 +1,10 @@
 package com.liuyue.igny.commands;
 
+import carpet.patches.EntityPlayerMPFake;
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.task.ITask;
 import com.liuyue.igny.task.TaskManager;
+import com.liuyue.igny.task.pressuse.PressUseTask;
 import com.liuyue.igny.task.vault.VaultTask;
 import com.liuyue.igny.utils.CommandPermissions;
 import com.mojang.brigadier.CommandDispatcher;
@@ -38,6 +40,24 @@ public class PlayerOperateCommand {
                                                                 Commands.argument("maxCycles", IntegerArgumentType.integer())
                                                                         .executes(PlayerOperateCommand::startVaultTaskWithArg)
                                                         )
+
+                                        )
+                                        .then(
+                                                Commands.literal("pressUse")
+                                                        .then(
+                                                                Commands.argument("interval", IntegerArgumentType.integer(1))
+                                                                        .then(
+                                                                                Commands.argument("duration", IntegerArgumentType.integer(1))
+                                                                                        .executes(ctx -> startPressUseTask(ctx, -1))
+                                                                                        .then(
+                                                                                                Commands.argument("cycles", IntegerArgumentType.integer(1))
+                                                                                                        .executes(ctx -> {
+                                                                                                            int cycles = IntegerArgumentType.getInteger(ctx, "cycles");
+                                                                                                            return startPressUseTask(ctx, cycles);
+                                                                                                        })
+                                                                                        )
+                                                                        )
+                                                        )
                                         )
                                         .then(
                                                 Commands.literal("stop")
@@ -49,6 +69,29 @@ public class PlayerOperateCommand {
                                         .executes(PlayerOperateCommand::listAllTasks)
                         )
         );
+    }
+
+    private static int startPressUseTask(CommandContext<CommandSourceStack> context, int cycles) {
+        String playerName = StringArgumentType.getString(context, "player");
+        int interval = IntegerArgumentType.getInteger(context, "interval");
+        int duration = IntegerArgumentType.getInteger(context, "duration");
+        CommandSourceStack source = context.getSource();
+
+        ServerPlayer player = source.getServer().getPlayerList().getPlayerByName(playerName);
+        if (player == null) {
+            source.sendFailure(Component.literal("§c玩家 §f" + playerName + " §c不在线"));
+            return 0;
+        }
+
+        if (!(player instanceof EntityPlayerMPFake)) {
+            source.sendFailure(Component.literal("§c玩家 §f" + playerName + " §c不是假人"));
+            return 0;
+        }
+
+        PressUseTask task = PressUseTask.getOrCreate(source, playerName, interval, duration, cycles);
+        task.start();
+
+        return 1;
     }
 
     private static CompletableFuture<Suggestions> suggestOnlinePlayers(
@@ -78,12 +121,12 @@ public class PlayerOperateCommand {
             return 0;
         }
 
-        if (!(player instanceof carpet.patches.EntityPlayerMPFake)) {
+        if (!(player instanceof EntityPlayerMPFake)) {
             source.sendFailure(Component.literal("§c玩家 §f" + playerName + " §c不是假人"));
             return 0;
         }
 
-        VaultTask task = VaultTask.getOrCreate(source.getServer(), playerName, maxCycles);
+        VaultTask task = VaultTask.getOrCreate(source, playerName, maxCycles);
         task.start();
 
         return 1;

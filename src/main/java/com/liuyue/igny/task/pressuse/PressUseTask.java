@@ -1,0 +1,201 @@
+package com.liuyue.igny.task.pressuse;
+
+import carpet.fakes.ServerPlayerInterface;
+import carpet.helpers.EntityPlayerActionPack;
+import carpet.patches.EntityPlayerMPFake;
+import com.liuyue.igny.IGNYServer;
+import com.liuyue.igny.task.ITask;
+import com.liuyue.igny.task.TaskManager;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class PressUseTask implements ITask {
+
+    private static final Map<String, PressUseTask> INSTANCE_CACHE = new ConcurrentHashMap<>();
+    private final MinecraftServer server;
+    private final String playerName;
+    private final int intervalTicks;
+    private final int pressDuration;
+    private final int totalCycles;
+
+    private ServerPlayer targetPlayer = null;
+    private boolean isRunning = false;
+    private int tickCounter = 0;
+    private int currentCycle = 0;
+    private State currentState = State.PRESSING;
+    private final ServerPlayer operator;
+
+    private enum State {
+        PRESSING,
+        WAITING
+    }
+
+    private PressUseTask(CommandSourceStack source, String playerName, int intervalTicks, int pressDuration, int totalCycles) {
+        this.server = source.getServer();
+        this.operator = source.getPlayer();
+        this.playerName = playerName;
+        this.intervalTicks = Math.max(1, intervalTicks);
+        this.pressDuration = Math.max(1, pressDuration);
+        this.totalCycles = totalCycles;
+    }
+
+    public static PressUseTask getOrCreate(CommandSourceStack source, String playerName, int intervalTicks, int pressDuration, int totalCycles) {
+        PressUseTask existing = INSTANCE_CACHE.get(playerName);
+        if (existing != null && !existing.isStopped()) {
+            existing.stop();
+        }
+        PressUseTask newTask = new PressUseTask(source, playerName, intervalTicks, pressDuration, totalCycles);
+        INSTANCE_CACHE.put(playerName, newTask);
+        return newTask;
+    }
+
+    @Override
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    @Override
+    public String getTaskType() {
+        return "PressUse";
+    }
+
+    @Override
+    public Component getStatusText() {
+        String stateStr = switch (currentState) {
+            case PRESSING -> "Pressing (" + tickCounter + "/" + pressDuration + ")";
+            case WAITING -> "Waiting (" + tickCounter + "/" + intervalTicks + ")";
+        };
+
+        if (totalCycles == -1) {
+            return Component.literal("§7Infinite §8| §7Press:§f" + pressDuration + "t §7Wait:§f" + intervalTicks + "t §8| §e" + stateStr);
+        } else {
+            return Component.literal("§7Cycle §f" + currentCycle + "/" + totalCycles +
+                    " §8| §7Press:§f" + pressDuration + "t §7Wait:§f" + intervalTicks + "t §8| §e" + stateStr);
+        }
+    }
+
+    @Override
+    public void stop() {
+        if (!isRunning) return;
+
+        isRunning = false;
+        stopPressing();
+        TaskManager.unregister(this);
+        INSTANCE_CACHE.remove(playerName);
+    }
+
+    @Override
+    public boolean isStopped() {
+        return !isRunning;
+    }
+
+    @Override
+    public MinecraftServer getServer() {
+        return server;
+    }
+
+    public void start() {
+        if (isRunning) return;
+
+        ServerPlayer player = server.getPlayerList().getPlayerByName(playerName);
+        if (player == null) {
+            sendMessage("§c[PlayerOperate] §6PressUse§c: 玩家 §f" + playerName + " §c不在线", null);
+            return;
+        }
+
+        if (!(player instanceof EntityPlayerMPFake)) {
+            sendMessage("§c[PlayerOperate] §6PressUse§c: 玩家 §f" + playerName + " §c不是假人", null);
+            return;
+        }
+
+        this.targetPlayer = player;
+        this.isRunning = true;
+        this.tickCounter = 0;
+        this.currentCycle = 0;
+        this.currentState = State.PRESSING;
+
+        startPressing();
+        TaskManager.register(this);
+
+        String cycleInfo = (totalCycles == -1) ? " (Infinite)" : " (×" + totalCycles + ")";
+        sendMessage("§7[PlayerOperate] §6PressUse§7: 启动 §f" + playerName +
+                        " §7(Press=" + pressDuration + "t, Wait=" + intervalTicks + "t)" + cycleInfo,
+                "[PlayerOperate] PressUse: 启动 " + playerName +
+                        " (Press=" + pressDuration + "t, Wait=" + intervalTicks + "t, Cycles=" + (totalCycles == -1 ? "∞" : totalCycles) + ")");
+    }
+
+    private void startPressing() {
+        if (targetPlayer != null && targetPlayer.isAlive()) {
+            try {
+                if (targetPlayer instanceof ServerPlayerInterface spi) {
+                    EntityPlayerActionPack actionPack = spi.getActionPack();
+                    actionPack.stopAll();
+                    actionPack.start(EntityPlayerActionPack.ActionType.USE,
+                            EntityPlayerActionPack.Action.continuous());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                stop();
+            }
+        }
+    }
+
+    private void stopPressing() {
+        if (targetPlayer != null && targetPlayer.isAlive()) {
+            try {
+                if (targetPlayer instanceof ServerPlayerInterface spi) {
+                    spi.getActionPack().stopAll();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        if (!isRunning) return;
+
+        tickCounter++;
+
+        switch (currentState) {
+            case PRESSING:
+                if (tickCounter >= pressDuration) {
+                    stopPressing();
+                    currentCycle++;
+
+                    if (totalCycles != -1 && currentCycle >= totalCycles) {
+                        stop();
+                        return;
+                    }
+
+                    tickCounter = 0;
+                    currentState = State.WAITING;
+                }
+                break;
+
+            case WAITING:
+                if (tickCounter >= intervalTicks) {
+                    tickCounter = 0;
+                    currentState = State.PRESSING;
+                    startPressing();
+                }
+                break;
+        }
+    }
+
+    private void sendMessage(String message, @Nullable String consoleMessage) {
+        if (operator != null && operator.isAlive()) {
+            this.operator.sendSystemMessage(Component.literal(message));
+        }
+        if (consoleMessage != null) {
+            IGNYServer.LOGGER.info(consoleMessage);
+        }
+    }
+}

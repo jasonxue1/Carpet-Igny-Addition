@@ -6,6 +6,7 @@ import com.liuyue.igny.IGNYServer;
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.task.ITask;
 import com.liuyue.igny.task.TaskManager;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +37,7 @@ public class VaultTask implements ITask {
     private boolean isRunning = false;
     private String logoutPlayerName;
     private String pendingFakeName = null;
-    private static final int SPAWN_TIMEOUT_TICKS = 400;
+    private final ServerPlayer operator;
 
     private enum Stage {
         SPAWNING,
@@ -45,14 +47,15 @@ public class VaultTask implements ITask {
     }
     private Stage currentStage = Stage.SPAWNING;
 
-    private VaultTask(MinecraftServer server, String playerName, int maxCycles) {
-        this.server = server;
+    private VaultTask(CommandSourceStack source, String playerName, int maxCycles) {
+        this.server = source.getServer();
+        this.operator = source.getPlayer();
         this.playerName = playerName;
         this.maxCycles = Math.max(1, maxCycles);
     }
 
-    public static VaultTask getOrCreate(MinecraftServer server, String playerName, int maxCycles) {
-        return INSTANCE_CACHE.computeIfAbsent(playerName, name -> new VaultTask(server, name, maxCycles));
+    public static VaultTask getOrCreate(CommandSourceStack source, String playerName, int maxCycles) {
+        return INSTANCE_CACHE.computeIfAbsent(playerName, name -> new VaultTask(source, name, maxCycles));
     }
 
     @Override
@@ -110,12 +113,12 @@ public class VaultTask implements ITask {
 
         ServerPlayer originalPlayer = server.getPlayerList().getPlayerByName(playerName);
         if (originalPlayer == null) {
-            broadcastMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c不在线");
+            sendMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c不在线",null);
             return;
         }
 
         if (!(originalPlayer instanceof EntityPlayerMPFake)) {
-            broadcastMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c不是假人");
+            sendMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c不是假人", null);
             return;
         }
         IGNYSettings.fakePlayerSpawnMemoryLeakFix = true;
@@ -135,7 +138,9 @@ public class VaultTask implements ITask {
 
         TaskManager.register(this);
 
-        broadcastMessage("§7[PlayerOperate] §6Vault§7: 已启动任务 §f" + playerName + " §7(maxCycles=" + maxCycles + ")");
+        sendMessage("§7[PlayerOperate] §6Vault§7: 已启动任务 §f" + playerName + " §7(maxCycles=" + maxCycles + ")",
+                "[PlayerOperate] Vault: 已启动任务 " + playerName + " (maxCycles=" + maxCycles + ")");
+
     }
 
     @Override
@@ -297,13 +302,13 @@ public class VaultTask implements ITask {
         }
     }
 
-    private void broadcastMessage(String message) {
-        server.getPlayerList().getPlayers().forEach(player -> {
-            if (player.hasPermissions(2)) {
-                player.sendSystemMessage(Component.literal(message));
-            }
-        });
-        IGNYServer.LOGGER.info(message);
+    private void sendMessage(String message, @Nullable String consoleMessage) {
+        if (operator.isAlive()) {
+            this.operator.sendSystemMessage(Component.literal(message));
+        }
+        if (consoleMessage != null) {
+            IGNYServer.LOGGER.info(consoleMessage);
+        }
     }
 
     public String getPendingFakeName() { return pendingFakeName; }
