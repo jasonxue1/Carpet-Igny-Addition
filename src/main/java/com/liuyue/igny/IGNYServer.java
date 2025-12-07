@@ -11,7 +11,6 @@ import com.liuyue.igny.commands.FixnotepitchCommmand;
 import com.liuyue.igny.commands.PlayerOperateCommand;
 import com.liuyue.igny.task.ITask;
 import com.liuyue.igny.task.TaskManager;
-import com.liuyue.igny.task.vault.VaultTask;
 import com.liuyue.igny.utils.ComponentTranslate;
 import com.liuyue.igny.utils.CountRulesUtil;
 
@@ -51,7 +50,6 @@ public class IGNYServer implements CarpetExtension {
     public void onGameStarted() {
         settingsManager = new SettingsManager(IGNYServer.getInstance().version(), MOD_ID, "IGNY");
         CarpetServer.settingsManager.parseSettingsClass(IGNYSettings.class);
-
     }
 
     @Override
