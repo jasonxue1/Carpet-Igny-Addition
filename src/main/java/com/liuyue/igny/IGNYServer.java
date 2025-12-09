@@ -27,7 +27,7 @@ public class IGNYServer implements CarpetExtension {
     public static final int ruleCount = CountRulesUtil.countRules();
     public static final String fancyName = "Carpet IGNY Addition";
     public static final String MOD_ID = IGNYServerMod.getModId();
-    public static final String compactName = MOD_ID.replace("-", "");
+//    public static final String compactName = MOD_ID.replace("-", "");
     public static final Logger LOGGER = LogManager.getLogger(fancyName);
     private static MinecraftServer minecraftServer;
     public static SettingsManager settingsManager;

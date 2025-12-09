@@ -169,7 +169,7 @@ public class PressUseTask implements ITask {
                             EntityPlayerActionPack.Action.continuous());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                IGNYServer.LOGGER.error(e.getStackTrace());
                 stop();
             }
         }
@@ -182,7 +182,7 @@ public class PressUseTask implements ITask {
                     spi.getActionPack().stopAll();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                IGNYServer.LOGGER.error(e.getStackTrace());
             }
         }
     }

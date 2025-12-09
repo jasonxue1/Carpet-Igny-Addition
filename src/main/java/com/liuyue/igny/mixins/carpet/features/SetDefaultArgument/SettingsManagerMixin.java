@@ -96,12 +96,12 @@ public abstract class SettingsManagerMixin {
     private void onRegisterCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandBuildContext, CallbackInfo ci) {
         if (dispatcher.getRoot().getChildren().stream().anyMatch(node -> node.getName().equalsIgnoreCase(this.identifier)))
         {
-            CarpetSettings.LOG.error("Failed to add settings command for " + this.identifier + ". It is masking previous command.");
+            CarpetSettings.LOG.error("Failed to add settings command for {}. It is masking previous command.", this.identifier);
             return;
         }
 
         LiteralArgumentBuilder<CommandSourceStack> literalargumentbuilder = literal(identifier).requires((player) ->
-                CommandHelper.canUseCommand(player, CarpetSettings.carpetCommandPermissionLevel) && !this.locked());
+                CommandHelper.canUseCommand(player, CarpetSettings.carpetCommandPermissionLevel) && !locked());
 
         literalargumentbuilder.executes((context)-> this.listAllSettings(context.getSource())).
                 then(literal("list").
@@ -119,7 +119,7 @@ public abstract class SettingsManagerMixin {
                 then(literal("removeDefault").
                         requires(s -> !locked()).
                         then(argument("rule", StringArgumentType.word()).
-                                suggests( (c, b) -> this.suggestMatchingContains(getRulesSorted().stream().map(CarpetRule::name), b)).
+                                suggests( (c, b) -> suggestMatchingContains(getRulesSorted().stream().map(CarpetRule::name), b)).
                                 executes((c) -> this.removeDefault(c.getSource(), this.contextRule(c))))).
                 then(literal("setDefault").
                         requires(s -> !locked()).

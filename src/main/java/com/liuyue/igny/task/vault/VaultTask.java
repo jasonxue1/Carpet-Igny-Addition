@@ -31,7 +31,6 @@ public class VaultTask implements ITask {
 
     private int currentCycle = 0;
     private int stageTickCounter = 0;
-    private int totalTickCounter = 0;
     private ServerPlayer currentFakePlayer = null;
     private Vec3 lastPosition;
     private float lastYaw;
@@ -41,7 +40,6 @@ public class VaultTask implements ITask {
     private String logoutPlayerName;
     private String pendingFakeName = null;
     private final ServerPlayer operator;
-    private final int SPAWN_TIMEOUT_SECONDS = 20;
     private boolean paused = false;
 
     private enum Stage {
@@ -131,7 +129,6 @@ public class VaultTask implements ITask {
         isRunning = true;
         currentCycle = 0;
         stageTickCounter = 0;
-        totalTickCounter = 0;
         currentFakePlayer = originalPlayer;
         startRightClicking();
         currentStage = Stage.RIGHT_CLICKING;
@@ -149,7 +146,6 @@ public class VaultTask implements ITask {
             return;
         }
 
-        totalTickCounter++;
         stageTickCounter++;
 
         switch (currentStage) {
@@ -178,13 +174,12 @@ public class VaultTask implements ITask {
 
         currentStage = Stage.SPAWNING;
         stageTickCounter = 0;
-        totalTickCounter = 0;
         currentCycle = 0;
+        TaskManager.unregister(this);
+        INSTANCE_CACHE.remove(playerName);
         if (INSTANCE_CACHE.values().stream().allMatch(VaultTask::isStopped)) {
             IGNYSettings.fakePlayerSpawnMemoryLeakFix = false;
         }
-        TaskManager.unregister(this);
-        INSTANCE_CACHE.remove(playerName);
     }
 
     @Override
@@ -212,7 +207,7 @@ public class VaultTask implements ITask {
                     currentFakePlayer.connection.onDisconnect(new DisconnectionDetails(Component.literal("Vault cleanup")));
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                IGNYServer.LOGGER.error(e.getStackTrace());
             } finally {
                 currentFakePlayer = null;
             }
@@ -247,7 +242,7 @@ public class VaultTask implements ITask {
                     stop();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                IGNYServer.LOGGER.error(e.getStackTrace());
                 stop();
             }
         } else {
@@ -262,6 +257,7 @@ public class VaultTask implements ITask {
             ServerTickRateManager trm = server.tickRateManager();
             double NANOSECONDS_PER_MILLISECOND = ((double) server.getAverageTickTimeNanos()) / TimeUtil.NANOSECONDS_PER_MILLISECOND;
             double TPS = 1000.0D / Math.max(trm.isSprinting() ? 0.0 : trm.millisecondsPerTick(), NANOSECONDS_PER_MILLISECOND);
+            int SPAWN_TIMEOUT_SECONDS = 20;
             if (stageTickCounter >= TPS * SPAWN_TIMEOUT_SECONDS) {
                 stop();
                 sendMessage("§c[PlayerOperate] §6Vault§c: 玩家 §f" + playerName + " §c无法在 §f" + SPAWN_TIMEOUT_SECONDS + " §c秒内生成假人，停止任务",
@@ -283,7 +279,7 @@ public class VaultTask implements ITask {
                     stageTickCounter = 0;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                IGNYServer.LOGGER.error(e.getStackTrace());
                 currentStage = Stage.LOGGING_OUT;
                 stageTickCounter = 0;
             }

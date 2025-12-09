@@ -10,9 +10,6 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.fabricmc.fabric.impl.networking.AbstractChanneledNetworkAddon;
 import net.fabricmc.fabric.impl.networking.AbstractNetworkAddon;
 import net.fabricmc.fabric.impl.networking.GlobalReceiverRegistry;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -35,7 +32,7 @@ public abstract class AbstractNetworkAddonMixin {
 
     @Unique
     private static Boolean getCarpetOrgAdditionSetting() {
-            if(IGNYServerMod.CARPET_ADDITION_MOD_IDS.stream().anyMatch(id -> id != null && id.contains("org"))){
+            if(IGNYServerMod.CARPET_ADDITION_MOD_IDS.contains("carpet-org-addition")){
                 CarpetRule<?> carpetRule = CarpetServer.settingsManager.getCarpetRule("fakePlayerSpawnMemoryLeakFix");
                 if (carpetRule == null) {
                     return false;
