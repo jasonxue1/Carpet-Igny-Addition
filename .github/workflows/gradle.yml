@@ -14,13 +14,15 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     secrets: inherit
-
+#    # [FEATURE] MIXIN_AUDITOR
+#    with:
+#      mixin_audit: true
   update-readme-action-link:
     runs-on: ubuntu-latest
     needs: build
     if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
     permissions:
-      contents: write  # 必须显式请求写权限
+      contents: write
 
     steps:
       - name: Checkout code
