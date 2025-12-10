@@ -228,4 +228,34 @@ public class IGNYSettings
             categories = {IGNY,OPTIMIZATION,FEATURE}
     )
     public static Integer optimizedWardenLimit = 100;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"0", "1", "2", "5", "10"}
+    )
+    public static int realPlayerBreakLimitPerTick = 0;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"0", "1", "2", "5", "10"}
+    )
+    public static int realPlayerPlaceLimitPerTick = 0;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"0", "5", "10", "20", "50"}
+    )
+    public static int fakePlayerBreakLimitPerTick = 0;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"0", "5", "10", "20", "50"}
+    )
+    public static int fakePlayerPlaceLimitPerTick = 0;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"true", "false"}
+    )
+    public static boolean playerOperationLimiter = false;
 }

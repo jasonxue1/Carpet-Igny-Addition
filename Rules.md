@@ -319,3 +319,44 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 类型: `int`
 - 默认值: `100`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
+
+### 玩家操作限制器 (playerOperationLimiter) `🐛Beta`
+
+为真实玩家和假玩家启用每游戏刻（tick）的操作频率限制功能。此开关控制以下四项限制规则是否生效。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### 真玩家每游戏刻可破坏方块数量 (realPlayerBreakLimitPerTick) `🐛Beta`
+
+真实玩家每游戏刻最多可破坏的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
+
+- 类型: `int`
+- 默认值: `0`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### 真玩家每游戏刻可放置方块数量 (realPlayerPlaceLimitPerTick) `🐛Beta`
+
+真实玩家每游戏刻最多可放置的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
+
+- 类型: `int`
+- 默认值: `0`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### 假玩家每游戏刻可破坏方块数量 (fakePlayerBreakLimitPerTick) `🐛Beta`
+
+假玩家每游戏刻最多可破坏的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
+
+- 类型: `int`
+- 默认值: `0`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### 假玩家每游戏刻可放置方块数量 (fakePlayerPlaceLimitPerTick) `🐛Beta`
+
+假玩家每游戏刻最多可放置的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
+
+- 类型: `int`
+- 默认值: `0`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`

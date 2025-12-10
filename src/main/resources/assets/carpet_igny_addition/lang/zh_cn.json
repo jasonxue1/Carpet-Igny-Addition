@@ -89,5 +89,15 @@
   "carpet.rule.optimizedWarden.desc": "优化堆叠的监守者实体",
   "carpet.rule.optimizedWarden.extra.0": "它关闭了大部分移动和挤压的计算，使其性能更好",
   "carpet.rule.optimizedWardenLimit.name": "优化监守者限制",
-  "carpet.rule.optimizedWardenLimit.desc": "当堆叠的监守者个数达到规则设置的值时启用优化，需开启optimizedWarden规则"
+  "carpet.rule.optimizedWardenLimit.desc": "当堆叠的监守者个数达到规则设置的值时启用优化，需开启optimizedWarden规则",
+  "carpet.rule.playerOperationLimiter.name": "玩家操作限制器",
+  "carpet.rule.playerOperationLimiter.desc": "为假玩家和真玩家启用操作限制器",
+  "carpet.rule.realPlayerBreakLimitPerTick.name": "真玩家每游戏刻可破坏方块数量",
+  "carpet.rule.realPlayerPlaceLimitPerTick.name": "真玩家每游戏刻可放置方块数量",
+  "carpet.rule.fakePlayerBreakLimitPerTick.name": "假玩家每游戏刻可破坏方块数量",
+  "carpet.rule.fakePlayerPlaceLimitPerTick.name": "假玩家每游戏刻可放置方块数量",
+  "carpet.rule.realPlayerBreakLimitPerTick.desc": "真实玩家每游戏刻最多可破坏的方块数量。设为 0 表示不限制，需开启playerOperationLimiter规则",
+  "carpet.rule.realPlayerPlaceLimitPerTick.desc": "真实玩家每游戏刻最多可放置的方块数量。设为 0 表示不限制，需开启playerOperationLimiter规则",
+  "carpet.rule.fakePlayerBreakLimitPerTick.desc": "假人每游戏刻最多可破坏的方块数量。设为 0 表示不限制，需开启playerOperationLimiter规则",
+  "carpet.rule.fakePlayerPlaceLimitPerTick.desc": "假人每游戏刻最多可放置的方块数量。设为 0 表示不限制，需开启playerOperationLimiter规则"
 }

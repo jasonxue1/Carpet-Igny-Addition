@@ -54,5 +54,10 @@
   "carpet.rule.optimizedPiglinLimit.desc":"Enable optimization when the number of cramming piglins reaches the rule value",
   "carpet.rule.optimizedWarden.desc": "Optimize the cramming of wardens entities",
   "carpet.rule.optimizedWarden.extra.0": "It has shut down most travel and cramming computing,so that it can have better performance",
-  "carpet.rule.optimizedWardenLimit.desc": "Enable optimization when the number of cramming warden reaches the rule value"
+  "carpet.rule.optimizedWardenLimit.desc": "Enable optimization when the number of cramming warden reaches the rule value",
+  "carpet.rule.playerOperationLimiter.desc": "Enable operation limiter for players (real and fake).",
+  "carpet.rule.realPlayerBreakLimitPerTick.desc": "Maximum number of blocks a real player can break per tick. Set to 0 to disable,Requires playerOperationLimiter to be enabled.",
+  "carpet.rule.realPlayerPlaceLimitPerTick.desc": "Maximum number of blocks a real player can place per tick. Set to 0 to disable,Requires playerOperationLimiter to be enabled.",
+  "carpet.rule.fakePlayerBreakLimitPerTick.desc": "Maximum number of blocks a fake player can break per tick. Set to 0 to disable,Requires playerOperationLimiter to be enabled.",
+  "carpet.rule.fakePlayerPlaceLimitPerTick.desc": "Maximum number of blocks a fake player can place per tick. Set to 0 to disable,Requires playerOperationLimiter to be enabled."
 }

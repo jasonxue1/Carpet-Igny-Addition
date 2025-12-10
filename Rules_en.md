@@ -326,3 +326,44 @@ Enable optimization when the number of cramming wardens reaches the rule value. 
 - Type: `int`
 - Default Value: `100`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
+
+### playerOperationLimiter `🐛Beta`
+
+Enables per-tick operation rate limiting for both real and fake players. This master switch controls whether the following four limit rules take effect.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### realPlayerBreakLimitPerTick `🐛Beta`
+
+Maximum number of blocks a real player can break per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
+
+- Type: `int`
+- Default value: `0`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### realPlayerPlaceLimitPerTick `🐛Beta`
+
+Maximum number of blocks a real player can place per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
+
+- Type: `int`
+- Default value: `0`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### fakePlayerBreakLimitPerTick `🐛Beta`
+
+Maximum number of blocks a fake player can break per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
+
+- Type: `int`
+- Default value: `0`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+### fakePlayerPlaceLimitPerTick `🐛Beta`
+
+Maximum number of blocks a fake player can place per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
+
+- Type: `int`
+- Default value: `0`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
