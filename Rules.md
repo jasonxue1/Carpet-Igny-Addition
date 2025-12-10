@@ -314,7 +314,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 
 ### 优化监守者限制 (optimizedWardenLimit) `🐛Beta`
 
-当堆叠的监守者个数达到规则设置的值时启用优化，需开启optimizedWarden规则。
+当堆叠的监守者个数达到规则设置的值时启用优化，需开启`optimizedWarden`规则。
 
 - 类型: `int`
 - 默认值: `100`
