@@ -20,7 +20,7 @@
 | 1.21(.1)（主版本）  | 维护中  | -                                                                                                      |
 | 1.21.2 ~ 最新正式版 | 维护中  | -                                                                                                      |
 
-## 文档（规则与指令旁边带有`🐛Beta`的标识即测试功能，只能在GitHub Action的最新构建里下载使用！！！）
+## 文档（规则与指令旁边带有`🐛Beta`的标识即测试功能，只能在GitHub Action的最新构建里和下面的下载链接下载使用！！！）
 
 ### 规则
 
@@ -34,5 +34,5 @@
 
 - [Modrinth](https://modrinth.com/mod/carpet-igny-addition)
 - [GitHub](https://github.com/liuyuexiaoyu1/Carpet-Igny-Addition/releases/latest)
-## 最新Beta版下载↓##
+## 最新Beta版下载↓ ##
 - [GitHub Action](https://nightly.link/liuyuexiaoyu1/Carpet-Igny-Addition/actions/artifacts/4837811017.zip)
