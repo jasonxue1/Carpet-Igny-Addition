@@ -260,4 +260,10 @@ public class IGNYSettings
             options = {"true", "false"}
     )
     public static boolean playerOperationLimiter = false;
+
+    @Rule(
+            categories = {IGNY, FEATURE},
+            options = {"false", "survival", "creative"}
+    )
+    public static String generateNetherPortal = "false";
 }
