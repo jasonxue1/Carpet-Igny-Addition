@@ -268,7 +268,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
 
-### 创造破坏含水方块无水 (creativeDestroyWaterloggedBlockNoWater) `🐛Beta`
+### 创造破坏含水方块无水 (creativeDestroyWaterloggedBlockNoWater)
 
 创造玩家破坏含水方块时不会产生水。
 
@@ -277,7 +277,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-### 试炼刷怪笼刷怪冷却 (trialSpawnerCoolDown) `🐛Beta`
+### 试炼刷怪笼刷怪冷却 (trialSpawnerCoolDown)
 
 自定义试炼刷怪笼生成奖励之后的刷怪冷却。
 
@@ -285,7 +285,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `36000`
 - 分类: `IGNY`, `FEATURE`
 
-### 优化猪灵 (optimizedPiglin) `🐛Beta`
+### 优化猪灵 (optimizedPiglin)
 
 优化堆叠的猪灵实体，它关闭了大部分移动和挤压的计算，使其性能更好。
 
@@ -296,7 +296,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### 优化猪灵限制 (optimizedPiglinLimit) `🐛Beta`
+### 优化猪灵限制 (optimizedPiglinLimit)
 
 当堆叠的猪灵个数达到规则设置的值时启用优化，需开启optimizedPiglin规则。
 
@@ -304,7 +304,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `100`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### 优化监守者 (optimizedWarden) `🐛Beta`
+### 优化监守者 (optimizedWarden)
 
 优化堆叠的监守者实体，它关闭了大部分移动和挤压的计算，使其性能更好。
 
@@ -313,7 +313,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### 优化监守者限制 (optimizedWardenLimit) `🐛Beta`
+### 优化监守者限制 (optimizedWardenLimit)
 
 当堆叠的监守者个数达到规则设置的值时启用优化，需开启`optimizedWarden`规则。
 
@@ -321,7 +321,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `100`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### 玩家操作限制器 (playerOperationLimiter) `🐛Beta`
+### 玩家操作限制器 (playerOperationLimiter)
 
 为真实玩家和假玩家启用每游戏刻（tick）的操作频率限制功能。此开关控制以下四项限制规则是否生效。
 
@@ -332,7 +332,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### 真玩家每游戏刻可破坏方块数量 (realPlayerBreakLimitPerTick) `🐛Beta`
+### 真玩家每游戏刻可破坏方块数量 (realPlayerBreakLimitPerTick)
 
 真实玩家每游戏刻最多可破坏的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
 
@@ -340,7 +340,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `0`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### 真玩家每游戏刻可放置方块数量 (realPlayerPlaceLimitPerTick) `🐛Beta`
+### 真玩家每游戏刻可放置方块数量 (realPlayerPlaceLimitPerTick)
 
 真实玩家每游戏刻最多可放置的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
 
@@ -348,7 +348,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `0`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### 假玩家每游戏刻可破坏方块数量 (fakePlayerBreakLimitPerTick) `🐛Beta`
+### 假玩家每游戏刻可破坏方块数量 (fakePlayerBreakLimitPerTick)
 
 假玩家每游戏刻最多可破坏的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
 
@@ -356,7 +356,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `0`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### 假玩家每游戏刻可放置方块数量 (fakePlayerPlaceLimitPerTick) `🐛Beta`
+### 假玩家每游戏刻可放置方块数量 (fakePlayerPlaceLimitPerTick)
 
 假玩家每游戏刻最多可放置的方块数量。设为 0 表示不限制。需开启 `playerOperationLimiter` 规则。
 
@@ -364,7 +364,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `0`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### 生成下界传送门 (generateNetherPortal) `🐛Beta`
+### 生成下界传送门 (generateNetherPortal)
 
 在主世界和下界维度，对准黑曜石方块和下界传送门方块使用打火石和火焰弹，可以在右键的方块面上放置一个垂直于右键方块的下界传送门方块。
 

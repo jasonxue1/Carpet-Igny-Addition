@@ -275,7 +275,7 @@ Fake players keep breaking without a cooldown for breaking.
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
-### creativeDestroyWaterloggedBlockNoWater `🐛Beta`
+### creativeDestroyWaterloggedBlockNoWater
 
 Creative players can destroy waterlogged blocks without generating water.
 
@@ -284,7 +284,7 @@ Creative players can destroy waterlogged blocks without generating water.
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `CREATIVE`, `FEATURE`
 
-### trialSpawnerCoolDown `🐛Beta`
+### trialSpawnerCoolDown
 
 Customize the monster spawning cooldown after the trial spawner generates rewards.
 
@@ -292,7 +292,7 @@ Customize the monster spawning cooldown after the trial spawner generates reward
 - Default Value: `36000`
 - Categories: `IGNY`, `FEATURE`
 
-### optimizedPiglin `🐛Beta`
+### optimizedPiglin
 
 Optimize the cramming of piglin entities.
 
@@ -303,7 +303,7 @@ From [ROF-Carpet-Addition](https://github.com/Melationin/ROF-Carpet-Addition)
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### optimizedPiglinLimit `🐛Beta`
+### optimizedPiglinLimit
 
 Enable optimization when the number of cramming piglins reaches the rule value. Requires `optimizedPiglin` to be enabled.
 
@@ -311,7 +311,7 @@ Enable optimization when the number of cramming piglins reaches the rule value. 
 - Default Value: `100`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### optimizedWarden `🐛Beta`
+### optimizedWarden
 
 Optimize the cramming of warden entities.
 
@@ -320,7 +320,7 @@ Optimize the cramming of warden entities.
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### optimizedWardenLimit `🐛Beta`
+### optimizedWardenLimit
 
 Enable optimization when the number of cramming wardens reaches the rule value. Requires `optimizedWarden` to be enabled.
 
@@ -328,7 +328,7 @@ Enable optimization when the number of cramming wardens reaches the rule value. 
 - Default Value: `100`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-### playerOperationLimiter `🐛Beta`
+### playerOperationLimiter
 
 Enables per-tick operation rate limiting for both real and fake players. This master switch controls whether the following four limit rules take effect.
 
@@ -339,7 +339,7 @@ From [Plusls Carpet Addition](https://github.com/Nyan-Work/plusls-carpet-additio
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### realPlayerBreakLimitPerTick `🐛Beta`
+### realPlayerBreakLimitPerTick
 
 Maximum number of blocks a real player can break per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
 
@@ -347,7 +347,7 @@ Maximum number of blocks a real player can break per game tick. Set to 0 to disa
 - Default value: `0`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### realPlayerPlaceLimitPerTick `🐛Beta`
+### realPlayerPlaceLimitPerTick
 
 Maximum number of blocks a real player can place per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
 
@@ -355,7 +355,7 @@ Maximum number of blocks a real player can place per game tick. Set to 0 to disa
 - Default value: `0`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### fakePlayerBreakLimitPerTick `🐛Beta`
+### fakePlayerBreakLimitPerTick
 
 Maximum number of blocks a fake player can break per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
 
@@ -363,7 +363,7 @@ Maximum number of blocks a fake player can break per game tick. Set to 0 to disa
 - Default value: `0`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### fakePlayerPlaceLimitPerTick `🐛Beta`
+### fakePlayerPlaceLimitPerTick
 
 Maximum number of blocks a fake player can place per game tick. Set to 0 to disable. Requires `playerOperationLimiter` to be enabled.
 
@@ -371,7 +371,7 @@ Maximum number of blocks a fake player can place per game tick. Set to 0 to disa
 - Default value: `0`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
-### generateNetherPortal `🐛Beta`
+### generateNetherPortal
 
 In the Overworld and Nether dimensions, using flint and steel or fire charges on obsidian and nether portal blocks allows you to place a nether portal perpendicular to the clicked block face.
 

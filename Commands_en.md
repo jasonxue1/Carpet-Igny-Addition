@@ -9,7 +9,7 @@
 ### Effect
 - Sets the note pitch of all note blocks within the cuboid region defined by `<pos1>` and `<pos2>` to `<pitch>`.
 
-## Player Operation (`playerOperate`)
+## Player Operation (`/playerOperate`)
 ### Syntax
 - `/playerOperate ..`
     - `...<player>`
