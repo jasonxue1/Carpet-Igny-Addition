@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @SuppressWarnings("UnstableApiUsage")
 @Mixin(value = AbstractNetworkAddon.class, priority = 999, remap = false)
 public abstract class AbstractNetworkAddonMixin {
-
+    //#if MC <= 12002
     @Shadow
     protected abstract void invokeInitEvent();
 
@@ -46,4 +46,5 @@ public abstract class AbstractNetworkAddonMixin {
             }
             return false;
     }
+    //#endif
 }

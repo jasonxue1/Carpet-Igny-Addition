@@ -7,7 +7,9 @@ import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.task.ITask;
 import com.liuyue.igny.task.TaskManager;
 import net.minecraft.commands.CommandSourceStack;
+//#if MC > 12006
 import net.minecraft.network.DisconnectionDetails;
+//#endif
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -205,7 +207,11 @@ public class VaultTask implements ITask {
                     spi.getActionPack().stopAll();
                 }
                 if (currentFakePlayer instanceof EntityPlayerMPFake) {
+                    //#if MC <= 12006
+                    //$$ currentFakePlayer.connection.onDisconnect(Component.literal("Vault cleanup"));
+                    //#else
                     currentFakePlayer.connection.onDisconnect(new DisconnectionDetails(Component.literal("Vault cleanup")));
+                    //#endif
                 }
             } catch (Exception e) {
                 IGNYServer.LOGGER.error(e.getStackTrace());
@@ -318,7 +324,11 @@ public class VaultTask implements ITask {
                 spi.getActionPack().start(EntityPlayerActionPack.ActionType.USE, null);
             }
             if (currentFakePlayer instanceof EntityPlayerMPFake) {
+                //#if MC <= 12006
+                //$$ currentFakePlayer.connection.onDisconnect(Component.literal("Vault cycle completed"));
+                //#else
                 currentFakePlayer.connection.onDisconnect(new DisconnectionDetails(Component.literal("Vault cycle completed")));
+                //#endif
             }
             currentFakePlayer = null;
         }

@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Mixin(NetherPortalBlock.class)
 public abstract class NetherPortalBlockMixin {
+    //#if MC >= 12100
     @WrapOperation(
             method = "getExitPortal",
             at = @At(
@@ -34,4 +35,5 @@ public abstract class NetherPortalBlockMixin {
             return original.call(instance, blockPos, axis);
         }
     }
+    //#endif
 }

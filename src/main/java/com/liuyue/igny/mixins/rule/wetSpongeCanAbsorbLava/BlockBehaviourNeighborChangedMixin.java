@@ -38,7 +38,11 @@ public abstract class BlockBehaviourNeighborChangedMixin {
         if (blockState.getBlock() instanceof WetSpongeBlock) {
             if (removeFluidBreadthFirstSearch(level, blockPos)) {
                 level.setBlock(blockPos, Blocks.SPONGE.defaultBlockState(), 2);
+                //#if MC > 12001
                 level.playSound(null, blockPos, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0F, 1.0F);
+                //#else
+                //$$ level.levelEvent(2001, blockPos, Block.getId(Blocks.WATER.defaultBlockState()));
+                //#endif
             }
         }
     }
@@ -59,7 +63,7 @@ public abstract class BlockBehaviourNeighborChangedMixin {
                 },
                 blockPos2 -> {
                     if (blockPos2.equals(blockPos)) {
-                        //#if MC>=12104
+                        //#if MC >= 12104
                         //$$ return BlockPos.TraversalNodeStatus.ACCEPT;
                         //#else
                         return true;
@@ -68,14 +72,18 @@ public abstract class BlockBehaviourNeighborChangedMixin {
                         BlockState blockState = level.getBlockState(blockPos2);
                         FluidState fluidState = level.getFluidState(blockPos2);
                         if (!shouldAbsorb(fluidState)) {
-                            //#if MC>=12104
+                            //#if MC >= 12104
                             //$$ return BlockPos.TraversalNodeStatus.SKIP;
                             //#else
                             return false;
                             //#endif
                         } else if (blockState.getBlock() instanceof BucketPickup bucketPickup
-                                && !bucketPickup.pickupBlock(null, level, blockPos2, blockState).isEmpty()) {
-                            //#if MC>=12104
+                                && !bucketPickup.pickupBlock(
+                                        //#if MC > 12001
+                                        null,
+                                       //#endif
+                                level, blockPos2, blockState).isEmpty()) {
+                            //#if MC >= 12104
                             //$$ return BlockPos.TraversalNodeStatus.ACCEPT;
                             //#else
                             return true;
@@ -88,7 +96,7 @@ public abstract class BlockBehaviourNeighborChangedMixin {
                                         && !blockState.is(Blocks.KELP_PLANT)
                                         && !blockState.is(Blocks.SEAGRASS)
                                         && !blockState.is(Blocks.TALL_SEAGRASS)) {
-                                    //#if MC>=12104
+                                    //#if MC >= 12104
                                     //$$ return BlockPos.TraversalNodeStatus.SKIP;
                                     //#else
                                     return false;
@@ -99,7 +107,7 @@ public abstract class BlockBehaviourNeighborChangedMixin {
                                 dropResources(blockState, level, blockPos2, blockEntity);
                                 level.setBlock(blockPos2, Blocks.AIR.defaultBlockState(), 3);
                             }
-                            //#if MC>=12104
+                            //#if MC >= 12104
                             //$$ return BlockPos.TraversalNodeStatus.ACCEPT;
                             //#else
                             return true;

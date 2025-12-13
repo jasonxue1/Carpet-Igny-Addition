@@ -37,13 +37,11 @@ public abstract class ServerPlayerGameModeMixin {
             ),
             cancellable = true
     )
-
     private void checkOperationLimit(BlockPos pos, int sequence, String reason, CallbackInfo ci) {
         if (!IGNYSettings.playerOperationLimiter || !reason.equals(igny$instaMineReason)) {
             return;
         }
         SafeServerPlayerEntity safe = (SafeServerPlayerEntity) this.player;
-
         if (!safe.igny$canBreak(player)) {
             safe.igny$addBreakCountPerTick();
             this.player.connection.send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));

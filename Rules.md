@@ -127,7 +127,7 @@
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
 
-### 假玩家乘船不纠正偏航角修复 (fakePlayerBoatYawFix)
+### 假玩家乘船不纠正偏航角修复 (fakePlayerBoatYawFix) `MC>=1.21.11`
 
 假玩家在骑乘船时不会纠正偏航角。 [#2100](https://github.com/gnembon/fabric-carpet/issues/2100)
 
@@ -183,7 +183,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `SURVIVAL`, `CLIENT`, `FEATURE`
 
-### 只有玩家实体创建下界传送门 (onlyPlayerCreateNetherPortal)
+### 只有玩家实体创建下界传送门 (onlyPlayerCreateNetherPortal) `MC>=1.21.0`
 
 只有玩家实体可以创建下界传送门。
 
@@ -277,7 +277,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-### 试炼刷怪笼刷怪冷却 (trialSpawnerCoolDown)
+### 试炼刷怪笼刷怪冷却 (trialSpawnerCoolDown) `MC>=1.20.5`
 
 自定义试炼刷怪笼生成奖励之后的刷怪冷却。
 

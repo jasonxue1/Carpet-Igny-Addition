@@ -140,11 +140,13 @@ public class IGNYSettings
     //$$ public static Boolean happyGhastNoClip = false;
     //#endif
 
+    //#if MC >= 12100
     @Rule(
             categories = {IGNY, FEATURE},
             options = {"false", "true"}
     )
     public static Boolean onlyPlayerCreateNetherPortal = false;
+    //#endif
 
     @Rule(
             categories = {IGNY, FEATURE},
@@ -204,10 +206,12 @@ public class IGNYSettings
     )
     public static Boolean creativeDestroyWaterloggedBlockNoWater = false;
 
+    //#if MC >= 12005
     @Rule(
             categories = {IGNY, FEATURE}
     )
     public static Integer trialSpawnerCoolDown = 36000;
+    //#endif
 
     @Rule(
             categories = {IGNY, OPTIMIZATION, FEATURE},

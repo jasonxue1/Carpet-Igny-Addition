@@ -22,15 +22,19 @@ public class ServerGamePacketListenerImplMixin {
     public ServerPlayer player;
 
     @WrapOperation(
+            //#if MC <= 12001
+            //$$ method="onDisconnect",
+            //#else
             method="removePlayerFromWorld",
+            //#endif
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastSystemMessage(Lnet/minecraft/network/chat/Component;Z)V")
     )
     private void disableLogoutMessage(PlayerList instance, Component component, boolean bl, Operation<Void> original) {
         if (this.player instanceof EntityPlayerMPFake) {
+            //#if MC >= 12003
             String playerName = this.player.getName().getString();
 
             boolean isVaultFake = false;
-
             for (ITask task : TaskManager.getAllActiveTasks()) {
                 if (!(task instanceof VaultTask vaultTask)) continue;
 
@@ -45,7 +49,12 @@ public class ServerGamePacketListenerImplMixin {
                     break;
                 }
             }
-            if (isVaultFake || IGNYSettings.fakePlayerLoginLogoutNoChatInfo) {
+            //#endif
+            if (
+                //#if MC >= 12003
+                    isVaultFake ||
+                 //#endif
+            IGNYSettings.fakePlayerLoginLogoutNoChatInfo) {
                 return;
             }
         }

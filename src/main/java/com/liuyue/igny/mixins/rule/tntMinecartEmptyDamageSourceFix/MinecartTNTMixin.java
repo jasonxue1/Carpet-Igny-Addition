@@ -63,7 +63,12 @@ public abstract class MinecartTNTMixin {
                         //#if MC >= 12103
                         //$$ serverLevel,
                         //#endif
-                        this.getDropItem());
+                        //#if MC < 12103
+                        //$$ source
+                        //#else
+                        this.getDropItem()
+                        //#endif
+                );
                 ci.cancel();
                 return;
             }

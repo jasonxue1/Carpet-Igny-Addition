@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
@@ -72,20 +71,9 @@ public class FlintAndSteelItemMixin {
 
         ItemStack itemStack = context.getItemInHand();
         itemStack.hurtAndBreak(1, player,
-                //#if MC >= 12109
-                //$$ context.getHand().asEquipmentSlot()
-                //#elseif MC >= 12005
-                LivingEntity.getSlotForHand(context.getHand())
-                //#else
-                //$$ p -> p.broadcastBreakEvent(context.getHand())
-                //#endif
+                p -> p.broadcastBreakEvent(context.getHand())
         );
-
-        //#if MC >= 12102
-        //$$ cir.setReturnValue(InteractionResult.SUCCESS);
-        //#else
         cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide()));
-        //#endif
     }
 
     @Unique

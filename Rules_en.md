@@ -38,7 +38,7 @@ Records and displays rule change history including operator, timestamp, and orig
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `COMMAND`, `FEATURE`
 
-### fFakePlayerCanPush
+### fakePlayerCanPush
 
 Fake players can be pushed by other players' collisions.
 
@@ -134,7 +134,7 @@ Fixed the source of empty damage in TNT minecarts.
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
-### fakePlayerBoatYawFix
+### fakePlayerBoatYawFix `MC>=1.20.11`
 
 Fake players will not correct yaw when riding boats. [#2100](https://github.com/gnembon/fabric-carpet/issues/2100)
 
@@ -190,7 +190,7 @@ Happy Ghast has players who ride while ignoring block collisions and can pass th
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `SURVIVAL`, `CLIENT`, `FEATURE`
 
-### onlyPlayerCreateNetherPortal
+### onlyPlayerCreateNetherPortal `MC>=1.20.0`
 
 Only players can create nether portal.
 
@@ -284,7 +284,7 @@ Creative players can destroy waterlogged blocks without generating water.
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `CREATIVE`, `FEATURE`
 
-### trialSpawnerCoolDown
+### trialSpawnerCoolDown `MC>=1.20.5`
 
 Customize the monster spawning cooldown after the trial spawner generates rewards.
 

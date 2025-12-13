@@ -46,6 +46,7 @@ public class PlayerOperateCommand {
                                 Commands.argument("player", StringArgumentType.string())
                                         .suggests(PlayerOperateCommand::suggestOnlinePlayers)
                                         .then(Commands.literal("task")
+                                                //#if MC >= 12003
                                                 .then(
                                                         Commands.literal("vault")
                                                                 .executes(ctx -> startVaultTask(ctx, 130))
@@ -54,6 +55,7 @@ public class PlayerOperateCommand {
                                                                                 .executes(PlayerOperateCommand::startVaultTaskWithArg)
                                                                 )
                                                 )
+                                                //#endif
                                                 .then(
                                                         Commands.literal("pressUse")
                                                                 .then(
@@ -276,7 +278,7 @@ public class PlayerOperateCommand {
                 builder
         );
     }
-
+    //#if MC >= 12003
     private static int startVaultTaskWithArg(CommandContext<CommandSourceStack> context) {
         int maxCycles = IntegerArgumentType.getInteger(context, "maxCycles");
         return startVaultTask(context, maxCycles);
@@ -306,6 +308,7 @@ public class PlayerOperateCommand {
         );
         return 1;
     }
+    //#endif
 
     private static int stopTaskForPlayer(CommandContext<CommandSourceStack> context) {
         String playerName = StringArgumentType.getString(context, "player");

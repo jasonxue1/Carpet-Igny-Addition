@@ -38,6 +38,7 @@ public abstract class EntityPlayerMPFakeMixin {
     //#else
     private static Optional<GameProfile> getFakeProfile(GameProfileCache instance, String string, Operation<Optional<GameProfile>> original, @Local(argsOnly = true, name = "arg0") String username) {
     //#endif
+        //#if MC >= 12003
         //#if MC >= 12111
         //$$ UUID uuid = original.call(minecraftServer, string);
         //#else
@@ -62,6 +63,10 @@ public abstract class EntityPlayerMPFakeMixin {
         //$$ return uuid;
         //#else
         return gameProfile;
+        //#endif
+        //#endif
+        //#if MC < 12003
+        //$$ return original.call(instance, string);
         //#endif
     }
 }

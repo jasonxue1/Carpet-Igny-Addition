@@ -14,7 +14,7 @@
 - `/playerOperate ..`
     - `...<player>`
         - `...task`
-            - `...vault [<maxCycles>]`
+            - `...vault [<maxCycles>]`  `MC>=1.20.3`
             - `...pressUse <interval> <duration> [<cycles>]`
         - `...stop`
         - `...pause`
