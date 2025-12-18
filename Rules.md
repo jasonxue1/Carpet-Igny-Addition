@@ -382,7 +382,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
 
-## 放置堆肥桶堆肥 (placeComposterCompost) `🐛Beta`
+## 放置堆肥桶堆肥 (placeComposterCompost)
 
 放置堆肥桶时堆肥到规则设置的值，范围为0-8，按着潜行键时触发。
 
@@ -390,7 +390,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `0`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-## 末影龙死亡上升限制 (enderDragonDeathRiseLimit) `🐛Beta`
+## 末影龙死亡上升限制 (enderDragonDeathRiseLimit)
 
 限制末影龙死亡后上升到的最大y坐标，设置为-1145表示不限制。
 
@@ -398,7 +398,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `-1145`
 - 分类: `IGNY`, `FEATURE`
 
-## 末影龙死亡掉落经验 (enderDragonDeathDropExp) `🐛Beta`
+## 末影龙死亡掉落经验 (enderDragonDeathDropExp)
 
 末影龙死亡掉落的经验值，设置为-1表示遵循原版逻辑。  
 
@@ -410,7 +410,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `-1`
 - 分类: `IGNY`, `FEATURE`
 
-## 瞬时生成末影龙 (instantSpawnEnderDragon) `🐛Beta`
+## 瞬时生成末影龙 (instantSpawnEnderDragon)
 
 放置末影水晶重生末影龙时跳过重生动画，直接召唤末影龙。
 
@@ -419,7 +419,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-## 最大末地传送门大小 (maxEndPortalSize) `🐛Beta`
+## 最大末地传送门大小 (maxEndPortalSize)
 
 设置末地传送门的最大大小（3以上），设置为-1表示遵循原版逻辑。
 
@@ -427,7 +427,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `-1`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-## 允许长方形末地传送门 (allowRectangularEndPortal) `🐛Beta`
+## 允许长方形末地传送门 (allowRectangularEndPortal)
 
 允许生成长方形的末地传送门（传送门边最小为3），maxEndPortalSize不为-1时有效。
 
@@ -436,7 +436,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-## 瞬时宝库生成战利品 (instantVaultSpawnLoot) `🐛Beta` `MC>=1.20.5`
+## 瞬时宝库生成战利品 (instantVaultSpawnLoot) `MC>=1.20.5`
 
 宝库生成战利品时跳过动画，直接生成所有战利品。
 
@@ -445,7 +445,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
 
-## 试炼刷怪笼战利品倍率 (trialSpawnerLootMultiplier) `🐛Beta` `MC>=1.20.5`
+## 试炼刷怪笼战利品倍率 (trialSpawnerLootMultiplier) `MC>=1.20.5`
 
 试炼刷怪笼的战利品倍率。
 
@@ -453,7 +453,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `1`
 - 分类: `IGNY`, `FEATURE`
 
-## 试炼刷怪笼掉落钥匙概率 (trialSpawnerDropKeyProbability) `🐛Beta` `MC>=1.20.5`
+## 试炼刷怪笼掉落钥匙概率 (trialSpawnerDropKeyProbability) `MC>=1.20.5`
 
 试炼刷怪笼的战利品掉落试炼钥匙的概率，设置为-1表示遵循原版逻辑。
 
@@ -461,7 +461,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `-1`
 - 分类: `IGNY`, `FEATURE`
 
-## 瞬时试炼刷怪笼生成战利品 (instantTrialSpawnerSpawnLoot) `🐛Beta` `MC>=1.20.5`
+## 瞬时试炼刷怪笼生成战利品 (instantTrialSpawnerSpawnLoot) `MC>=1.20.5`
 
 试炼刷怪笼生成奖励时跳过动画，直接生成所有战利品。
 
@@ -470,7 +470,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
 
-## 简易声音抑制器 (simpleSoundSuppression) `🐛Beta` `MC>=1.20.5`
+## 简易声音抑制器 (simpleSoundSuppression) `MC>=1.20.5`
 
 通过将校频幽匿感测体命名为指定名称来制作基于“IllegalArgumentException”的更新抑制器。
 
@@ -484,7 +484,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `false`
 - 分类: `IGNY`, `FEATURE`
 
-## 安全声音抑制器 (safeSoundSuppression) `🐛Beta` `MC>=1.20`
+## 安全声音抑制器 (safeSoundSuppression) `MC>=1.20`
 
 当声音抑制器没有红石信号输入时，没有任何效果。
 
