@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(EntityPlayerMPFake.class)
 public abstract class EntityPlayerMPFakeMixin {
-    //#if MC >= 12002
+    //#if MC >= 12003
     @ModifyVariable(method = "createFake", at = @At("STORE"), name = "gameprofile")
     private static GameProfile modifyGameProfile(GameProfile profile, @Local(argsOnly = true, name = "arg0") String username) {
         for (ITask task : TaskManager.getAllActiveTasks()) {
