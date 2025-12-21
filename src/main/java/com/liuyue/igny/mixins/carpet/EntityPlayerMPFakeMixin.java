@@ -4,69 +4,22 @@ import carpet.patches.EntityPlayerMPFake;
 import com.liuyue.igny.task.ITask;
 import com.liuyue.igny.task.TaskManager;
 import com.liuyue.igny.task.vault.VaultTask;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.UUIDUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-
-//#if MC>=12109
-//$$ import java.util.UUID;
-//$$ import net.minecraft.server.MinecraftServer;
-//#else
-import java.util.Optional;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.server.players.GameProfileCache;
-//#endif
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(EntityPlayerMPFake.class)
 public abstract class EntityPlayerMPFakeMixin {
-
-    @WrapOperation(
-            method = "createFake",
-            at = @At(value = "INVOKE",
-                    //#if MC >= 12109
-                    //$$ target = "Lnet/minecraft/server/players/OldUsersConverter;convertMobOwnerIfNecessary(Lnet/minecraft/server/MinecraftServer;Ljava/lang/String;)Ljava/util/UUID;"
-                    //#else
-                    target = "Lnet/minecraft/server/players/GameProfileCache;get(Ljava/lang/String;)Ljava/util/Optional;"
-                    //#endif
-            )
-    )
-    //#if MC >= 12109
-    //$$ private static UUID getFakeUUID(MinecraftServer minecraftServer, String string, Operation<UUID> original, @Local(argsOnly = true, name = "arg0") String username) {
-    //#else
-    private static Optional<GameProfile> getFakeProfile(GameProfileCache instance, String string, Operation<Optional<GameProfile>> original, @Local(argsOnly = true, name = "arg0") String username) {
-    //#endif
-        //#if MC >= 12003
-        //#if MC >= 12109
-        //$$ UUID uuid = original.call(minecraftServer, string);
-        //#else
-        Optional<GameProfile> gameProfile = original.call(instance, string);
-        //#endif
-        //#if MC >= 12109
-        //$$ if(uuid == null) {
-        //#else
-        if(gameProfile.isEmpty()) {
-        //#endif
-            for (ITask task : TaskManager.getAllActiveTasks()) {
-                if (task instanceof VaultTask vaultTask && username.equals(vaultTask.getPendingFakeName())) {
-                    //#if MC >= 12109
-                    //$$ return UUIDUtil.createOfflinePlayerUUID(username);
-                    //#else
-                    return Optional.of(new GameProfile(UUIDUtil.createOfflinePlayerUUID(username), username));
-                    //#endif
-                }
+    @ModifyVariable(method = "createFake", at = @At("STORE"), name = "gameprofile")
+    private static GameProfile modifyGameProfile(GameProfile profile, @Local(argsOnly = true, name = "arg0") String username) {
+        for (ITask task : TaskManager.getAllActiveTasks()) {
+            if (task instanceof VaultTask vaultTask && username.equals(vaultTask.getPendingFakeName())) {
+                return new GameProfile(UUIDUtil.createOfflinePlayerUUID(username), username);
             }
         }
-        //#if MC >= 12109
-        //$$ return uuid;
-        //#else
-        return gameProfile;
-        //#endif
-        //#endif
-        //#if MC < 12003
-        //$$ return original.call(instance, string);
-        //#endif
+        return profile;
     }
 }
