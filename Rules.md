@@ -502,7 +502,7 @@ cantrade：当载具上没有村民或者流浪商人时移除载具，其他实
 - 默认值: `100`
 - 分类: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-## optimizedTNT错误作用域修复 (optimizedTNTErrorScopeFix) `🐛Beta`
+## optimizedTNT错误作用域修复 (optimizedTNTErrorScopeFix) `🐛Beta` `MC<1.21.2`
 
 修复optimizedTNT规则启用时，错误优化风弹等实体爆炸的问题。 [#1928](https://github.com/gnembon/fabric-carpet/issues/1928)。
 
