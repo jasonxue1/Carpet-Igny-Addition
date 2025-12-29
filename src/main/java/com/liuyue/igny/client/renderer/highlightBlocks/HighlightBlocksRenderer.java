@@ -1,5 +1,25 @@
 package com.liuyue.igny.client.renderer.highlightBlocks;
 
+//#if MC >= 12105
+//$$ import com.mojang.blaze3d.opengl.GlStateManager;
+//$$ import net.minecraft.client.renderer.RenderType;
+//$$ import net.minecraft.client.renderer.RenderStateShard;
+//$$ import org.joml.Matrix4f;
+//$$ import com.mojang.blaze3d.pipeline.RenderPipeline;
+//$$ import com.mojang.blaze3d.platform.DepthTestFunction;
+//$$ import net.minecraft.client.renderer.RenderPipelines;
+//$$ import net.minecraft.resources.ResourceLocation;
+//$$ import com.liuyue.igny.IGNYServer;
+//$$ import java.util.OptionalDouble;
+//#else
+import com.mojang.blaze3d.platform.GlStateManager;
+//#endif
+
+//#if MC > 12101
+//#if MC < 12105
+//$$ import net.minecraft.client.renderer.CoreShaders;
+//#endif
+//#endif
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.fabricmc.api.EnvType;
@@ -7,9 +27,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -17,67 +35,39 @@ import org.joml.Matrix4f;
 import java.util.HashMap;
 import java.util.Map;
 
-//#if MC >= 12105
-//$$ import java.util.OptionalDouble;
-//$$ import net.minecraft.client.renderer.RenderPipelines;
-//$$ import com.mojang.blaze3d.pipeline.RenderPipeline;
-//$$ import net.minecraft.resources.ResourceLocation;
-//$$ import com.mojang.blaze3d.platform.DepthTestFunction;
-//$$ import com.liuyue.igny.IGNYServer;
-//#endif
-
 @Environment(EnvType.CLIENT)
 public class HighlightBlocksRenderer {
 
-     //#if MC >= 12105
-     //$$ private static final RenderPipeline noDepthQuads = RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
-     //$$       .withLocation(ResourceLocation.fromNamespaceAndPath(IGNYServer.MOD_ID, "no_depth_quads"))
-     //$$       .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
-     //$$      .withDepthWrite(false)
-     //$$      .withCull(false)
-     //$$       .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
-     //$$      .build();
-     //#endif
-    public static final RenderType HIGHLIGHT_BLOCKS = 
-            //#if MC >= 12105
-            //$$ RenderType.create(
-            //$$          "highlight_block",
-            //$$          256,
-            //$$          false,
-            //$$          true,
-            //$$          noDepthQuads,
-            //$$          RenderType.CompositeState.builder()
-            //$$                  .setTextureState(RenderStateShard.NO_TEXTURE)
-            //$$                  .setLightmapState(RenderStateShard.NO_LIGHTMAP)
-            //$$                  .setOverlayState(RenderStateShard.NO_OVERLAY)
-            //$$                  .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
-            //$$                  .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
-            //$$                  .setTexturingState(RenderStateShard.DEFAULT_TEXTURING)
-            //$$                  .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
-            //$$                  .createCompositeState(false)
-            //#else
-            RenderType.create(
-            "highlight_block",
-            DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
-            256,
-            false,
-            true,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.POSITION_COLOR_SHADER)
-                    .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
-                    .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
-                    .setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
-                    .setCullState(RenderType.NO_CULL)
-                    .setWriteMaskState(RenderType.COLOR_WRITE)
-                    .createCompositeState(false)
-            //#endif
-    );
-
     private static final Map<BlockPos, HighlightEntry> HIGHLIGHTS = new HashMap<>();
 
+    //#if MC >= 12105
+    //$$ private static final RenderPipeline noDepthQuads = RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
+    //$$       .withLocation(ResourceLocation.fromNamespaceAndPath(IGNYServer.MOD_ID, "no_depth_quads"))
+    //$$       .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+    //$$      .withDepthWrite(false)
+    //$$      .withCull(false)
+    //$$       .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
+    //$$      .build();
+    //$$ public static final RenderType HIGHLIGHT_BLOCKS =
+    //$$ RenderType.create(
+    //$$          "highlight_block",
+    //$$          256,
+    //$$          false,
+    //$$          true,
+    //$$          noDepthQuads,
+    //$$          RenderType.CompositeState.builder()
+    //$$                  .setTextureState(RenderStateShard.NO_TEXTURE)
+    //$$                  .setLightmapState(RenderStateShard.NO_LIGHTMAP)
+    //$$                  .setOverlayState(RenderStateShard.NO_OVERLAY)
+    //$$                  .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+    //$$                  .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+    //$$                  .setTexturingState(RenderStateShard.DEFAULT_TEXTURING)
+    //$$                  .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
+    //$$                  .createCompositeState(false));
+    //#endif
+
     public static void init() {
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(HighlightBlocksRenderer::onWorldRender);
+        WorldRenderEvents.LAST.register(HighlightBlocksRenderer::onWorldRender);
     }
 
     public static void addHighlight(BlockPos pos, int argbColor, int durationTicks) {
@@ -100,20 +90,18 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
         PoseStack poseStack = context.matrixStack();
-        MultiBufferSource consumers = context.consumers();
         Vec3 cameraPos = context.camera().getPosition();
 
-        if (poseStack != null && consumers != null) {
+        if (poseStack != null) {
             poseStack.pushPose();
             poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-            //#if MC < 12105
-            RenderSystem.disableDepthTest();
-            RenderSystem.depthMask(false);
+            //#if MC > 12100
+            BufferBuilder vc = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
+            //#else
+            //$$ BufferBuilder vc = Tesselator.getInstance().getBuilder();
+            //$$ vc.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
             //#endif
-
-            VertexConsumer vc = consumers.getBuffer(HIGHLIGHT_BLOCKS);
-
 
             for (var entry : HIGHLIGHTS.entrySet()) {
                 BlockPos pos = entry.getKey();
@@ -137,6 +125,30 @@ public class HighlightBlocksRenderer {
                 poseStack.popPose();
             }
             poseStack.popPose();
+            try {
+                //#if MC <= 12101
+                RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                //#elseif MC < 12105
+                //$$ RenderSystem.setShader(CoreShaders.POSITION_COLOR);
+                //#endif
+                GlStateManager._disableDepthTest();
+                GlStateManager._disableCull();
+                GlStateManager._enableBlend();
+
+                MeshData meshData = vc.buildOrThrow();
+
+                //#if MC >= 12105
+                //$$ HIGHLIGHT_BLOCKS.draw(meshData);
+                //#else
+                BufferUploader.drawWithShader(meshData);
+                //#endif
+
+                //#if MC < 12105
+                GlStateManager._enableDepthTest();
+                GlStateManager._disableBlend();
+                GlStateManager._enableCull();
+                //#endif
+            } catch (Exception ignored) {}
         }
     }
 

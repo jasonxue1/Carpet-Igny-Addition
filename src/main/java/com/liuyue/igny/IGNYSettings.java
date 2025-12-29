@@ -125,7 +125,7 @@ public class IGNYSettings
 
     @Rule(
             categories = {IGNY,FEATURE},
-            options = {"false", "cantrade", "true"}
+            options = {"false", "canBoatTrade", "true"}
     )
     public static String killFakePlayerRemoveVehicle = "true";
 

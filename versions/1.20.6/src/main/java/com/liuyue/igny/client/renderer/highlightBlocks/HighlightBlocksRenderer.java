@@ -1,5 +1,6 @@
 package com.liuyue.igny.client.renderer.highlightBlocks;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.fabricmc.api.EnvType;
@@ -10,6 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
+import com.mojang.blaze3d.vertex.*;
+
 //#if MC < 12005
 //$$ import org.joml.Matrix4f;
 //$$ import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,50 +44,53 @@ public class HighlightBlocksRenderer {
         HIGHLIGHTS.entrySet().removeIf(entry -> entry.getValue().expireTime <= now);
         if (HIGHLIGHTS.isEmpty()) return;
 
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableCull();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         Vec3 cameraPos = context.camera().getPosition();
+        PoseStack poseStack = context.matrixStack();
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferBuilder = tesselator.getBuilder();
+        BufferBuilder vc = Tesselator.getInstance().getBuilder();
+        vc.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
 
-        for (var entry : HIGHLIGHTS.entrySet()) {
-            BlockPos pos = entry.getKey();
-            HighlightEntry data = entry.getValue();
-            Vec3 offset = Vec3.atCenterOf(pos).subtract(cameraPos);
-            int renderDistance = mc.options.renderDistance().get() * 16;
-            Vec3 correction = new Vec3(offset.x(), offset.y(), offset.z());
-            if (correction.length() > renderDistance) continue;
+        if (poseStack != null) {
+            poseStack.pushPose();
+            poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
+            for (var entry : HIGHLIGHTS.entrySet()) {
+                BlockPos pos = entry.getKey();
+                HighlightEntry data = entry.getValue();
+                Vec3 offset = Vec3.atCenterOf(pos).subtract(cameraPos);
+                int renderDistance = mc.options.renderDistance().get() * 16;
+                Vec3 correction = new Vec3(offset.x(), offset.y(), offset.z());
+                if (correction.length() > renderDistance) continue;
 
-            float a = ((data.color >> 24) & 0xFF) / 255.0f;
-            float r = ((data.color >> 16) & 0xFF) / 255.0f;
-            float g = ((data.color >> 8) & 0xFF) / 255.0f;
-            float b = (data.color & 0xFF) / 255.0f;
+                float a = ((data.color >> 24) & 0xFF) / 255.0f;
+                float r = ((data.color >> 16) & 0xFF) / 255.0f;
+                float g = ((data.color >> 8) & 0xFF) / 255.0f;
+                float b = (data.color & 0xFF) / 255.0f;
 
-            //#if MC < 12005
-            //$$ PoseStack poseStack = context.matrixStack();
-            //$$ poseStack.pushPose();
-            //$$ poseStack.translate(pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z);
-            //$$ Matrix4f matrix = poseStack.last().pose();
-            //$$ bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            //$$ renderFilledCube(matrix, bufferBuilder, r, g, b, a);
-            //$$ BufferUploader.drawWithShader(bufferBuilder.end());
-            //$$ poseStack.popPose();
-            //#else
-            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            renderFilledCube(bufferBuilder, pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z, r, g, b, a);
-            BufferUploader.drawWithShader(bufferBuilder.end());
-            //#endif
+                poseStack.pushPose();
+                poseStack.translate(pos.getX(), pos.getY(), pos.getZ());
+                //#if MC < 12005
+                //$$ Matrix4f mat = poseStack.last().pose();
+                //$$ renderFilledCube(mat, bufferBuilder, r, g, b, a);
+                //#else
+                renderFilledCube(bufferBuilder, pos.getX() - cameraPos.x(), pos.getY() - cameraPos.y(), pos.getZ() - cameraPos.z(), r, g, b, a);
+                //#endif
+                poseStack.popPose();
+            }
+            poseStack.popPose();
+            try {
+                RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                GlStateManager._disableDepthTest();
+                GlStateManager._enableBlend();
+                GlStateManager._disableCull();
+                BufferBuilder.RenderedBuffer meshData = vc.end();
+                BufferUploader.drawWithShader(meshData);
+                GlStateManager._enableDepthTest();
+                GlStateManager._disableBlend();
+                GlStateManager._enableCull();
+            } catch (Exception ignored) {}
         }
-
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
-        RenderSystem.enableCull();
     }
 
     //#if MC < 12005

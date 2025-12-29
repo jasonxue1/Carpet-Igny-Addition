@@ -4,6 +4,7 @@ import com.liuyue.igny.IGNYServer;
 import com.liuyue.igny.client.renderer.substitute.WorldRenderContext;
 import com.liuyue.igny.client.renderer.substitute.WorldRenderEvents;
 import com.liuyue.igny.mixins.render.RenderTypeInvoker;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -13,7 +14,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.*;
 import com.mojang.blaze3d.vertex.*;
@@ -49,7 +49,7 @@ public class HighlightBlocksRenderer {
     private static RenderType createHighlightRenderType() {
         var renderSetup = RenderSetup.builder(HIGHLIGHT_PIPELINE)
                 .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
-                .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)  // 或 MAIN_TARGET
+                .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
                 .setTextureTransform(TextureTransform.DEFAULT_TEXTURING)
                 .setOutline(RenderSetup.OutlineProperty.NONE)
                 .affectsCrumbling()
@@ -85,14 +85,13 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
         PoseStack poseStack = context.poseStack();
-        MultiBufferSource consumers = context.bufferSource();
         Vec3 cameraPos = context.camera().position();
 
-        if (poseStack != null && consumers != null) {
+        if (poseStack != null) {
             poseStack.pushPose();
             poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-            VertexConsumer vc = consumers.getBuffer(HIGHLIGHT_BLOCKS);
+            BufferBuilder vc = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
 
             for (var entry : HIGHLIGHTS.entrySet()) {
                 BlockPos pos = entry.getKey();
@@ -115,8 +114,17 @@ public class HighlightBlocksRenderer {
 
                 poseStack.popPose();
             }
-
             poseStack.popPose();
+            try{
+                GlStateManager._disableDepthTest();
+                GlStateManager._enableBlend();
+
+                MeshData meshData = vc.buildOrThrow();
+                HIGHLIGHT_BLOCKS.draw(meshData);
+
+                GlStateManager._enableDepthTest();
+                GlStateManager._disableBlend();
+            }catch (Exception ignored) {}
         }
     }
 

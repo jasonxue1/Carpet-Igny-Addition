@@ -127,15 +127,15 @@
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`, `BUGFIX`
 
-## 移除假玩家时移除载具 (killFakePlayerRemoveVehicle)
+## 移除假玩家时移除载具 (killFakePlayerRemoveVehicle) `🐛Beta更改`
 
 移除假玩家时移除其乘坐的载具。
 
-cantrade：当载具上没有村民或者流浪商人时移除载具，其他实体保持默认。
+canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他实体不移除。
 
 - 类型: `boolean`
 - 默认值: `true`
-- 参考选项: `false`, `cantrade`, `true`
+- 参考选项: `false`, `canBoatTrade`, `true`
 - 分类: `IGNY`, `FEATURE`
 
 ## 蜡烛可放在不完整方块上 (candlePlaceOnIncompleteBlock)

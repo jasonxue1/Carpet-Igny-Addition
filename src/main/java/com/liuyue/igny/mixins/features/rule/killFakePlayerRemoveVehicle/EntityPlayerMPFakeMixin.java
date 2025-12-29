@@ -16,12 +16,13 @@ import java.util.Objects;
 public class EntityPlayerMPFakeMixin {
     @Inject(method = "kill(Lnet/minecraft/network/chat/Component;)V", at = @At("HEAD"))
     private void kill(Component reason, CallbackInfo ci) {
-        if (Objects.equals(IGNYSettings.killFakePlayerRemoveVehicle, "false")||Objects.equals(IGNYSettings.killFakePlayerRemoveVehicle, "cantrade")) {
+        if (!Objects.equals(IGNYSettings.killFakePlayerRemoveVehicle, "true")) {
             EntityPlayerMPFake fakePlayer = (EntityPlayerMPFake) (Object) this;
             boolean shouldKeep = true;
-            if (Objects.equals(IGNYSettings.killFakePlayerRemoveVehicle, "cantrade")) {
-                shouldKeep = fakePlayer.getVehicle().getPassengers().stream()
-                        .anyMatch(entity -> entity instanceof Villager || entity instanceof WanderingTrader);
+            if (Objects.equals(IGNYSettings.killFakePlayerRemoveVehicle, "canBoatTrade")) {
+                if (fakePlayer.getVehicle() != null){
+                    shouldKeep = fakePlayer.getVehicle().getPassengers().stream().noneMatch(entity -> entity instanceof Villager || entity instanceof WanderingTrader);
+                }
             }
             if (shouldKeep) {
                 fakePlayer.stopRiding();
