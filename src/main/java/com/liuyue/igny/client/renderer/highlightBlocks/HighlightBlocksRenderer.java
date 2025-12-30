@@ -70,12 +70,12 @@ public class HighlightBlocksRenderer {
         WorldRenderEvents.LAST.register(HighlightBlocksRenderer::onWorldRender);
     }
 
-    public static void addHighlight(BlockPos pos, int argbColor, int durationTicks, boolean seeThrough, boolean permanent) {
+    public static void addHighlight(BlockPos pos, int argbColor, int durationTicks, boolean permanent) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null) return;
         long expireTime = mc.level.getGameTime() + durationTicks;
         if (permanent) expireTime = Long.MAX_VALUE;
-        HIGHLIGHTS.put(pos.immutable(), new HighlightEntry(argbColor, expireTime, seeThrough));
+        HIGHLIGHTS.put(pos.immutable(), new HighlightEntry(argbColor, expireTime));
     }
 
     public static void removeHighlight(BlockPos pos){
@@ -112,7 +112,7 @@ public class HighlightBlocksRenderer {
                 HighlightEntry data = entry.getValue();
                 Vec3 offset = Vec3.atCenterOf(pos).subtract(cameraPos);
                 int renderDistance = mc.options.renderDistance().get() * 16;
-                Vec3 correction = new Vec3(offset.x(), offset.y(), offset.z());
+                Vec3 correction = new Vec3(offset.x(), 0, offset.z());
                 if (correction.length() > renderDistance) continue;
 
                 float a = ((data.color >> 24) & 0xFF) / 255.0f;
@@ -236,5 +236,5 @@ public class HighlightBlocksRenderer {
         //#endif
     }
 
-    private record HighlightEntry(int color, long expireTime, boolean seeThrough) {}
+    private record HighlightEntry(int color, long expireTime) {}
 }

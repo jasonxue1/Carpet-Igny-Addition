@@ -28,13 +28,12 @@ public class IGNYClientRegister {
                 //$$     BlockPos pos = buf.readBlockPos();
                 //$$     int color = buf.readInt();
                 //$$     int duration = buf.readInt();
-                //$$     boolean seeThrough = buf.readBoolean();
                 //$$     boolean permanent = buf.readBoolean();
-                //$$     client.execute(() -> HighlightBlocksRenderer.addHighlight(pos, color, duration, seeThrough, permanent));
+                //$$     client.execute(() -> HighlightBlocksRenderer.addHighlight(pos, color, duration, permanent));
                 //$$ }
                 //#else
                 (payload, context) -> context.client().execute(() ->
-                        HighlightBlocksRenderer.addHighlight(payload.pos(), payload.color(), payload.durationTicks(), payload.seeThrough(), payload.permanent())
+                        HighlightBlocksRenderer.addHighlight(payload.pos(), payload.color(), payload.durationTicks(), payload.permanent())
                 )
                 //#endif
         );

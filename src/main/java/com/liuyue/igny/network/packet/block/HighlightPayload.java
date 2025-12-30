@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.jetbrains.annotations.NotNull;
 //#endif
 import net.minecraft.core.BlockPos;
-public record HighlightPayload(BlockPos pos, int color, int durationTicks, boolean seeThrough, boolean permanent)
+public record HighlightPayload(BlockPos pos, int color, int durationTicks, boolean permanent)
         //#if MC >= 12005
         implements CustomPacketPayload
         //#endif
@@ -26,9 +26,8 @@ public record HighlightPayload(BlockPos pos, int color, int durationTicks, boole
                     BlockPos blockPos = buf.readBlockPos();
                     int color = buf.readInt();
                     int durationTicks = buf.readInt();
-                    boolean seeThrough = buf.readBoolean();
                     boolean permanent = buf.readBoolean();
-                    return new HighlightPayload(blockPos, color, durationTicks, seeThrough, permanent);
+                    return new HighlightPayload(blockPos, color, durationTicks, permanent);
                 }
 
                 @Override
@@ -36,7 +35,6 @@ public record HighlightPayload(BlockPos pos, int color, int durationTicks, boole
                     buf.writeBlockPos(value.pos);
                     buf.writeInt(value.color);
                     buf.writeInt(value.durationTicks);
-                    buf.writeBoolean(value.seeThrough);
                     buf.writeBoolean(value.permanent);
                 }
             };

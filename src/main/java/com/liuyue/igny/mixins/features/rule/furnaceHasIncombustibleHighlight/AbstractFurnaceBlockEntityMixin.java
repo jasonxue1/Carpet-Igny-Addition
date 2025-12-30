@@ -53,15 +53,18 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
     //#if MC <= 12006
     //$$ private RecipeManager.CachedCheck<Container, ? extends AbstractCookingRecipe> quickCheck;
     //#else
-    private RecipeManager.CachedCheck<SingleRecipeInput, ? extends AbstractCookingRecipe> quickCheck;
+    private
+
+    RecipeManager.CachedCheck<SingleRecipeInput, ? extends AbstractCookingRecipe> quickCheck;
     //#endif
 
     @Unique
-    private int highlightColor = 0x32FF0000;
+    public int highlightColor = 0x32FF0000;
 
 
     @Unique private static int counter = 0;
-    @Unique private int id = 0;
+    @Unique
+    public int id = 0;
 
     public AbstractFurnaceBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
@@ -131,9 +134,8 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
         }
     }
 
-
     @Unique
-    private void sendHighlightToClient(
+    public void sendHighlightToClient(
             //#if MC >= 12102
             //$$ ServerLevel world,
             //#else
@@ -146,7 +148,6 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
             //$$ buf.writeBlockPos(pos);
             //$$ buf.writeInt(color);
             //$$ buf.writeInt(70);
-            //$$ buf.writeBoolean(true);
             //$$ buf.writeBoolean(permanent);
             //#endif
             LevelChunk chunk = level.getChunkAt(pos);
@@ -165,7 +166,7 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
                                 ServerPlayNetworking.send(
                                         player,
                                         //#if MC >= 12005
-                                        new HighlightPayload(pos, color, 70, true, permanent)
+                                        new HighlightPayload(pos, color, 70, permanent)
                                         //#else
                                         //$$ IGNYServer.HIGHLIGHT_PACKET_ID,
                                         //$$ buf
