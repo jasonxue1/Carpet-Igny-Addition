@@ -48,7 +48,7 @@
 ### 效果
 - 直接清空待处理的光照队列。
 
-## 自定义玩家拾取物品 (customPlayerPickupItem)
+## 自定义玩家拾取物品 (customPlayerPickupItem) `🐛Beta`
 
 ### 语法
 - `/customPlayerPickupItem`

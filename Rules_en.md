@@ -527,7 +527,7 @@ Requires this mod to be installed on the client side as well.
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `CLIENT`, `SURVIVAL`, `FEATURE`
 
-## commandCustomPlayerPickupItem
+## commandCustomPlayerPickupItem `🐛Beta`
 
 Use /customPlayerPickupItem to control player custom pickup items.
 

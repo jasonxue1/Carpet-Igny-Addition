@@ -24,6 +24,10 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+//#if MC >= 12111
+//$$ import net.minecraft.commands.Commands;
+//#endif
+
 public class CustomPlayerPickupItemCommand {
     private static final Set<String> VALID_ITEM_IDS = BuiltInRegistries.ITEM.keySet()
             .stream()
@@ -164,7 +168,13 @@ public class CustomPlayerPickupItemCommand {
 
     private static boolean checkPermission(CommandSourceStack source, String targetName) {
         CustomPickupManager.setServer(source.getServer());
-        if (!source.hasPermission(2)) {
+        if (
+                //#if MC >= 12111
+                //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())
+                //#else
+                !source.hasPermission(2)
+                //#endif
+        ) {
             if (source.getPlayer() == null || (!source.getPlayer().getGameProfile()
                     //#if MC >= 12110
                     //$$ .name()
@@ -183,7 +193,13 @@ public class CustomPlayerPickupItemCommand {
     private static CompletableFuture<Suggestions> suggestPlayers(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         CommandSourceStack source = context.getSource();
         Collection<String> players;
-        if (source.hasPermission(2)) {
+        if (
+            //#if MC >= 12111
+            //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())
+            //#else
+            !source.hasPermission(2)
+            //#endif
+        ) {
             players = Arrays.asList(source.getServer().getPlayerNames());
         } else if (source.getPlayer() != null) {
             players = Set.of(source.getPlayer().getGameProfile()
