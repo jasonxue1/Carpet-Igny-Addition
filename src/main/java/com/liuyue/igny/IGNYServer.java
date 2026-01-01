@@ -60,7 +60,7 @@ public class IGNYServer implements CarpetExtension {
         FixnotepitchCommmand.register(dispatcher);
         PlayerOperateCommand.register(dispatcher);
         ClearLightQueueCommand.register(dispatcher);
-        CustomPlayerPickupItemCommand.register(dispatcher);
+        CustomPlayerPickupItemCommand.register(dispatcher, commandBuildContext);
     }
 
     @Override

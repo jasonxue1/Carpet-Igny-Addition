@@ -10,16 +10,22 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -29,13 +35,8 @@ import java.util.stream.Collectors;
 //#endif
 
 public class CustomPlayerPickupItemCommand {
-    private static final Set<String> VALID_ITEM_IDS = BuiltInRegistries.ITEM.keySet()
-            .stream()
-            .map(ResourceLocation::toString)
-            .map(String::toLowerCase)
-            .collect(Collectors.toUnmodifiableSet());
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(
                 Commands.literal("customPlayerPickupItem")
                         .requires(source -> CommandPermissions.canUseCommand(source, IGNYSettings.commandCustomPlayerPickupItem))
@@ -51,8 +52,16 @@ public class CustomPlayerPickupItemCommand {
                                         )
                                 )
                                 .then(Commands.literal("items")
-                                        .then(Commands.argument("itemlist", StringArgumentType.greedyString())
-                                                .executes(CustomPlayerPickupItemCommand::executeItems)
+                                        .then(Commands.literal("add")
+                                                .then(Commands.argument("item", ItemArgument.item(context))
+                                                        .executes(ctx -> executeItemsUpdate(ctx, "add")))
+                                        )
+                                        .then(Commands.literal("remove")
+                                                .then(Commands.argument("item", ItemArgument.item(context))
+                                                        .executes(ctx -> executeItemsUpdate(ctx, "remove")))
+                                        )
+                                        .then(Commands.literal("clear")
+                                                .executes(ctx -> executeItemsUpdate(ctx, "clear"))
                                         )
                                 )
                         )
@@ -72,32 +81,40 @@ public class CustomPlayerPickupItemCommand {
         message.append(Component.translatable("igny.command.customPlayerPickupItem.mode").withStyle(ChatFormatting.YELLOW))
                 .append(": ").append(Component.literal(setting.getMode().toString().toLowerCase()).withStyle(ChatFormatting.AQUA)).append("\n");
 
-        Set<String> items = setting.getItems();
-        message.append(Component.translatable("igny.command.customPlayerPickupItem.items").withStyle(ChatFormatting.YELLOW)).append(": ");
+        message.append(Component.translatable("igny.command.customPlayerPickupItem.items").withStyle(ChatFormatting.YELLOW)).append(":");
 
+        java.util.List<String> items = setting.getItems().stream().sorted().toList();
         if (items.isEmpty()) {
-            message.append(Component.translatable("igny.command.customPlayerPickupItem.none").withStyle(ChatFormatting.GRAY));
+            message.append(" ").append(Component.translatable("igny.command.customPlayerPickupItem.none").withStyle(ChatFormatting.GRAY));
         } else {
-            message.append(Component.literal("[").withStyle(ChatFormatting.AQUA));
-            int i = 0;
             for (String id : items) {
                 ResourceLocation res = ResourceLocation.tryParse(id);
+                message.append("\n");
                 if (res != null) {
-                    BuiltInRegistries.ITEM.getOptional(res).ifPresent(holder -> message.append(Component.translatable(holder.getDescriptionId()).withStyle(ChatFormatting.AQUA)));
-                }
-                if (++i < items.size()) {
-                    message.append(Component.literal(", ").withStyle(ChatFormatting.GRAY));
+                    BuiltInRegistries.ITEM.getOptional(res).ifPresent(holder -> {
+                        MutableComponent deleteBtn = Component.literal("[x] ")
+                                .withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true)
+                                        //#if MC>=12105
+                                        //$$ .withClickEvent(new ClickEvent.RunCommand("/customPlayerPickupItem " + targetName + " items remove " + id))
+                                        //$$ .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to remove " + id))));
+                                        //#else
+                                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/customPlayerPickupItem " + targetName + " items remove " + id))
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to remove " + id))));
+                                        //#endif
+
+                        message.append(Component.literal("  ")).append(deleteBtn)
+                                .append(Component.translatable(holder.getDescriptionId()).withStyle(ChatFormatting.AQUA))
+                                .append(Component.literal(" (" + id + ")").withStyle(ChatFormatting.GRAY));
+                    });
                 }
             }
-            message.append(Component.literal("]").withStyle(ChatFormatting.AQUA));
-
         }
 
         source.sendSuccess(
                 //#if MC > 11904
                 () ->
                 //#endif
-                message, false);
+                        message, false);
         return 1;
     }
 
@@ -127,53 +144,51 @@ public class CustomPlayerPickupItemCommand {
                 //#if MC > 11904
                 () ->
                 //#endif
-                Component.translatable("igny.command.customPlayerPickupItem.mode_success", targetName, modeStr)
-                .withStyle(ChatFormatting.GREEN), true);
+                        Component.translatable("igny.command.customPlayerPickupItem.mode_success", targetName, modeStr)
+                                .withStyle(ChatFormatting.GREEN), true);
         return 1;
     }
 
-    private static int executeItems(CommandContext<CommandSourceStack> ctx) {
+    private static int executeItemsUpdate(CommandContext<CommandSourceStack> ctx, String action) {
         CommandSourceStack source = ctx.getSource();
         String targetName = StringArgumentType.getString(ctx, "target");
         if (!checkPermission(source, targetName)) return 0;
 
-        String itemsStr = StringArgumentType.getString(ctx, "itemlist");
-        Set<String> items = Arrays.stream(itemsStr.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(String::toLowerCase)
-                .map(s -> s.contains(":") ? s : "minecraft:" + s)
-                .collect(Collectors.toSet());
+        CustomPickupManager.PlayerSetting setting = CustomPickupManager.getOrCreate(targetName);
+        Set<String> currentItems = new HashSet<>(setting.getItems());
 
-        for (String id : items) {
-            if ("minecraft:air".equals(id) || !isValidItemName(id)) {
-                source.sendFailure(Component.translatable("igny.command.customPlayerPickupItem.invalid_item", id)
-                        .withStyle(ChatFormatting.RED));
-                return 0;
+        if (action.equals("clear")) {
+            currentItems.clear();
+        } else {
+            Item item = ItemArgument.getItem(ctx, "item").getItem();
+            String itemId = BuiltInRegistries.ITEM.getKey(item).toString();
+
+            if (action.equals("add")) {
+                currentItems.add(itemId);
+            } else if (action.equals("remove")) {
+                currentItems.remove(itemId);
             }
         }
 
-        CustomPickupManager.PlayerSetting setting = CustomPickupManager.getOrCreate(targetName);
-        setting.setItems(items);
+        setting.setItems(currentItems);
         CustomPickupManager.updateAndSave(targetName, setting);
 
         source.sendSuccess(
                 //#if MC > 11904
                 () ->
                 //#endif
-                Component.translatable("igny.command.customPlayerPickupItem.items_success", targetName, itemsStr)
-                .withStyle(ChatFormatting.GREEN), true);
+                        Component.translatable("igny.command.customPlayerPickupItem.items_success", targetName, currentItems.stream().sorted().collect(Collectors.joining(", "))).withStyle(ChatFormatting.GREEN), true);
         return 1;
     }
 
     private static boolean checkPermission(CommandSourceStack source, String targetName) {
         CustomPickupManager.setServer(source.getServer());
         if (
-                //#if MC >= 12111
-                //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())
-                //#else
+            //#if MC >= 12111
+            //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())
+            //#else
                 !source.hasPermission(2)
-                //#endif
+            //#endif
         ) {
             if (source.getPlayer() == null || (!source.getPlayer().getGameProfile()
                     //#if MC >= 12110
@@ -195,28 +210,23 @@ public class CustomPlayerPickupItemCommand {
         Collection<String> players;
         if (
             //#if MC >= 12111
-            //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())
+            //$$ Commands.LEVEL_GAMEMASTERS.check(source.permissions())
             //#else
-            !source.hasPermission(2)
+                source.hasPermission(2)
             //#endif
         ) {
             players = Arrays.asList(source.getServer().getPlayerNames());
         } else if (source.getPlayer() != null) {
             players = Set.of(source.getPlayer().getGameProfile()
-                    //#if MC >= 12110
-                    //$$ .name()
-                    //#else
-                    .getName()
+                            //#if MC >= 12110
+                            //$$ .name()
+                            //#else
+                            .getName()
                     //#endif
             );
         } else {
             players = Set.of();
         }
         return SharedSuggestionProvider.suggest(players, builder);
-    }
-
-    private static boolean isValidItemName(String name) {
-        ResourceLocation id = ResourceLocation.tryParse(name);
-        return id != null && VALID_ITEM_IDS.contains(name);
     }
 }
