@@ -47,3 +47,27 @@
 
 ### 效果
 - 直接清空待处理的光照队列。
+
+## 自定义玩家拾取物品 (customPlayerPickupItem)
+
+### 语法
+- `/customPlayerPickupItem`
+   - `...<player>`
+       - `...get`
+       - `...mode <mode>`
+           - `disable`
+           - `whitelist`
+           - `blacklist`
+       - `...items <itemlist>`
+
+### 效果
+- `/customPlayerPickupItem <target>` 设置自定义的物品拾取过滤规则
+    - `...<player>`
+       - `...get` 查看目标玩家当前的拾取配置，包括当前的模式及物品列表。
+       - `...mode <mode>` 设置拾取模式。
+           - `disable`: 禁用过滤，玩家可以拾取所有物品。
+           - `whitelist`: 白名单模式，玩家只能拾取列表中的物品。
+           - `blacklist`: 黑名单模式，玩家不能拾取列表中的物品。
+       - `...items <itemlist>` 设置物品列表。
+           - 参数 `<itemlist>` 是以逗号分隔的物品 ID 列表（例如：`stone,iron_ingot,minecraft:apple`）。
+           - 输入时可省略 `minecraft:` 前缀。

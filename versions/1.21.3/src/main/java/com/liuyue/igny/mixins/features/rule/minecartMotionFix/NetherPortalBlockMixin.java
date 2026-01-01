@@ -24,7 +24,7 @@ public class NetherPortalBlockMixin {
 
     @Inject(method = "createDimensionTransition",at = @At("RETURN"),cancellable = true)
     private static void createDimensionTransition(ServerLevel serverLevel, BlockUtil.FoundRectangle foundRectangle, Direction.Axis axis, Vec3 vec3, Entity entity, TeleportTransition.PostTeleportTransition postTeleportTransition, CallbackInfoReturnable<TeleportTransition> cir) {
-        if (IGNYSettings.minecartMotionFix) {
+        if (IGNYSettings.teleportInheritMinecartsMotionReintroduced) {
             BlockPos blockPos = foundRectangle.minCorner;
             BlockState blockState = serverLevel.getBlockState(blockPos);
             Direction.Axis axis2 = blockState.getOptionalValue(BlockStateProperties.HORIZONTAL_AXIS).orElse(Direction.Axis.X);

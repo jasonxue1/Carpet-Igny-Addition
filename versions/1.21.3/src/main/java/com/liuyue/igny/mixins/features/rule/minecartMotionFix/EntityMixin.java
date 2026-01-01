@@ -15,7 +15,7 @@ public abstract class EntityMixin {
     @Inject(method = "calculatePassengerTransition",at = @At("RETURN"), cancellable = true)
     private void calculatePassengerTransition(TeleportTransition teleportTarget, Entity passenger,
                                             CallbackInfoReturnable<TeleportTransition> cir){
-        if(IGNYSettings.minecartMotionFix) {
+        if(IGNYSettings.teleportInheritMinecartsMotionReintroduced) {
             cir.setReturnValue(new TeleportTransition(teleportTarget.newLevel
                     (), teleportTarget.position(), teleportTarget.deltaMovement(),
                     0, 0, teleportTarget.postTeleportTransition()));

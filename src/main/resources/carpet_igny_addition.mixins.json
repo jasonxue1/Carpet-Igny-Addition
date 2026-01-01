@@ -17,13 +17,13 @@
     "features.carpet.features.twoChangedRuleValueSetDefault.SettingsManagerMixin",
     "features.carpet.fix.FakePlayerBoatYawFix.EntityMixin",
     "features.commands.clearLightQueue.ThreadedLevelLightEngineAccessor",
+    "features.commands.customPlayerPickupItem.ItemEntityMixin",
     "features.optimizations.BrainMixin",
     "features.optimizations.EntityMixin",
     "features.optimizations.LivingEntityMixin",
     "features.optimizations.PiglinAiMixin",
     "features.optimizations.SetEntityLookTargetMixin",
     "features.optimizations.SetLookAndInteractMixin",
-    "features.rule.MinecraftServerMixin",
     "features.rule.candlePlaceOnIncompleteBlock.CandleBlockMixin",
     "features.rule.creativeDestroyWaterloggedBlockNoWater.ServerPlayerGameModeMixin",
     "features.rule.enderDragonDeathDropExp.EnderDragonMixin",
@@ -80,6 +80,7 @@
     "features.rule.trialSpawnerLoot.TrialSpawnerMixin",
     "features.rule.wardenNeverDig.WardenMixin",
     "features.rule.wetSpongeCanAbsorbLava.BlockBehaviourNeighborChangedMixin",
+    "interfaces.MinecraftServerMixin",
     "render.RenderTypeInvoker"
   ],
   "client": [

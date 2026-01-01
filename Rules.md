@@ -59,7 +59,14 @@
 ## 丢弃玩家末影箱物品指令权限 (commandPlayerEnderChestDrop)
 
 控制玩家丢弃末影箱物品的权限等级
-用法: /player <玩家名> drop all - 丢弃背包+末影箱物品(如有权限)，用法: /player <玩家名> drop inventory 仅丢弃背包物品;  /player <玩家名> drop enderchest - 仅丢弃末影箱物品，无权限时: 'all' 仅丢弃背包物品，否则: 'all' 同时丢弃背包和末影箱物品，真人玩家: 只有OP可以丢弃其末影箱物品，假玩家: 遵循上述权限设置。
+
+用法: /player <玩家名> drop all - 丢弃背包+末影箱物品(如有权限)，
+
+语法:
+
+/player <玩家名> drop inventory 仅丢弃背包物品;  
+
+/player <玩家名> drop enderchest - 仅丢弃末影箱物品，无权限时: 'all' 仅丢弃背包物品，否则: 'all' 同时丢弃背包和末影箱物品，真人玩家: 只有OP可以丢弃其末影箱物品，假玩家: 遵循上述权限设置。
 
 - 类型: `string`
 - 默认值: `false`
@@ -100,7 +107,7 @@
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
 
-## 重新引入矿车跨纬度传递动量 (minecartMotionFix) `MC>=1.21.2`
+## 重新引入矿车传送动量继承 (teleportInheritMinecartsMotionReintroduced) `MC>=1.21.2`
 
 重新引入1.21-1.21.1版本中矿车携带乘客跨纬度会在传送tick给予乘客矿车的动量到1.21.2以上版本。
 
@@ -111,7 +118,7 @@
 
 ## TNT矿车空伤害来源修复 (tntMinecartEmptyDamageSourceFix) `MC<1.21.9`
 
-修复TNT矿车引爆时传入的伤害来源为null，导致TNT矿车无法继承伤害来源的属性（可视作重新引入TNT矿车掠夺）。
+修复TNT矿车引爆时传入的伤害来源为null，导致TNT矿车无法继承伤害来源的属性（可视作重新引入TNT矿车掠夺）。 [MC-279548](https://bugs.mojang.com/browse/MC-279548)
 
 - 类型: `boolean`
 - 默认值: `false`
@@ -154,7 +161,7 @@ canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他�
 - 类型: `string`
 - 默认值: `ops`
 - 参考选项: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
-- 分类: `IGNY`, `COMMAND`, `CREATIVE`,`FEATURE`
+- 分类: `IGNY`, `COMMAND`, `CREATIVE`, `FEATURE`
 
 ## Fixnotepitch指令产生方块更新 (fixnotepitchUpdateBlock)
 
@@ -523,3 +530,12 @@ canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他�
 - 默认值: `false`
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `CLIENT`, `SURVIVAL`, `FEATURE`
+
+## 自定义玩家拾取物品指令权限 (commandCustomPlayerPickupItem) `🐛Beta`
+
+使用/customPlayerPickupItem来自定义玩家能拾取的物品。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
+- 分类: `IGNY`, `COMMAND`, `FEATURE`

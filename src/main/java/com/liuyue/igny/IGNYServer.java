@@ -3,6 +3,8 @@ package com.liuyue.igny;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.api.settings.SettingsManager;
+import com.liuyue.igny.commands.ClearLightQueueCommand;
+import com.liuyue.igny.commands.CustomPlayerPickupItemCommand;
 import com.liuyue.igny.commands.FixnotepitchCommmand;
 import com.liuyue.igny.commands.PlayerOperateCommand;
 import com.liuyue.igny.utils.ComponentTranslate;
@@ -10,10 +12,12 @@ import com.liuyue.igny.utils.CountRulesUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+//#if MC < 12005
+//$$ import net.minecraft.resources.ResourceLocation;
+//#endif
 
 import java.util.Map;
 
@@ -55,6 +59,8 @@ public class IGNYServer implements CarpetExtension {
     ) {
         FixnotepitchCommmand.register(dispatcher);
         PlayerOperateCommand.register(dispatcher);
+        ClearLightQueueCommand.register(dispatcher);
+        CustomPlayerPickupItemCommand.register(dispatcher);
     }
 
     @Override

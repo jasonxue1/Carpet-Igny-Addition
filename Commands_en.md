@@ -1,6 +1,6 @@
 ## Commands
 
-### Fixnotepitch
+### Fixnotepitch (`fixnotepitch`)
 
 ### Syntax
 `/fixnotepitch <pos1> <pos2> [<pitch>]`
@@ -46,3 +46,28 @@
 
 ### Effects
 - Clear the pending lighting queue directly.
+
+
+## Custom Player Item Pickup (`/customPlayerPickupItem`)
+
+### Syntax
+- `/customPlayerPickupItem`
+    - `...<player>`
+        - `...get`
+        - `...mode <mode>`
+            - `disable`
+            - `whitelist`
+            - `blacklist`
+        - `...items <itemlist>`
+
+### Effects
+- `/customPlayerPickupItem <target>` Configures custom item pickup filtering rules.
+    - `...<player>`
+        - `...get` View the target player's current pickup configuration, including the mode and item list.
+        - `...mode <mode>` Set the pickup filtering mode.
+            - `disable`: Disables filtering; the player can pick up all items.
+            - `whitelist`: Whitelist mode; the player can only pick up items in the list.
+            - `blacklist`: Blacklist mode; the player cannot pick up items in the list.
+        - `...items <itemlist>` Set the item list.
+            - The `<itemlist>` parameter is a comma-separated list of item IDs (e.g., `stone,iron_ingot,minecraft:apple`).
+            - The `minecraft:` prefix can be omitted.

@@ -20,12 +20,7 @@ public class ClearLightQueueCommand {
         );
     }
     private static int executeCommand(CommandContext<CommandSourceStack> context) {
-        ServerLevel level = context.getSource().getPlayer().
-                //#if MC <= 11904
-                //$$ getLevel();
-                //#else
-                serverLevel();
-                //#endif
+        ServerLevel level = context.getSource().getLevel();
         LevelLightEngine engine = level.getChunkSource().getLightEngine();
         if (engine instanceof ThreadedLevelLightEngine) {
             ((ThreadedLevelLightEngineAccessor) engine).getLightTasks().clear();

@@ -104,7 +104,7 @@ public class IGNYSettings
     //$$        categories = {IGNY,FEATURE},
     //$$        options = {"false", "true"}
     //$$ )
-    //$$ public static Boolean minecartMotionFix = false;
+    //$$ public static Boolean teleportInheritMinecartsMotionReintroduced = false;
     //#endif
 
     //#if MC < 12109
@@ -385,4 +385,9 @@ public class IGNYSettings
     )
     public static Boolean furnaceHasIncombustibleHighlight = false;
 
+    @Rule(
+            categories = {IGNY, COMMAND, FEATURE},
+            options = {"false", "true", "ops", "0", "1", "2", "3", "4"}
+    )
+    public static String commandCustomPlayerPickupItem = "false";
 }

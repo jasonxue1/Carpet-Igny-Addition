@@ -116,9 +116,9 @@ Reintroducing the skeleton pickup swords behavior from Minecraft versions below 
 - Suggested Options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
-## minecartMotionFix `MC>=1.21.2`
+## teleportInheritMinecartsMotionReintroduced `MC>=1.21.2`
 
-Ports the feature from versions 1.21-1.21.1 where minecarts carrying passengers transfer their momentum to passengers during the teleport tick when crossing dimensions to version 1.21.2 and above.
+Ports the feature from versions 1.21-1.21.1 where minecarts carrying passengers transfer their motion to passengers during the teleport tick when crossing dimensions to version 1.21.2 and above.
 
 - Type: `boolean`
 - Default Value: `false`
@@ -127,7 +127,7 @@ Ports the feature from versions 1.21-1.21.1 where minecarts carrying passengers 
 
 ## tntMinecartEmptyDamageSourceFix `MC<1.21.9`
 
-Fixed the source of empty damage in TNT minecarts.
+Fixed the source of empty damage in TNT minecarts. [MC-279548](https://bugs.mojang.com/browse/MC-279548)
 
 - Type: `boolean`
 - Default Value: `false`
@@ -526,3 +526,12 @@ Requires this mod to be installed on the client side as well.
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `CLIENT`, `SURVIVAL`, `FEATURE`
+
+## commandCustomPlayerPickupItem
+
+Use /customPlayerPickupItem to control player custom pickup items.
+
+- Type: `string`
+- Default Value: `ops`
+- Suggested Options: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
+- Categories: `IGNY`, `COMMAND`, `FEATURE`
