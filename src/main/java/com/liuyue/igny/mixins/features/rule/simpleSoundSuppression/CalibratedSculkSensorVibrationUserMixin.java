@@ -2,15 +2,21 @@ package com.liuyue.igny.mixins.features.rule.simpleSoundSuppression;
 
 import com.liuyue.igny.exception.IAEUpdateSuppressException;
 import com.liuyue.igny.utils.RuleUtils;
-import com.liuyue.igny.utils.compat.CarpetTISCompat;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.CalibratedSculkSensorBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +24,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "net/minecraft/world/level/block/entity/CalibratedSculkSensorBlockEntity$VibrationUser")
-public class CalibratedSculkSensorVibrationUserMixin {
+public abstract class CalibratedSculkSensorVibrationUserMixin {
+    @Shadow
+    protected abstract int getBackSignal(Level level, BlockPos blockPos, BlockState blockState);
+
+    @Unique
+    private boolean shouldThrow;
     @Unique
     private CalibratedSculkSensorBlockEntity igny$blockEntity;
 
@@ -32,16 +43,23 @@ public class CalibratedSculkSensorVibrationUserMixin {
         if (this.igny$blockEntity == null) return;
         Component component = this.igny$blockEntity.components().get(DataComponents.CUSTOM_NAME);
         if (component != null) {
-            if (RuleUtils.canSoundSuppression(component.getString()) && cir.getReturnValueZ()) {
-                if (serverLevel.isClientSide()) return;
-                IAEUpdateSuppressException original = new IAEUpdateSuppressException(
-                        "Sound Suppression Update Suppress triggered on " +
-                                serverLevel.dimension().location() + "[" +
-                                blockPos.getX() + "," + blockPos.getY() + "," + blockPos.getZ() + "]"
-                );
-                Throwable wrapped = CarpetTISCompat.wrapIfNeeded(original, serverLevel, blockPos);
-                throw (RuntimeException) wrapped;
+            if (RuleUtils.canSoundSuppression(component.getString()) && cir.getReturnValueZ() && !serverLevel.isClientSide()) {
+                shouldThrow = true;
+                this.getBackSignal(serverLevel, this.igny$blockEntity.getBlockPos(), this.igny$blockEntity.getBlockState());
             }
         }
+    }
+
+    @WrapOperation(method = "getBackSignal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getValue(Lnet/minecraft/world/level/block/state/properties/Property;)Ljava/lang/Comparable;"))
+    private Comparable<?> getBackSignal(BlockState instance, Property<?> property, Operation<Comparable<?>> original, @Local(argsOnly = true) Level level, @Local(argsOnly = true) BlockPos blockPos) {
+        if (shouldThrow){
+            shouldThrow = false;
+            throw new IAEUpdateSuppressException(
+                    "Sound Suppression Update Suppress triggered on " +
+                            level.dimension().location() + "[" +
+                            blockPos.getX() + "," + blockPos.getY() + "," + blockPos.getZ() + "]"
+            );
+        }
+        return original.call(instance, property);
     }
 }
