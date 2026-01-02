@@ -534,4 +534,15 @@ Use /customPlayerPickupItem to control player custom pickup items.
 - Type: `string`
 - Default Value: `ops`
 - Suggested Options: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
-- Categories: `IGNY`, `COMMAND`, `FEATURE`
+- Categories: `IGNY`, `COMMAND`, `CREATIVE`, `FEATURE`
+
+## commandCustomItemMaxStackSize `🐛Beta`
+
+Use /customItemMaxStackSize to control the maximum stack size of the item.
+
+- Type: `string`
+- Default Value: `ops`
+- Suggested Options: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
+- Categories: `IGNY`, `COMMAND`, `CREATIVE`, `FEATURE`
+
+

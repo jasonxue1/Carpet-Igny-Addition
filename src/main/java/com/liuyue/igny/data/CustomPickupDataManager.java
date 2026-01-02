@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import com.liuyue.igny.IGNYServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,9 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-public class CustomPickupManager {
+public class CustomPickupDataManager {
     public static final String JSON_FILE_NAME = "custom_player_pickup.json";
-    private static final Logger log = LoggerFactory.getLogger(CustomPickupManager.class);
 
     public enum Mode {
         @SerializedName("disabled") DISABLED,

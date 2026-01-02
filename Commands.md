@@ -75,3 +75,22 @@
             - `add <item>` 向列表中添加一个物品（使用 Minecraft 原生物品选择器，支持自动补全）。
             - `remove <item>` 从列表中移除一个物品。
             - `clear` 清空当前玩家的所有过滤物品设置。
+
+## 自定义物品堆叠上限 (`/customItemMaxStackSize`)
+
+### 语法
+- `/customItemMaxStackSize`
+    - `...set <item> <count>`
+    - `...remove <item>`
+    - `...clear`
+    - `...list`
+
+### 效果
+- `/customItemMaxStackSize` 修改指定物品在游戏中的最大堆叠数量。
+    - `...set <item> <count>` 设置指定物品的最大堆叠上限。
+        - `<item>`: 目标物品 ID。
+        - `<count>`: 设置的堆叠值，取值范围为 1~99。
+    - `...remove <item>` 移除指定物品的自定义堆叠设置。
+    - `...clear` 清空所有已设置的自定义物品堆叠规则。
+    - `...list` 列出当前所有已生效的自定义堆叠设置。
+        - 悬浮在物品名称上可查看其完整物品ID。

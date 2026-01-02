@@ -2,7 +2,8 @@
 package com.liuyue.igny.mixins.interfaces;
 
 import com.liuyue.igny.IGNYServer;
-import com.liuyue.igny.data.CustomPickupManager;
+import com.liuyue.igny.data.CustomPickupDataManager;
+import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
 import com.liuyue.igny.tracker.RuleChangeTracker;
 import net.minecraft.server.MinecraftServer;
 
@@ -18,7 +19,8 @@ public abstract class MinecraftServerMixin {
         MinecraftServer server = IGNYServer.getInstance().getMinecraftServer();
         if (server != null && server.isRunning()) {
             RuleChangeTracker.init(server);
-            CustomPickupManager.setServer(server);
+            CustomPickupDataManager.setServer(server);
+            CustomItemMaxStackSizeDataManager.setServer(server);
         }
     }
 }

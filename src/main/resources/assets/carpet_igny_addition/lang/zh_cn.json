@@ -59,6 +59,13 @@
   "igny.command.customPlayerPickupItem.mode_success": "已更新玩家 %s 的模式为: %s",
   "igny.command.customPlayerPickupItem.items_success": "已更新玩家 %s 的物品列表为 %s",
   "igny.command.customPlayerPickupItem.no_permission": "你没有权限操作其他玩家的配置",
+  "igny.command.CustomItemMaxStackSize.set_success": "已将 %s 的最大堆叠设置为 %s",
+  "igny.command.CustomItemMaxStackSize.set_fail": "无法将 %s 的最大堆叠设置为 %s (必须大于默认值)",
+  "igny.command.CustomItemMaxStackSize.remove_success": "已移除 %s 的自定义堆叠设置",
+  "igny.command.CustomItemMaxStackSize.clear_success": "已清除所有自定义堆叠设置",
+  "igny.command.CustomItemMaxStackSize.list_empty": "当前没有设置任何自定义堆叠上限",
+  "igny.command.CustomItemMaxStackSize.list_header": "--- 自定义堆叠上限列表 ---",
+  "igny.command.CustomItemMaxStackSize.click_to_remove": "点击移除此物品",
   "igny.task.status.infinite": "§7无限次",
   "igny.task.status.cycle": "§7第 §f%s§7/§f%s §7轮",
   "igny.task.status.paused": "§8[已暂停]",
@@ -193,5 +200,7 @@
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.0": "高亮未生效需重新加载熔炉所在区块",
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.1": "需要客户端同时安装有此MOD",
   "carpet.rule.commandCustomPlayerPickupItem.name": "自定义玩家拾取物品指令权限",
-  "carpet.rule.commandCustomPlayerPickupItem.desc": "使用/customPlayerPickupItem来自定义玩家能拾取的物品"
+  "carpet.rule.commandCustomPlayerPickupItem.desc": "使用/customPlayerPickupItem来自定义玩家能拾取的物品",
+  "carpet.rule.commandCustomItemMaxStackSize.name": "自定义物品最大堆叠数量指令权限",
+  "carpet.rule.commandCustomItemMaxStackSize.desc": "使用/customItemMaxStackSize来自定义物品的最大堆叠数量"
 }

@@ -3,10 +3,7 @@ package com.liuyue.igny;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.api.settings.SettingsManager;
-import com.liuyue.igny.commands.ClearLightQueueCommand;
-import com.liuyue.igny.commands.CustomPlayerPickupItemCommand;
-import com.liuyue.igny.commands.FixnotepitchCommmand;
-import com.liuyue.igny.commands.PlayerOperateCommand;
+import com.liuyue.igny.commands.*;
 import com.liuyue.igny.utils.ComponentTranslate;
 import com.liuyue.igny.utils.CountRulesUtil;
 import com.mojang.brigadier.CommandDispatcher;
@@ -61,6 +58,7 @@ public class IGNYServer implements CarpetExtension {
         PlayerOperateCommand.register(dispatcher);
         ClearLightQueueCommand.register(dispatcher);
         CustomPlayerPickupItemCommand.register(dispatcher, commandBuildContext);
+        CustomItemMaxStackSizeCommand.register(dispatcher, commandBuildContext);
     }
 
     @Override

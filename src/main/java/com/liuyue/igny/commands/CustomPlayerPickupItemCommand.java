@@ -2,7 +2,7 @@ package com.liuyue.igny.commands;
 
 import carpet.patches.EntityPlayerMPFake;
 import com.liuyue.igny.IGNYSettings;
-import com.liuyue.igny.data.CustomPickupManager;
+import com.liuyue.igny.data.CustomPickupDataManager;
 import com.liuyue.igny.utils.CommandPermissions;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -73,7 +73,7 @@ public class CustomPlayerPickupItemCommand {
         String targetName = StringArgumentType.getString(ctx, "target");
         if (!checkPermission(source, targetName)) return 0;
 
-        CustomPickupManager.PlayerSetting setting = CustomPickupManager.getOrCreate(targetName);
+        CustomPickupDataManager.PlayerSetting setting = CustomPickupDataManager.getOrCreate(targetName);
 
         MutableComponent message = Component.translatable("igny.command.customPlayerPickupItem.header", targetName)
                 .withStyle(ChatFormatting.GOLD).append("\n");
@@ -94,7 +94,7 @@ public class CustomPlayerPickupItemCommand {
                     BuiltInRegistries.ITEM.getOptional(res).ifPresent(holder -> {
                         MutableComponent deleteBtn = Component.literal("[x] ")
                                 .withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true)
-                                        //#if MC>=12105
+                                        //#if MC >= 12105
                                         //$$ .withClickEvent(new ClickEvent.RunCommand("/customPlayerPickupItem " + targetName + " items remove " + id))
                                         //$$ .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to remove " + id))));
                                         //#else
@@ -124,11 +124,11 @@ public class CustomPlayerPickupItemCommand {
         if (!checkPermission(source, targetName)) return 0;
 
         String modeStr = StringArgumentType.getString(ctx, "mode").toLowerCase();
-        CustomPickupManager.Mode mode;
+        CustomPickupDataManager.Mode mode;
         switch (modeStr) {
-            case "whitelist" -> mode = CustomPickupManager.Mode.WHITELIST;
-            case "blacklist" -> mode = CustomPickupManager.Mode.BLACKLIST;
-            case "disable" -> mode = CustomPickupManager.Mode.DISABLED;
+            case "whitelist" -> mode = CustomPickupDataManager.Mode.WHITELIST;
+            case "blacklist" -> mode = CustomPickupDataManager.Mode.BLACKLIST;
+            case "disable" -> mode = CustomPickupDataManager.Mode.DISABLED;
             default -> {
                 source.sendFailure(Component.translatable("igny.command.customPlayerPickupItem.invalid_mode", modeStr)
                         .withStyle(ChatFormatting.RED));
@@ -136,9 +136,9 @@ public class CustomPlayerPickupItemCommand {
             }
         }
 
-        CustomPickupManager.PlayerSetting setting = CustomPickupManager.getOrCreate(targetName);
+        CustomPickupDataManager.PlayerSetting setting = CustomPickupDataManager.getOrCreate(targetName);
         setting.setMode(mode);
-        CustomPickupManager.updateAndSave(targetName, setting);
+        CustomPickupDataManager.updateAndSave(targetName, setting);
 
         source.sendSuccess(
                 //#if MC > 11904
@@ -154,7 +154,7 @@ public class CustomPlayerPickupItemCommand {
         String targetName = StringArgumentType.getString(ctx, "target");
         if (!checkPermission(source, targetName)) return 0;
 
-        CustomPickupManager.PlayerSetting setting = CustomPickupManager.getOrCreate(targetName);
+        CustomPickupDataManager.PlayerSetting setting = CustomPickupDataManager.getOrCreate(targetName);
         Set<String> currentItems = new HashSet<>(setting.getItems());
 
         if (action.equals("clear")) {
@@ -171,7 +171,7 @@ public class CustomPlayerPickupItemCommand {
         }
 
         setting.setItems(currentItems);
-        CustomPickupManager.updateAndSave(targetName, setting);
+        CustomPickupDataManager.updateAndSave(targetName, setting);
 
         source.sendSuccess(
                 //#if MC > 11904
@@ -182,7 +182,7 @@ public class CustomPlayerPickupItemCommand {
     }
 
     private static boolean checkPermission(CommandSourceStack source, String targetName) {
-        CustomPickupManager.setServer(source.getServer());
+        CustomPickupDataManager.setServer(source.getServer());
         if (
             //#if MC >= 12111
             //$$ !Commands.LEVEL_GAMEMASTERS.check(source.permissions())

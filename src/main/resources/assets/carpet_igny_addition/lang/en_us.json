@@ -59,6 +59,13 @@
   "igny.command.customPlayerPickupItem.mode_success": "Updated mode for %s to: %s",
   "igny.command.customPlayerPickupItem.items_success": "Updated item list for %s",
   "igny.command.customPlayerPickupItem.no_permission": "You do not have permission to modify other players' config",
+  "igny.command.CustomItemMaxStackSize.set_success": "Set %s max stack to %s",
+  "igny.command.CustomItemMaxStackSize.set_fail": "Cannot set %s max stack to %s (must be greater than default)",
+  "igny.command.CustomItemMaxStackSize.remove_success": "Removed custom stack for %s",
+  "igny.command.CustomItemMaxStackSize.clear_success": "Cleared all custom stack sizes",
+  "igny.command.CustomItemMaxStackSize.list_empty": "No custom stack sizes set.",
+  "igny.command.CustomItemMaxStackSize.list_header": "--- Custom Stack Sizes ---",
+  "igny.command.CustomItemMaxStackSize.click_to_remove": "Click to remove this setting",
   "igny.task.status.infinite": "§7Infinite",
   "igny.task.status.cycle": "§7Cycle §f%s§7/§f%s",
   "igny.task.status.paused": "§8[PAUSED]",
@@ -141,5 +148,6 @@
   "carpet.rule.furnaceHasIncombustibleHighlight.desc": "When the input slot of a furnace contains non-smeltable items, the furnace itself turns light red and becomes visible through blocks (X-ray highlight).",
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.0": "Highlighting is not effective. The chunk where the furnace is located needs to be reloaded.",
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.1": "Requires this mod to be installed on the client side as well.",
-  "carpet.rule.commandCustomPlayerPickupItem.desc": "Use /customPlayerPickupItem to control player custom pickup items"
+  "carpet.rule.commandCustomPlayerPickupItem.desc": "Use /customPlayerPickupItem to control player custom pickup items",
+  "carpet.rule.commandCustomItemMaxStackSize.desc": "Use /customItemMaxStackSize to control the maximum stack size of the item"
 }

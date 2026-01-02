@@ -26,6 +26,7 @@ public class IGNYSettings
     //假玩家生成内存泄露修复
     public static boolean fakePlayerSpawnMemoryLeakFix = false;
 
+    public static final ThreadLocal<Boolean> itemStackCountChanged = ThreadLocal.withInitial(() -> true);
     @Rule(
             categories = {IGNY,SURVIVAL,FEATURE}
     )
@@ -386,8 +387,14 @@ public class IGNYSettings
     public static Boolean furnaceHasIncombustibleHighlight = false;
 
     @Rule(
-            categories = {IGNY, COMMAND, FEATURE},
+            categories = {IGNY, COMMAND, CREATIVE, FEATURE},
             options = {"false", "true", "ops", "0", "1", "2", "3", "4"}
     )
     public static String commandCustomPlayerPickupItem = "false";
+
+    @Rule(
+            categories = {IGNY, COMMAND, CREATIVE, FEATURE},
+            options = {"false", "true", "ops", "0", "1", "2", "3", "4"}
+    )
+    public static String commandCustomItemMaxStackSizeCommand = "false";
 }

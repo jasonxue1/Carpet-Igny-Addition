@@ -6,6 +6,7 @@ import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.IGNYSettings;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class RuleUtils {
     //#if MC >= 12005
@@ -35,4 +36,13 @@ public class RuleUtils {
         return false;
     }
 
+    public static <T> T itemStackableWrap(Supplier<T> supplier) {
+        boolean changed = IGNYSettings.itemStackCountChanged.get();
+        try {
+            IGNYSettings.itemStackCountChanged.set(false);
+            return supplier.get();
+        } finally {
+            IGNYSettings.itemStackCountChanged.set(changed);
+        }
+    }
 }

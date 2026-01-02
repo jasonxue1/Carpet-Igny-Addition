@@ -1,6 +1,6 @@
 package com.liuyue.igny.mixins.features.commands.customPlayerPickupItem;
 
-import com.liuyue.igny.data.CustomPickupManager;
+import com.liuyue.igny.data.CustomPickupDataManager;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +18,7 @@ public class ItemEntityMixin {
         if (!self.level().isClientSide()){
             ItemStack stack = self.getItem();
             if (stack.isEmpty()) return;
-            if (!CustomPickupManager.canPickUp(player.getName().getString(), BuiltInRegistries.ITEM.getKey(stack.getItem()).toString())) {
+            if (!CustomPickupDataManager.canPickUp(player.getName().getString(), BuiltInRegistries.ITEM.getKey(stack.getItem()).toString())) {
                 ci.cancel();
             }
         }

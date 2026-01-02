@@ -74,3 +74,22 @@
             - `add <item>` Add an item to the list (uses the native Minecraft item selector with auto-completion).
             - `remove <item>` Remove an item from the list.
             - `clear` Clear all filtered items for the current player.
+
+## Custom Item Max Stack Size (`/customItemMaxStackSize`)
+
+### Syntax
+- `/customItemMaxStackSize`
+    - `...set <item> <count>`
+    - `...remove <item>`
+    - `...clear`
+    - `...list`
+
+### Effect
+- `/customItemMaxStackSize` Modifies the maximum stack size for specific items.
+    - `...set <item> <count>` Sets the custom max stack size for a specified item.
+        - `<item>`: The target item ID.
+        - `<count>`: The stack size to set, ranging from 1 to 99.
+    - `...remove <item>` Removes the custom stack size setting for a specified item.
+    - `...clear` Clears all configured custom stack size rules.
+    - `...list` Lists all currently active custom stack size settings.
+        - Hover over the item name to view its full ResourceLocation (Namespace ID).
