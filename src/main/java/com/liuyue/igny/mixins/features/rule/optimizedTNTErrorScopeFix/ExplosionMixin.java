@@ -33,7 +33,6 @@ import org.spongepowered.asm.mixin.Shadow;
 )
 public abstract class ExplosionMixin
 {
-    //#if MC < 12102
     @Shadow @Final @Nullable
     private Entity source;
 
@@ -90,5 +89,4 @@ public abstract class ExplosionMixin
             CarpetSettings.optimizedTNT = this.original;
         }
     }
-    //#endif
 }
