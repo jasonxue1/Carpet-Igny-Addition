@@ -451,9 +451,11 @@ Enables optimization when the number of stacked entities reaches the value set b
 - Default value: `100`
 - Categories: `IGNY`, `OPTIMIZATION`, `FEATURE`
 
-## optimizedTNTErrorScopeFix `MC<1.21.2`
+## optimizedTNTErrorScopeFix
 
-Fixes an issue where entities like Wind Charges have their explosions incorrectly optimized when optimizedTNT Rule is enabled. [#1928](https://github.com/gnembon/fabric-carpet/issues/1928)。
+Fixes an issue where entities like Wind Charges have their explosions incorrectly optimized when optimizedTNT Rule is enabled. [#1928](https://github.com/gnembon/fabric-carpet/issues/1928)
+
+### Potential conflicts with certain multi-threading optimization mods!!
 
 - Type: `boolean`
 - Default value: `false`
