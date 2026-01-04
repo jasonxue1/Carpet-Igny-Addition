@@ -47,7 +47,7 @@
 ### Effects
 - Clear the pending lighting queue directly.
 
-## Custom Player Item Pickup (`/customPlayerPickupItem`) `🐛Beta`
+## Custom Player Item Pickup (`/customPlayerPickupItem`)
 
 ### Syntax
 - `/customPlayerPickupItem`
@@ -75,7 +75,7 @@
             - `remove <item>` Remove an item from the list.
             - `clear` Clear all filtered items for the current player.
 
-## Custom Item Max Stack Size (`/customItemMaxStackSize`) `🐛Beta`
+## Custom Item Max Stack Size (`/customItemMaxStackSize`)
 
 ### Syntax
 - `/customItemMaxStackSize`
