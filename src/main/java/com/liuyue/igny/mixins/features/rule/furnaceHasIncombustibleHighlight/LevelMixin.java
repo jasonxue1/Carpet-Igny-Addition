@@ -4,6 +4,7 @@ import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
@@ -35,14 +36,13 @@ public abstract class LevelMixin {
     private void removeBlockEntity(BlockPos blockPos, CallbackInfo ci) {
         if (IGNYSettings.furnaceHasIncombustibleHighlight && this.getBlockEntity(blockPos) instanceof AbstractFurnaceBlockEntity) {
             Level level = (Level) (Object) this;
-            this.removeHighlightToClient(
-                    //#if MC >= 12102
-                    //$$ (ServerLevel)
-                    //#endif
-                            level, blockPos);
+            if (level instanceof ServerLevel) {
+                this.removeHighlightToClient(
+                        level, blockPos);
+            }
         }
     }
-
+    
     @Unique
     private void removeHighlightToClient(
             //#if MC >= 12102
