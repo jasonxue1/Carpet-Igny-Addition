@@ -215,6 +215,7 @@ import java.util.stream.IntStream;
  * permanent authorization for you to choose that version for the
  * Library.
  */
+
 @SuppressWarnings("JavadocLinkAsPlainText")
 @Mixin(value = HopperBlockEntity.class, priority = 1100)
 public abstract class HopperBlockEntityMixin extends BlockEntity {

@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.DropperBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = DropperBlock.class, priority = 1100)
+@Mixin(value = DropperBlock.class, priority = 900)
 public class DropperBlockMixin {
     @WrapOperation(method = "dispenseFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;addItem(Lnet/minecraft/world/Container;Lnet/minecraft/world/Container;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/core/Direction;)Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack dispenseFrom(Container from, Container to, ItemStack stack, Direction side, Operation<ItemStack> original) {

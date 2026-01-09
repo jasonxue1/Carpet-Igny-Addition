@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = ItemStack.class, priority = 1100)
+@Mixin(value = ItemStack.class, priority = 900)
 public class ItemStackMixin {
     @Unique
     private final ItemStack thisStack = (ItemStack) (Object) this;
@@ -42,14 +42,11 @@ public class ItemStackMixin {
     @Inject(method = "getMaxStackSize", at = @At("RETURN"), cancellable = true)
     private void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
         if (IGNYSettings.itemStackCountChanged.get()) {
-            int originalMaxStackSize = cir.getReturnValue();
             if (CustomItemMaxStackSizeDataManager.hasCustomStack(thisStack.getItem())) {
                 cir.setReturnValue(CustomItemMaxStackSizeDataManager.getCustomStackSize(thisStack.getItem()));
-            }else if (ShulkerBoxStackableRuleEnabled()) {
-                cir.setReturnValue(64);
-            }else{
-                cir.setReturnValue(originalMaxStackSize);
             }
+        }else if (ShulkerBoxStackableRuleEnabled()){
+            cir.setReturnValue(thisStack.getItem().getDefaultMaxStackSize());
         }
     }
 

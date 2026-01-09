@@ -28,7 +28,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.vehicle.MinecartHopper;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(value = MinecartHopper.class, priority = 1100)
+@Mixin(value = MinecartHopper.class, priority = 900)
 public class MinecartHopperMixin {
     @WrapMethod(method = "tick")
     private void tick(Operation<Void> original) {

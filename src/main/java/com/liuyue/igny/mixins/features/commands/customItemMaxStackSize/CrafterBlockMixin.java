@@ -38,7 +38,7 @@ import net.minecraft.world.level.block.CrafterBlock;
 //#endif
 
 //#if MC >= 12003
-@Mixin(value = CrafterBlock.class, priority = 1100)
+@Mixin(value = CrafterBlock.class, priority = 900)
 //#else
 //$$ @Mixin(DummyClass.class)
 //#endif

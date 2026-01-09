@@ -6,7 +6,6 @@ import com.liuyue.igny.IGNYServer;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
-import com.liuyue.igny.utils.InventoryUtils;
 import com.liuyue.igny.utils.RuleUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -215,8 +214,9 @@ import java.util.function.BooleanSupplier;
  * permanent authorization for you to choose that version for the
  * Library.
  */
+
 @SuppressWarnings("JavadocLinkAsPlainText")
-@Mixin(value = HopperBlockEntity.class, priority = 1100)
+@Mixin(value = HopperBlockEntity.class, priority = 900)
 public abstract class HopperBlockEntityMixin extends BlockEntity {
     @Shadow
     private Direction facing;
@@ -385,7 +385,7 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
             ItemStack itemStack = blockEntity.getItem(i);
             if (!itemStack.isEmpty()) {
                 int prevCount = itemStack.getCount();
-                ItemStack itemStack2 = addItem(blockEntity, inventory, blockEntity.removeItem(i, 1), direction);
+                ItemStack itemStack2 = addItem(blockEntity, inventory, blockEntity.removeItem(i, itemStack.getItem().getDefaultMaxStackSize()), direction);
                 if (itemStack2.isEmpty()) {
                     inventory.setChanged();
                     hopperNoItemCost(world, pos, blockEntity, i, itemStack, prevCount);

@@ -29,7 +29,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(value = AbstractContainerMenu.class, priority = 1100)
+@Mixin(value = AbstractContainerMenu.class, priority = 900)
 public abstract class AbstractContainerMenuMixin {
     @WrapMethod(method = "getRedstoneSignalFromContainer(Lnet/minecraft/world/Container;)I")
     private static int getRedstoneSignalFromContainer(Container inventory, Operation<Integer> original) {
