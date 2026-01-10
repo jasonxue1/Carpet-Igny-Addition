@@ -16,12 +16,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SetLookAndInteract.class)
 public class SetLookAndInteractMixin {
-    //#if MC < 26.1
-    @Inject(method = "method_47085", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(
+            //#if MC >= 26.1
+            //$$ method = "lambda$create$2"
+            //#else
+            method = "method_47085"
+            //#endif
+            , at = @At(value = "HEAD"), cancellable = true)
     private static void create(BehaviorBuilder.Instance<?> instance, MemoryAccessor<?, ?> memoryAccessor, int i, EntityType<?> entityType, MemoryAccessor<?, ?> memoryAccessor2, MemoryAccessor<?, ?> memoryAccessor3, ServerLevel serverLevel, LivingEntity livingEntity, long l, CallbackInfoReturnable<Boolean> cir){
         if (livingEntity instanceof Piglin && ((IEntity)livingEntity).carpet_Igny_Addition$getCrammingCount() >= IGNYSettings.optimizedEntityLimit){
             cir.setReturnValue(false);
         }
     }
-    //#endif
 }

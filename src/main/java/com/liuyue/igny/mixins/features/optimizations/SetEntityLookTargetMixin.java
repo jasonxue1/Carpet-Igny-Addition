@@ -17,12 +17,16 @@ import java.util.function.Predicate;
 
 @Mixin(SetEntityLookTarget.class)
 public class SetEntityLookTargetMixin {
-    //#if MC < 26.1
-    @Inject(method = "method_47063", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(
+            //#if MC >= 26.1
+            //$$ method = "lambda$create$5"
+            //#else
+            method = "method_47063"
+            //#endif
+            , at = @At(value = "HEAD"), cancellable = true)
     private static void create(BehaviorBuilder.Instance<?> instance, MemoryAccessor<?, ?> memoryAccessor, Predicate<?> predicate, float f, MemoryAccessor<?, ?>  memoryAccessor2, ServerLevel serverLevel, LivingEntity livingEntity, long l, CallbackInfoReturnable<Boolean> cir){
         if (livingEntity instanceof Piglin && ((IEntity)livingEntity).carpet_Igny_Addition$getCrammingCount() >= IGNYSettings.optimizedEntityLimit){
             cir.setReturnValue(false);
         }
     }
-    //#endif
 }
