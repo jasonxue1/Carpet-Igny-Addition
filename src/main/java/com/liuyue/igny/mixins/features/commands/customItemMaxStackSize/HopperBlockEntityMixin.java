@@ -1,13 +1,14 @@
 package com.liuyue.igny.mixins.features.commands.customItemMaxStackSize;
 
 import carpet.CarpetSettings;
-import carpet.helpers.HopperCounter;
 import carpet.utils.WoolTool;
 import com.liuyue.igny.IGNYServer;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
+import com.liuyue.igny.utils.InventoryUtils;
 import com.liuyue.igny.utils.RuleUtils;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -42,7 +43,6 @@ import java.util.function.BooleanSupplier;
  * 其引用了来自<a href="https://github.com/TISUnion/Carpet-TIS-Addition">{@code Carpet TIS Addition}</a>模组的代码：
  * <ul>
  * <li>漏斗计数器无限速度实现：{@link HopperBlockEntityMixin#hopperCountersUnlimitedSpeed(Level, BlockPos, HopperBlockEntity, BooleanSupplier)}</li>
- * <li>漏斗不消耗物品实现：{@link HopperBlockEntityMixin#hopperNoItemCost(Level, BlockPos, HopperBlockEntity, int, ItemStack, int)}</li>
  * </ul>
  * <br>
  * <p>
@@ -219,27 +219,8 @@ import java.util.function.BooleanSupplier;
 @SuppressWarnings("JavadocLinkAsPlainText")
 @Mixin(value = HopperBlockEntity.class, priority = 900)
 public abstract class HopperBlockEntityMixin extends BlockEntity {
-    @Shadow
-    private Direction facing;
-
     public HopperBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-    }
-
-    @Shadow
-    private static boolean isFullContainer(Container inventory, Direction direction) {
-        return false;
-    }
-
-    @Shadow
-    @Nullable
-    private static Container getAttachedContainer(Level world, BlockPos pos, HopperBlockEntity blockEntity) {
-        return null;
-    }
-
-    @Shadow
-    public static ItemStack addItem(@Nullable Container from, Container to, ItemStack stack, @Nullable Direction side) {
-        throw new AssertionError();
     }
 
     @Shadow
@@ -304,7 +285,7 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
         if (IGNYSettings.itemStackCountChanged.get()) {
             return original.call(from, to, stack, side);
         }
-        if (CustomItemMaxStackSizeDataManager.hasCustomStack(stack.getItem())) {
+        if (CustomItemMaxStackSizeDataManager.hasCustomStack(stack.getItem()) || (Boolean.TRUE.equals(RuleUtils.getCarpetRulesValue("carpet-org-addition", "shulkerBoxStackable")) && InventoryUtils.isShulkerBoxItem(stack))) {
             ItemStack split = stack.split(stack.getMaxStackSize());
             int count = split.getCount();
             ItemStack result = original.call(from, to, split.copy(), side);
@@ -338,9 +319,9 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
         compatible(() -> cir.setReturnValue(tryInsertAndExtract(world, pos, state, blockEntity, booleanSupplier)));
     }
 
-    @Inject(method = "ejectItems", at = @At("HEAD"), cancellable = true)
-    private static void insert(Level world, BlockPos pos, HopperBlockEntity blockEntity, CallbackInfoReturnable<Boolean> cir) {
-        compatible(() -> cir.setReturnValue(tryInsert(world, pos, blockEntity)));
+    @WrapMethod(method = "ejectItems")
+    private static boolean insert(Level level, BlockPos blockPos, HopperBlockEntity hopperBlockEntity, Operation<Boolean> original) {
+        return RuleUtils.itemStackableWrap(() -> original.call(level, blockPos, hopperBlockEntity));
     }
 
     @Inject(method = "suckInItems(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/entity/Hopper;)Z", at = @At("HEAD"), cancellable = true)
@@ -366,68 +347,6 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
                 self.setCooldown(8);
                 hopperCountersUnlimitedSpeed(world, pos, blockEntity, booleanSupplier);
                 setChanged(world, pos, state);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    @Unique
-    private static boolean tryInsert(Level world, BlockPos pos, HopperBlockEntity blockEntity) {
-        if (hopperCounters(world, pos)) return true;
-        Container inventory = getAttachedContainer(world, pos, blockEntity);
-        if (inventory == null) {
-            return false;
-        }
-        Direction direction = ((HopperBlockEntityMixin) (Object) blockEntity).facing.getOpposite();
-        if (isFullContainer(inventory, direction)) {
-            return false;
-        }
-        for (int i = 0; i < blockEntity.getContainerSize(); ++i) {
-            ItemStack itemStack = blockEntity.getItem(i);
-            if (!itemStack.isEmpty()) {
-                int prevCount = itemStack.getCount();
-                ItemStack itemStack2 = addItem(blockEntity, inventory, blockEntity.removeItem(i, 1), direction);
-                if (itemStack2.isEmpty()) {
-                    inventory.setChanged();
-                    hopperNoItemCost(world, pos, blockEntity, i, itemStack, prevCount);
-                    return true;
-                }
-                itemStack.setCount(prevCount);
-                if (prevCount == 1) {
-                    blockEntity.setItem(i, itemStack);
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 漏斗计数器相关逻辑
-     *
-     * @see <a href="https://github.com/gnembon/fabric-carpet/blob/master/src/main/java/carpet/mixins/HopperBlockEntity_counterMixin.java">漏斗计数器</a>
-     */
-    @Unique
-    private static boolean hopperCounters(Level world, BlockPos blockPos) {
-        if (CarpetSettings.hopperCounters) {
-            Direction hopperFacing = world.getBlockState(blockPos).getValue(HopperBlock.FACING);
-            DyeColor woolColor = WoolTool.getWoolColorAtPosition(
-                    world,
-                    blockPos.relative(hopperFacing));
-            if (woolColor != null)
-            {
-                Container inventory = HopperBlockEntity.getContainerAt(world, blockPos);
-                if (inventory == null) return false;
-                for (int i = 0; i < inventory.getContainerSize(); ++i)
-                {
-                    if (!inventory.getItem(i).isEmpty())
-                    {
-                        ItemStack itemstack = inventory.getItem(i);//.copy();
-                        HopperCounter.getCounter(woolColor).add(world.getServer(), itemstack);
-                        inventory.setItem(i, ItemStack.EMPTY);
-                    }
-                }
                 return true;
             }
         }
@@ -464,26 +383,6 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
                 }
             }
             mixin.setCooldown(0);
-        }
-    }
-
-    /**
-     * 漏斗不消耗物品相关逻辑
-     *
-     * @see <a href="https://github.com/TISUnion/Carpet-TIS-Addition/tree/master/src/main/java/carpettisaddition/mixins/rule/hopperNoItemCost">漏斗不消耗物品</a>
-     */
-    @Unique
-    private static void hopperNoItemCost(Level world, BlockPos blockPos, HopperBlockEntity blockEntity, int index, ItemStack itemStack, int prevCount) {
-        if (Boolean.TRUE.equals(RuleUtils.getCarpetRulesValue("carpet-tis-addition", "hopperNoItemCost"))) {
-            DyeColor color = WoolTool.getWoolColorAtPosition(world, blockPos.relative(Direction.UP));
-            if (color == null) {
-                return;
-            }
-            int currentCount = itemStack.getCount();
-            itemStack.setCount(prevCount);
-            ItemStack prevStack = itemStack.copy();
-            itemStack.setCount(currentCount);
-            blockEntity.setItem(index, prevStack);
         }
     }
 
