@@ -4,6 +4,8 @@ package com.liuyue.igny.mixins.interfaces;
 import com.liuyue.igny.IGNYServer;
 import com.liuyue.igny.data.CustomPickupDataManager;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
+import com.liuyue.igny.task.ITask;
+import com.liuyue.igny.task.TaskManager;
 import com.liuyue.igny.tracker.RuleChangeTracker;
 import net.minecraft.server.MinecraftServer;
 
@@ -23,6 +25,13 @@ public abstract class MinecraftServerMixin {
             //#if MC >= 12006
             CustomItemMaxStackSizeDataManager.setServer(server);
             //#endif
+        }
+    }
+
+    @Inject(method = "tickServer", at = @At("RETURN"))
+    private void tickServer(CallbackInfo ci){
+        for (ITask task : TaskManager.getAllActiveTasks()) {
+            task.tick();
         }
     }
 }

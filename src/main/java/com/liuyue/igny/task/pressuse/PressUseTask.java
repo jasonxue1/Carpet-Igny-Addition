@@ -10,7 +10,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -136,12 +135,12 @@ public class PressUseTask implements ITask {
 
         ServerPlayer player = server.getPlayerList().getPlayerByName(playerName);
         if (player == null) {
-            sendMessage(Component.translatable("igny.command.playerOperate.pressuse_fail_offline", playerName), null);
+            sendMessage(Component.translatable("igny.command.playerOperate.pressuse_fail_offline", playerName));
             return;
         }
 
         if (!(player instanceof EntityPlayerMPFake)) {
-            sendMessage(Component.translatable("igny.command.playerOperate.pressuse_fail_not_fake", playerName), null);
+            sendMessage(Component.translatable("igny.command.playerOperate.pressuse_fail_not_fake", playerName));
             return;
         }
 
@@ -153,14 +152,6 @@ public class PressUseTask implements ITask {
 
         startPressing();
         TaskManager.register(this);
-
-        String cyclesInfo = (totalCycles == -1) ?
-                Component.translatable("igny.task.status.infinite").getString() :
-                "×" + totalCycles;
-        sendMessage(Component.translatable("igny.command.playerOperate.pressuse_started",
-                        playerName, pressDuration, intervalTicks, cyclesInfo),
-                "[PlayerOperate] PressUse: Started " + playerName +
-                        " (Press=" + pressDuration + "t, Wait=" + intervalTicks + "t, Cycles=" + (totalCycles == -1 ? "∞" : totalCycles) + ")");
     }
 
     private void startPressing() {
@@ -223,12 +214,9 @@ public class PressUseTask implements ITask {
         }
     }
 
-    private void sendMessage(Component message, @Nullable String consoleMessage) {
+    private void sendMessage(Component message) {
         if (operator != null && operator.isAlive()) {
             this.operator.sendSystemMessage(message);
-        }
-        if (consoleMessage != null) {
-            IGNYServer.LOGGER.info(consoleMessage);
         }
     }
 }

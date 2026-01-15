@@ -43,7 +43,9 @@ public class VaultTask implements ITask {
     private String pendingFakeName = null;
     private final ServerPlayer operator;
     private boolean paused = false;
+    //#if MC >= 12005
     private static final int INSTANT_WAIT_TICKS = 7;
+    //#endif
 
     private enum Stage {
         SPAWNING,
@@ -127,7 +129,7 @@ public class VaultTask implements ITask {
             return;
         }
 
-        IGNYSettings.fakePlayerSpawnMemoryLeakFix = true;
+        IGNYSettings.fakePlayerSpawnMemoryLeakFix.set(true);
         lastPosition = originalPlayer.position();
         lastYaw = originalPlayer.getYRot();
         lastPitch = originalPlayer.getXRot();
@@ -182,7 +184,7 @@ public class VaultTask implements ITask {
         TaskManager.unregister(this);
         INSTANCE_CACHE.remove(playerName);
         if (INSTANCE_CACHE.values().stream().allMatch(VaultTask::isStopped)) {
-            IGNYSettings.fakePlayerSpawnMemoryLeakFix = false;
+            IGNYSettings.fakePlayerSpawnMemoryLeakFix.set(false);
         }
     }
 

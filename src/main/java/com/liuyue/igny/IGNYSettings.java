@@ -22,7 +22,7 @@ public class IGNYSettings
     public static Set<String> CRAMMING_ENTITIES = new HashSet<>();
 
     //假玩家生成内存泄露修复
-    public static boolean fakePlayerSpawnMemoryLeakFix = false;
+    public static ThreadLocal<Boolean> fakePlayerSpawnMemoryLeakFix = ThreadLocal.withInitial(() -> false);
 
     public static final ThreadLocal<Boolean> itemStackCountChanged = ThreadLocal.withInitial(() -> true);
     @Rule(
