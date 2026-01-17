@@ -203,5 +203,9 @@
   "carpet.rule.commandCustomPlayerPickupItem.name": "自定义玩家拾取物品指令权限",
   "carpet.rule.commandCustomPlayerPickupItem.desc": "使用/customPlayerPickupItem来自定义玩家能拾取的物品",
   "carpet.rule.commandCustomItemMaxStackSize.name": "自定义物品最大堆叠数量指令权限",
-  "carpet.rule.commandCustomItemMaxStackSize.desc": "使用/customItemMaxStackSize来自定义物品的最大堆叠数量"
+  "carpet.rule.commandCustomItemMaxStackSize.desc": "使用/customItemMaxStackSize来自定义物品的最大堆叠数量",
+  "carpet.rule.playerHungryValueNoDecrease.name": "玩家饥饿值不减少",
+  "carpet.rule.playerHungryValueNoDecrease.desc": "玩家饥饿值不会减少",
+  "carpet.rule.playerLowHungryValueCanSprint.name": "玩家饥饿值低可疾跑",
+  "carpet.rule.playerLowHungryValueCanSprint.desc": "当玩家饥饿值低于7点时，可以疾跑"
 }

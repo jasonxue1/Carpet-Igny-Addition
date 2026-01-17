@@ -21,6 +21,7 @@
     "features.commands.customItemMaxStackSize.CrafterBlockMixin",
     "features.commands.customItemMaxStackSize.DropperBlockMixin",
     "features.commands.customItemMaxStackSize.HopperBlockEntityMixin",
+    "features.commands.customItemMaxStackSize.ItemInstanceMixin",
     "features.commands.customItemMaxStackSize.ItemStackMixin",
     "features.commands.customItemMaxStackSize.MinecartHopperMixin",
     "features.commands.customPlayerPickupItem.ItemEntityMixin",
@@ -57,8 +58,6 @@
     "features.rule.killFakePlayerRemoveVehicle.EntityPlayerMPFakeMixin",
     "features.rule.locatorBarNoFakePlayer.ServerWaypointManagerMixin",
     "features.rule.maxEndPortalSize.EnderEyeItemMixin",
-    "features.rule.teleportInheritMinecartsMotionReintroduced.EntityMixin",
-    "features.rule.teleportInheritMinecartsMotionReintroduced.NetherPortalBlockMixin",
     "features.rule.noWardenDarkness.WardenMixin",
     "features.rule.noWitherEffect.WitherRoseBlockMixin",
     "features.rule.noWitherEffect.WitherSkeletonMixin",
@@ -66,6 +65,7 @@
     "features.rule.noZombifiedPiglinNetherPortalSpawn.ZombifiedPiglinMixin",
     "features.rule.optimizedTNTErrorScopeFix.ExplosionMixin",
     "features.rule.placeComposterCompost.BlockItemMixin",
+    "features.rule.playerHungryValueNoDecrease.FoodDataMixin",
     "features.rule.playerLevitationFreeShulkerBullet.ShulkerBulletMixin",
     "features.rule.playerMiningFatigueFreeGuardian.GuardianAttackGoalMixin",
     "features.rule.playerOperationLimiter.BlockItemMixin",
@@ -78,6 +78,8 @@
     "features.rule.simpleSoundSuppression.CalibratedSculkSensorVibrationUserMixin",
     "features.rule.skeletonsPickupSwordsReintroduced.MobInvoker",
     "features.rule.skeletonsPickupSwordsReintroduced.MobMixin",
+    "features.rule.teleportInheritMinecartsMotionReintroduced.EntityMixin",
+    "features.rule.teleportInheritMinecartsMotionReintroduced.NetherPortalBlockMixin",
     "features.rule.tntMinecartEmptyDamageSourceFix.EntityInvoker",
     "features.rule.tntMinecartEmptyDamageSourceFix.MinecartTNTMixin",
     "features.rule.trialSpawnerCoolDown.TrialSpawnerDataMixin",
@@ -90,6 +92,7 @@
   ],
   "client": [
     "features.rule.happyGhastNoClip.LevelRendererMixin",
+    "features.rule.playerLowHungryValueCanSprint.LocalPlayerMixin",
     "render.substitute.LevelRendererMixin"
   ],
   "injectors": {

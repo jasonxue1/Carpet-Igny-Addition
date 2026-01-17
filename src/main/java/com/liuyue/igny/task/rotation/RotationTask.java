@@ -93,10 +93,8 @@ public class RotationTask implements ITask {
         tickCounter++;
 
         if (tickCounter >= intervalTicks) {
-            // 执行旋转
             float newYaw = targetPlayer.getYRot() + rotationAngle;
             targetPlayer.setYRot(newYaw);
-
 
             tickCounter = 0;
             currentCycle++;

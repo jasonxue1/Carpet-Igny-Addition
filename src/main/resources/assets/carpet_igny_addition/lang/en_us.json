@@ -150,5 +150,7 @@
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.0": "Highlighting is not effective. The chunk where the furnace is located needs to be reloaded.",
   "carpet.rule.furnaceHasIncombustibleHighlight.extra.1": "Requires this mod to be installed on the client side as well.",
   "carpet.rule.commandCustomPlayerPickupItem.desc": "Use /customPlayerPickupItem to control player custom pickup items",
-  "carpet.rule.commandCustomItemMaxStackSize.desc": "Use /customItemMaxStackSize to control the maximum stack size of the item"
+  "carpet.rule.commandCustomItemMaxStackSize.desc": "Use /customItemMaxStackSize to control the maximum stack size of the item",
+  "carpet.rule.playerHungryValueNoDecrease.desc": "The player's hunger value will not decrease",
+  "carpet.rule.playerLowHungryValueCanSprint.desc": "When the player's hunger level is below 7 points, they can sprint"
 }

@@ -493,4 +493,22 @@ Use /customItemMaxStackSize to control the maximum stack size of the item.
 - Suggested Options: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
 - Categories: `IGNY`, `COMMAND`, `CREATIVE`, `FEATURE`
 
+## playerHungryValueNoDecrease
+
+The player's hunger value will not decrease.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## playerLowHungryValueCanSprint
+
+When the player's hunger level is below 7 points, they can sprint.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `CLIENT`, `FEATURE`
+
 

@@ -26,6 +26,7 @@ import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
 import com.liuyue.igny.utils.InventoryUtils;
 import com.liuyue.igny.utils.RuleUtils;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -39,22 +40,25 @@ public class ItemStackMixin {
     @Unique
     private final ItemStack thisStack = (ItemStack) (Object) this;
 
-    @Inject(method = "getMaxStackSize", at = @At("RETURN"), cancellable = true)
-    private void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
-        if (IGNYSettings.itemStackCountChanged.get()) {
-            if (CustomItemMaxStackSizeDataManager.hasCustomStack(thisStack.getItem())) {
-                cir.setReturnValue(CustomItemMaxStackSizeDataManager.getCustomStackSize(thisStack.getItem()));
-            }
-        }else if (ShulkerBoxStackableRuleEnabled()){
-            cir.setReturnValue(thisStack.getItem().getDefaultMaxStackSize());
-        }
-    }
-
     //#if MC >= 12005
     @Inject(method = "limitSize", at = @At("HEAD"), cancellable = true)
     private void limitSize(int maxCount, CallbackInfo ci) {
         if ((CustomItemMaxStackSizeDataManager.hasCustomStack(thisStack.getItem()) || ShulkerBoxStackableRuleEnabled()) && !IGNYSettings.itemStackCountChanged.get()) {
             ci.cancel();
+        }
+    }
+    //#endif
+
+    //#if MC < 26.1
+    @Inject(method = "getMaxStackSize", at = @At("RETURN"), cancellable = true)
+    private void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
+        Item item = thisStack.getItem();
+        if (IGNYSettings.itemStackCountChanged.get()) {
+            if (CustomItemMaxStackSizeDataManager.hasCustomStack(item)) {
+                cir.setReturnValue(CustomItemMaxStackSizeDataManager.getCustomStackSize(item));
+            }
+        }else if (ShulkerBoxStackableRuleEnabled()){
+            cir.setReturnValue(item.getDefaultMaxStackSize());
         }
     }
     //#endif

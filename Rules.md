@@ -492,3 +492,21 @@ canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他�
 - 默认值: `false`
 - 参考选项: `false`, `true`, `ops`, `0`, `1`, `2`, `3`, `4`
 - 分类: `IGNY`, `COMMAND`, `CREATIVE`, `FEATURE`
+
+## 玩家饥饿值不减少 (playerHungryValueNoDecrease) `🐛Beta`
+
+玩家饥饿值不会减少。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## 玩家饥饿值低可疾跑 (playerLowHungryValueCanSprint) `🐛Beta`
+
+当玩家饥饿值低于7点时，可以疾跑。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `CLIENT`, `FEATURE`

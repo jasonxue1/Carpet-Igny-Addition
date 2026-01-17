@@ -10,9 +10,15 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 public class PacketRegistry {
     //#if MC >= 12005
     public static void s2c() {
+        //#if MC >= 26.1
+        //$$ PayloadTypeRegistry.clientboundPlay().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
+        //$$ PayloadTypeRegistry.clientboundPlay().register(RemoveHighlightPayload.TYPE, RemoveHighlightPayload.CODEC);
+        //$$ PayloadTypeRegistry.clientboundPlay().register(SyncCustomStackSizePayload.TYPE, SyncCustomStackSizePayload.CODEC);
+        //#else
         PayloadTypeRegistry.playS2C().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(RemoveHighlightPayload.TYPE, RemoveHighlightPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncCustomStackSizePayload.TYPE, SyncCustomStackSizePayload.CODEC);
+        //#endif
     }
     //#endif
 }

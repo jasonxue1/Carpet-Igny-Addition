@@ -395,4 +395,16 @@ public class IGNYSettings
     )
     public static String commandCustomItemMaxStackSize = "false";
     //#endif
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean playerHungryValueNoDecrease = false;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, CLIENT, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean playerLowHungryValueCanSprint = false;
 }
