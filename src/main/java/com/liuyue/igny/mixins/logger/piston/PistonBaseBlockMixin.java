@@ -88,10 +88,22 @@ public abstract class PistonBaseBlockMixin {
                 BlockPos newPos = original.relative(direction.getOpposite());
                 hover.append(Component.literal("\n• " + name + " @ " + original.toShortString() + " → " + newPos.toShortString()));
             }
-            actionPart = cTr("igny.logger.piston.pull").withStyle(s -> s.withColor(ChatFormatting.LIGHT_PURPLE).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)));
+            actionPart = cTr("igny.logger.piston.pull").withStyle(s -> s.withColor(ChatFormatting.LIGHT_PURPLE)
+                            //#if MC >= 12105
+                            //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                            //#else
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                    //#endif
+            );
         } else {
             Component hover = cTr("igny.logger.piston.no.blocks.moved");
-            actionPart = cTr(isSticky ? "igny.logger.piston.pull" : "igny.logger.piston.retract").withStyle(s -> s.withColor(ChatFormatting.GRAY).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)));
+            actionPart = cTr(isSticky ? "igny.logger.piston.pull" : "igny.logger.piston.retract").withStyle(s -> s.withColor(ChatFormatting.GRAY)
+                            //#if MC >= 12105
+                            //$$ .withHoverEvent(new HoverEvent.ShowText(hover))
+                            //#else
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                    //#endif
+            );
         }
 
         logFinal(logger, level, pistonPos, block, actionPart, true);
@@ -100,16 +112,15 @@ public abstract class PistonBaseBlockMixin {
     @Unique
     private void logFinal(carpet.logging.Logger logger, Level level, BlockPos pos, Block block, Component actionPart, boolean success) {
         Component pistonPart = getPistonPartText(level, pos, block);
-        String punc = Translations.tr("igny.logger.piston.action.punctuation", "。");
-
+        String punctuation = Translations.tr("igny.logger.piston.action.punctuation", "。");
         if (success) {
             String verb = " " + Translations.tr("igny.logger.piston.action.performed_text", "执行了") + " ";
             logger.log(() -> new Component[]{
-                    Messenger.c("w ", pistonPart, "w " + verb, actionPart, "w " + punc)
+                    Messenger.c("w ", pistonPart, "w " + verb, actionPart, "w " + punctuation)
             });
         } else {
             logger.log(() -> new Component[]{
-                    Messenger.c("w ", pistonPart, " ", actionPart, "w " + punc)
+                    Messenger.c("w ", pistonPart, " ", actionPart, "w " + punctuation)
             });
         }
     }
@@ -117,7 +128,6 @@ public abstract class PistonBaseBlockMixin {
     @Unique
     private Component getPistonPartText(Level level, BlockPos pistonPos, Block block) {
         String dimId = level.dimension().location().toString();
-
         Component hoverText = Component.literal(sTr("igny.logger.piston.hover.dimension_line", dimId))
                 .append("\n")
                 .append(Component.literal(sTr("igny.logger.piston.hover.position", pistonPos.toShortString())));
@@ -126,8 +136,16 @@ public abstract class PistonBaseBlockMixin {
                 .append(BlockUtils.getTranslatedName(block))
                 .append("] ")
                 .withStyle(s -> s
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/igny highlight " + pistonPos.getX() + " " + pistonPos.getY() + " " + pistonPos.getZ()))
+                                //#if MC >= 12105
+                                //$$ .withHoverEvent(new HoverEvent.ShowText(hoverText))
+                                //$$ .withClickEvent(new ClickEvent.RunCommand("/igny highlight " + pistonPos.getX() + " " + pistonPos.getY() + " " + pistonPos.getZ()))
+                                //#else
+                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))
+                                .withClickEvent(new ClickEvent(
+                                        ClickEvent.Action.RUN_COMMAND,
+                                        "/igny highlight " + pistonPos.getX() + " " + pistonPos.getY() + " " + pistonPos.getZ()
+                                ))
+                        //#endif
                 );
     }
 
@@ -150,10 +168,22 @@ public abstract class PistonBaseBlockMixin {
                     BlockPos newPos = original.relative(direction);
                     hover.append(Component.literal("\n• " + name + " @ " + original.toShortString() + " → " + newPos.toShortString()));
                 }
-                actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)));
+                actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.AQUA)
+                                //#if MC >= 12105
+                                //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                                //#else
+                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                        //#endif
+                );
             } else {
                 Component hover = cTr("igny.logger.piston.no.blocks.moved");
-                actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.GRAY).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)));
+                actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.GRAY)
+                                //#if MC >= 12105
+                                //$$ .withHoverEvent(new HoverEvent.ShowText(hover))
+                                //#else
+                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                        //#endif
+                );
             }
             logFinal(logger, level, blockPos, block, actionPart, true);
         }
@@ -205,7 +235,13 @@ public abstract class PistonBaseBlockMixin {
 
         Block block = isExtend ? level.getBlockState(pos).getBlock() : (this.isSticky ? Blocks.STICKY_PISTON : Blocks.PISTON);
         String actionKey = isExtend ? "igny.logger.piston.push.failed" : "igny.logger.piston.pull.failed";
-        Component failPart = cTr(actionKey).withStyle(s -> s.withColor(ChatFormatting.RED).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover)));
+        Component failPart = cTr(actionKey).withStyle(s -> s.withColor(ChatFormatting.RED)
+                        //#if MC >= 12105
+                        //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                        //#else
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
+                //#endif
+        );
 
         logFinal(logger, level, pos, block, failPart, false);
     }
