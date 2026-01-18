@@ -238,7 +238,8 @@ public abstract class PistonBaseBlockMixin {
         if (reason != null) {
             switch (reason.type) {
                 case TOO_MANY_BLOCKS:
-                    hoverContent = Component.translatable("igny.logger.piston.failure.too_many_blocks", CarpetSettings.pushLimit);
+                    MutableComponent action = isExtend? Component.translatable("igny.logger.piston.push") : Component.translatable("igny.logger.piston.pull");
+                    hoverContent = Component.translatable("igny.logger.piston.failure.too_many_blocks", action, CarpetSettings.pushLimit);
                     break;
                 case UNPUSHABLE_BLOCK:
                     if (reason.blockPos != null) {

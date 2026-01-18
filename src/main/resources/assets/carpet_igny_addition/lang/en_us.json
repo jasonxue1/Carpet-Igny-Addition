@@ -91,7 +91,7 @@
   "igny.logger.piston.no.blocks.moved": "No blocks moved",
   "igny.logger.piston.push.failed": "push failed",
   "igny.logger.piston.pull.failed": "pull failed",
-  "igny.logger.piston.failure.too_many_blocks": "❌ Exceeds piston push limit\nMax allowed: %s",
+  "igny.logger.piston.failure.too_many_blocks": "❌ Exceeds piston %s limit\nMax allowed: %s",
   "igny.logger.piston.failure.unpushable_block": "❌ Cannot move block",
   "igny.logger.piston.failure.unknown": "Unknown reason",
 
