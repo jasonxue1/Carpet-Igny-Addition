@@ -94,6 +94,8 @@
   "igny.logger.piston.failure.too_many_blocks": "❌ 超出活塞%s上限\n最大允许：%s",
   "igny.logger.piston.failure.unpushable_block": "❌ 无法移动方块",
   "igny.logger.piston.failure.unknown": "未知原因",
+  "igny.logger.piston.action.performed_text": "执行了",
+  "igny.logger.piston.action.punctuation": "。",
 
   "carpet.rule.wardenNeverDig.name": "监守者永不钻地",
   "carpet.rule.wardenNeverDig.desc": "让监守者永远不会钻地",
