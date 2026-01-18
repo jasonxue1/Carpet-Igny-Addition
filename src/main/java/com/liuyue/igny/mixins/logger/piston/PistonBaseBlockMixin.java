@@ -90,7 +90,7 @@ public abstract class PistonBaseBlockMixin {
             }
             actionPart = cTr("igny.logger.piston.pull").withStyle(s -> s.withColor(ChatFormatting.LIGHT_PURPLE)
                             //#if MC >= 12105
-                            //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                            //$$ .withHoverEvent(new HoverEvent.ShowText(hover))
                             //#else
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
                     //#endif
@@ -170,7 +170,7 @@ public abstract class PistonBaseBlockMixin {
                 }
                 actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.AQUA)
                                 //#if MC >= 12105
-                                //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                                //$$ .withHoverEvent(new HoverEvent.ShowText(hover))
                                 //#else
                                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
                         //#endif
@@ -237,7 +237,7 @@ public abstract class PistonBaseBlockMixin {
         String actionKey = isExtend ? "igny.logger.piston.push.failed" : "igny.logger.piston.pull.failed";
         Component failPart = cTr(actionKey).withStyle(s -> s.withColor(ChatFormatting.RED)
                         //#if MC >= 12105
-                        //$$ .withHoverEvent(new HoverEvent.ShowText(finalHover))
+                        //$$ .withHoverEvent(new HoverEvent.ShowText(hover))
                         //#else
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))
                 //#endif
