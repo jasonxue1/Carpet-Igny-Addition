@@ -4,10 +4,6 @@
   "package": "com.liuyue.igny.mixins",
   "compatibilityLevel": "{{COMPATIBILITY_LEVEL}}",
   "mixins": [
-    "compat.accessor.fapi.AbstractChanneledNetworkAddonAccessor",
-    "compat.fapi.AbstractNetworkAddonMixin",
-    "debug.ParsedRuleMixin",
-    "exceptions.PacketUtilsMixin",
     "carpet.EntityPlayerMPFakeMixin",
     "carpet.SettingsManagerMixin",
     "carpet.accessors.EntityPlayerActionPackAccessor",
@@ -25,6 +21,11 @@
     "commands.customItemMaxStackSize.ItemStackMixin",
     "commands.customItemMaxStackSize.MinecartHopperMixin",
     "commands.customPlayerPickupItem.ItemEntityMixin",
+    "compat.accessor.fapi.AbstractChanneledNetworkAddonAccessor",
+    "compat.fapi.AbstractNetworkAddonMixin",
+    "debug.ParsedRuleMixin",
+    "exceptions.PacketUtilsMixin",
+    "interfaces.MinecraftServerMixin",
     "logger.piston.PistonBaseBlockMixin",
     "logger.piston.PistonStructureResolverMixin",
     "optimizations.BrainMixin",
@@ -33,6 +34,7 @@
     "optimizations.PiglinAiMixin",
     "optimizations.SetEntityLookTargetMixin",
     "optimizations.SetLookAndInteractMixin",
+    "render.RenderTypeInvoker",
     "rule.candlePlaceOnIncompleteBlock.CandleBlockMixin",
     "rule.creativeDestroyWaterloggedBlockNoWater.ServerPlayerGameModeMixin",
     "rule.enderDragonDeathDropExp.EnderDragonMixin",
@@ -88,14 +90,12 @@
     "rule.trialSpawnerCoolDown.TrialSpawnerMixin",
     "rule.trialSpawnerLoot.TrialSpawnerMixin",
     "rule.wardenNeverDig.WardenMixin",
-    "rule.wetSpongeCanAbsorbLava.BlockBehaviourNeighborChangedMixin",
-    "interfaces.MinecraftServerMixin",
-    "render.RenderTypeInvoker"
+    "rule.wetSpongeCanAbsorbLava.WetSpongeBlockMixin"
   ],
   "client": [
+    "render.substitute.LevelRendererMixin",
     "rule.happyGhastNoClip.LevelRendererMixin",
-    "rule.playerLowHungryValueCanSprint.LocalPlayerMixin",
-    "render.substitute.LevelRendererMixin"
+    "rule.playerLowHungryValueCanSprint.LocalPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

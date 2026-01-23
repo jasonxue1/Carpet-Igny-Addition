@@ -10,8 +10,14 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
     @WrapOperation(
+            //#if MC >= 12110
+            //$$ method = "isSprintingPossible", at = @At(value = "INVOKE",
             //#if MC >= 12111
-            //$$ method = "isSprintingPossible", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;hasEnoughFoodToDoExhaustiveManoeuvres()Z")
+            //$$ target = "Lnet/minecraft/client/player/LocalPlayer;hasEnoughFoodToDoExhaustiveManoeuvres()Z"
+            //#else
+            //$$ target = "Lnet/minecraft/client/player/LocalPlayer;hasEnoughFoodToSprint()Z"
+            //#endif
+            //$$ )
             //#else
             method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;hasEnoughFoodToStartSprinting()Z")
             //#endif
