@@ -421,4 +421,10 @@ public class IGNYSettings
     //$$ )
     //$$ public static Boolean allowInvalidMotion = false;
     //#endif
+
+    @Rule(
+            categories = {IGNY, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean accelerateBabyVillagerGrowth = false;
 }

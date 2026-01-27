@@ -232,5 +232,9 @@
   "carpet.rule.instantFrogEat.name": "瞬时青蛙捕食",
   "carpet.rule.instantFrogEat.desc": "使青蛙能够每游戏刻扫描并瞬间捕食周围的可食用的实体",
   "carpet.rule.allowInvalidMotion.name": "允许非法动量",
-  "carpet.rule.allowInvalidMotion.desc": "允许实体的动量 (Motion属性) 可以为Infinity (Double类型的最大值), 回退了Minecraft 25w45a的更改"
+  "carpet.rule.allowInvalidMotion.desc": "允许实体的动量 (Motion属性) 可以为Infinity (Double类型的最大值), 回退了Minecraft 25w45a的更改",
+  "carpet.rule.accelerateBabyVillagerGrowth.name": "喂食加速幼年村民生长",
+  "carpet.rule.accelerateBabyVillagerGrowth.desc": "玩家手持面包、胡萝卜、马铃薯、小麦、小麦种子、甜菜根、甜菜种子、火把花种子和瓶子草荚果对幼年村民使用，以加速幼年村民的生长",
+  "carpet.rule.accelerateBabyVillagerGrowth.extra.0": "一次可以减少约剩余成长时间的10%，每次喂食最少减少剩余成长时间100tick，当剩余成长时间达到200tick时喂食将不再减少",
+  "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "每次喂食会产生粒子"
 }

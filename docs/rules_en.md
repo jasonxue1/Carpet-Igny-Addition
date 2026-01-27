@@ -531,4 +531,18 @@ Allows entity motion (`Motion attribute`) to be `Infinity` (`Double.MAX_VALUE`),
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
+## accelerateBabyVillagerGrowth `🐛Beta`
+
+Players can feed baby villagers bread, carrots, potatoes, wheat, wheat seeds, beetroots, beetroot seeds, torchflower seeds, or pitcher pods to accelerate their growth.
+
+Each feeding reduces the remaining growth time by approximately 10%. A minimum of 100 ticks is reduced per feeding, and feeding has no effect once the remaining growth time reaches 200 ticks.
+
+Particles are displayed upon successful feeding.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`
+
+
 

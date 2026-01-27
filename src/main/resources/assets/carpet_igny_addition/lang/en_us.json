@@ -176,5 +176,8 @@
   "carpet.rule.playerHungryValueNoDecrease.desc": "The player's hunger value will not decrease",
   "carpet.rule.playerLowHungryValueCanSprint.desc": "When the player's hunger level is below 7 points, they can sprint",
   "carpet.rule.instantFrogEat.desc": "Allows frogs to scan and instantly consume nearby edible entities every game tick",
-  "carpet.rule.allowInvalidMotion.desc": "Allows entity motion (Motion attribute) to be Infinity (Double.MAX_VALUE), reverting the changes made in Minecraft 25w45a"
+  "carpet.rule.allowInvalidMotion.desc": "Allows entity motion (Motion attribute) to be Infinity (Double.MAX_VALUE), reverting the changes made in Minecraft 25w45a",
+  "carpet.rule.accelerateBabyVillagerGrowth.desc": "Players can feed baby villagers bread, carrots, potatoes, wheat, wheat seeds, beetroots, beetroot seeds, torchflower seeds, or pitcher pods to accelerate their growth.",
+  "carpet.rule.accelerateBabyVillagerGrowth.extra.0": "Each feeding reduces the remaining growth time by approximately 10%. A minimum of 100 ticks is reduced per feeding, and feeding has no effect once the remaining growth time reaches 200 ticks.",
+  "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "Particles are displayed upon successful feeding."
 }
