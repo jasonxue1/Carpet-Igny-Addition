@@ -1,7 +1,7 @@
 package com.liuyue.igny.commands;
 
 import com.liuyue.igny.IGNYSettings;
-import com.liuyue.igny.utils.CommandPermissions;
+import com.liuyue.igny.utils.CommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -21,7 +21,7 @@ public class FixnotepitchCommmand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("fixnotepitch")
-                        .requires(source -> CommandPermissions.canUseCommand(source, IGNYSettings.commandFixnotepitch))
+                        .requires(source -> CommandUtils.canUseCommand(source, IGNYSettings.commandFixnotepitch))
                         .then(Commands.argument("pos1", BlockPosArgument.blockPos())
                                 .then(Commands.argument("pos2", BlockPosArgument.blockPos())
                                         .executes(context -> executeCommand(context, 0))

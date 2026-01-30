@@ -285,17 +285,13 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
 
     @WrapOperation(method = "pushItemsTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;tryMoveItems(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/HopperBlockEntity;Ljava/util/function/BooleanSupplier;)Z"))
     private static boolean pushItemsTick(Level world, BlockPos pos, BlockState state, HopperBlockEntity blockEntity, BooleanSupplier booleanSupplier, Operation<Boolean> original) {
-        if (IGNYServerMod.LITHIUM) {
-            return original.call(world, pos, state, blockEntity, booleanSupplier);
-        }
+
         return RuleUtils.itemStackableWrap(() -> original.call(world, pos, state, blockEntity, booleanSupplier));
     }
 
     @WrapOperation(method = "entityInside", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;tryMoveItems(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/HopperBlockEntity;Ljava/util/function/BooleanSupplier;)Z"))
     private static boolean entityInside(Level world, BlockPos pos, BlockState state, HopperBlockEntity blockEntity, BooleanSupplier booleanSupplier, Operation<Boolean> original) {
-        if (IGNYServerMod.LITHIUM) {
-            return original.call(world, pos, state, blockEntity, booleanSupplier);
-        }
+
         return RuleUtils.itemStackableWrap(() -> original.call(world, pos, state, blockEntity, booleanSupplier));
     }
 
@@ -304,7 +300,8 @@ public abstract class HopperBlockEntityMixin extends BlockEntity {
         if (IGNYSettings.itemStackCountChanged.get()) {
             return original.call(from, to, stack, side);
         }
-        if (CustomItemMaxStackSizeDataManager.hasCustomStack(stack.getItem())) {
+        int customMax = CustomItemMaxStackSizeDataManager.getCustomStackSize(stack);
+        if (customMax != -1) {
             ItemStack split = stack.split(stack.getMaxStackSize());
             int count = split.getCount();
             ItemStack result = original.call(from, to, split.copy(), side);

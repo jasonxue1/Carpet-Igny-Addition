@@ -544,5 +544,15 @@ Particles are displayed upon successful feeding.
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
+## lightningBoltNoFire `🐛Beta`
+
+Lightning Bolt will not generate fire blocks or ignite entities.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`
+
+
 
 

@@ -75,10 +75,10 @@ public class IGNYClientRegister {
                 //$$ }
                 //#else
                 (payload, context) -> context.client().execute(() ->
-                        CustomItemMaxStackSizeDataManager.clientUpdateData(payload.customStacks())
-                )
+                            CustomItemMaxStackSizeDataManager.clientUpdateData(payload.customStacks()
+
                 //#endif
-        );
+        )));
         //#endif
     }
 }

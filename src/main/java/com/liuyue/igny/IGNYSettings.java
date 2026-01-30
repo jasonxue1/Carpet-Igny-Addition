@@ -10,9 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.liuyue.igny.utils.IGNYRuleCategory.*;
@@ -427,4 +425,10 @@ public class IGNYSettings
             options = {"false", "true"}
     )
     public static Boolean accelerateBabyVillagerGrowth = false;
+
+    @Rule(
+            categories = {IGNY, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean lightningBoltNoFire = false;
 }

@@ -236,5 +236,7 @@
   "carpet.rule.accelerateBabyVillagerGrowth.name": "喂食加速幼年村民生长",
   "carpet.rule.accelerateBabyVillagerGrowth.desc": "玩家手持面包、胡萝卜、马铃薯、小麦、小麦种子、甜菜根、甜菜种子、火把花种子和瓶子草荚果对幼年村民使用，以加速幼年村民的生长",
   "carpet.rule.accelerateBabyVillagerGrowth.extra.0": "一次可以减少约剩余成长时间的10%，每次喂食最少减少剩余成长时间100tick，当剩余成长时间达到200tick时喂食将不再减少",
-  "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "每次喂食会产生粒子"
+  "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "每次喂食会产生粒子",
+  "carpet.rule.lightningBoltNoFire.name": "无火闪电束",
+  "carpet.rule.lightningBoltNoFire.desc": "闪电束不会生成火方块与点燃实体"
 }

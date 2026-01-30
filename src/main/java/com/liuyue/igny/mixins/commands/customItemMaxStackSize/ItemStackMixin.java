@@ -40,25 +40,25 @@ public class ItemStackMixin {
     @Unique
     private final ItemStack thisStack = (ItemStack) (Object) this;
 
-    //#if MC >= 12005
     @Inject(method = "limitSize", at = @At("HEAD"), cancellable = true)
     private void limitSize(int maxCount, CallbackInfo ci) {
-        if ((CustomItemMaxStackSizeDataManager.hasCustomStack(thisStack.getItem()) || ShulkerBoxStackableRuleEnabled()) && !IGNYSettings.itemStackCountChanged.get()) {
+        int customMax = CustomItemMaxStackSizeDataManager.getCustomStackSize(thisStack);
+        if ((customMax != -1 || ShulkerBoxStackableRuleEnabled()) && !IGNYSettings.itemStackCountChanged.get()) {
             ci.cancel();
         }
     }
-    //#endif
 
     //#if MC < 26.1
     @Inject(method = "getMaxStackSize", at = @At("RETURN"), cancellable = true)
     private void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
         Item item = thisStack.getItem();
-        if (IGNYSettings.itemStackCountChanged.get()) {
-            if (CustomItemMaxStackSizeDataManager.hasCustomStack(item)) {
-                cir.setReturnValue(CustomItemMaxStackSizeDataManager.getCustomStackSize(item));
+        if (cir.getReturnValue() == item.getDefaultMaxStackSize()) {
+            int customMax = CustomItemMaxStackSizeDataManager.getCustomStackSize(thisStack);
+            if (IGNYSettings.itemStackCountChanged.get() && customMax != -1) {
+                cir.setReturnValue(customMax);
+            } else if (ShulkerBoxStackableRuleEnabled()) {
+                cir.setReturnValue(item.getDefaultMaxStackSize());
             }
-        }else if (ShulkerBoxStackableRuleEnabled()){
-            cir.setReturnValue(item.getDefaultMaxStackSize());
         }
     }
     //#endif

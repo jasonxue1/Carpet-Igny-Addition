@@ -21,10 +21,9 @@ public interface ItemInstanceMixin {
         if (self instanceof ItemStack itemStack) {
             Item item = itemStack.getItem();
             if (cir.getReturnValue() == item.getDefaultMaxStackSize()) {
-                if (IGNYSettings.itemStackCountChanged.get()) {
-                    if (CustomItemMaxStackSizeDataManager.hasCustomStack(item)) {
-                        cir.setReturnValue(CustomItemMaxStackSizeDataManager.getCustomStackSize(item));
-                    }
+                int customMax = CustomItemMaxStackSizeDataManager.getCustomStackSize(itemStack);
+                if (IGNYSettings.itemStackCountChanged.get() && customMax != -1) {
+                    cir.setReturnValue(customMax);
                 } else if (ShulkerBoxStackableRuleEnabled(itemStack)) {
                     cir.setReturnValue(item.getDefaultMaxStackSize());
                 }

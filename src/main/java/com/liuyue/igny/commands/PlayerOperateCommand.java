@@ -7,7 +7,7 @@ import com.liuyue.igny.task.TaskManager;
 import com.liuyue.igny.task.pressuse.PressUseTask;
 import com.liuyue.igny.task.rotation.RotationTask;
 import com.liuyue.igny.task.vault.VaultTask;
-import com.liuyue.igny.utils.CommandPermissions;
+import com.liuyue.igny.utils.CommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -31,7 +31,7 @@ public class PlayerOperateCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("playerOperate")
-                        .requires(source -> CommandPermissions.canUseCommand(source, IGNYSettings.commandPlayerOperate))
+                        .requires(source -> CommandUtils.canUseCommand(source, IGNYSettings.commandPlayerOperate))
                         .then(
                                 Commands.literal("pauseAll")
                                         .executes(PlayerOperateCommand::pauseAllTasks)
