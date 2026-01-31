@@ -1,8 +1,14 @@
 package com.liuyue.igny.client.renderer.highlightBlocks;
 
 import com.liuyue.igny.IGNYServer;
+
+//#if MC >= 26.1
+//$$ import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
+//$$ import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
+//#else
 import com.liuyue.igny.client.renderer.substitute.WorldRenderContext;
 import com.liuyue.igny.client.renderer.substitute.WorldRenderEvents;
+//#endif
 import com.liuyue.igny.mixins.render.RenderTypeInvoker;
 import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -13,6 +19,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.*;
@@ -24,14 +31,13 @@ import net.minecraft.client.renderer.rendertype.TextureTransform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
+import com.liuyue.igny.client.utils.ClientUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class HighlightBlocksRenderer {
-
-
 
     private static final RenderPipeline HIGHLIGHT_PIPELINE =
             RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
@@ -61,7 +67,11 @@ public class HighlightBlocksRenderer {
     }
 
     public static void init() {
+        //#if MC >= 26.1
+        //$$ LevelRenderEvents.BEFORE_TRANSLUCENT.register(HighlightBlocksRenderer::onWorldRender);
+        //#else
         WorldRenderEvents.AFTER_TRANSLUCENT.register(HighlightBlocksRenderer::onWorldRender);
+        //#endif
     }
 
 
@@ -78,7 +88,13 @@ public class HighlightBlocksRenderer {
     }
     public static void clearHighlight() {HIGHLIGHTS.clear();}
 
-    private static void onWorldRender(WorldRenderContext context) {
+    private static void onWorldRender(
+            //#if MC >= 26.1
+            //$$ LevelRenderContext context
+            //#else
+            WorldRenderContext context
+            //#endif
+    ) {
         if (HIGHLIGHTS.isEmpty()) return;
 
         Minecraft mc = Minecraft.getInstance();
@@ -90,7 +106,7 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
         PoseStack poseStack = context.poseStack();
-        Vec3 cameraPos = context.camera().position();
+        Vec3 cameraPos = ClientUtils.getCamera().position();
 
         if (poseStack != null) {
             BufferBuilder vc = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);

@@ -1,8 +1,9 @@
-package com.liuyue.igny.mixins.rule.furnaceHasIncombustibleHighlight;
+package com.liuyue.igny.mixins.logger.allFurnace;
 
-
+import carpet.logging.Logger;
+import carpet.logging.LoggerRegistry;
 import com.liuyue.igny.IGNYServerMod;
-import com.liuyue.igny.IGNYSettings;
+import com.liuyue.igny.logging.IGNYLoggerRegistry;
 import com.liuyue.igny.network.packet.block.HighlightPayload;
 
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
@@ -41,8 +42,6 @@ import net.minecraft.world.level.Level;
 //$$ import com.liuyue.igny.IGNYServer;
 //#endif
 
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 @Mixin(value = AbstractFurnaceBlockEntity.class, priority = 990)
 public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
     @Shadow
@@ -61,17 +60,20 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
     @Shadow int cookingProgress;
     //#endif
 
+    //#if MC < 26.1
     @Shadow
     protected abstract boolean isLit();
+    //#endif
+
+    //#if MC >= 26.1
+    //$$ @Shadow private int litTimeRemaining;
+    //#endif
 
     @Unique
-    public int highlightColor = 0x32FF0000;
-
+    private Logger logger;
 
     @Unique private static int counter = 0;
     @Unique public int id = 0;
-
-    @Unique private static ThreadLocal<Boolean> hookedIsLit = ThreadLocal.withInitial(() -> false);
 
     public AbstractFurnaceBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
@@ -84,7 +86,7 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
 
     @Inject(method = "setItem", at = @At("HEAD"))
     private void onSetItem(int slot, ItemStack itemStack, CallbackInfo ci) {
-        if (IGNYSettings.furnaceHasIncombustibleHighlight && slot == 0 && this.level != null && !this.level.isClientSide()) {
+        if (IGNYLoggerRegistry.__allFurnace && this.logger.hasOnlineSubscribers() && slot == 0 && this.level != null && !this.level.isClientSide()) {
             //#if MC <= 12006
             //$$ AbstractFurnaceBlockEntity abstractFurnaceBlockEntity = (AbstractFurnaceBlockEntity) (Object) this;
             //#endif
@@ -97,7 +99,7 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
                         //#endif
                         ,
                         serverLevel).isEmpty()) {
-                    this.sendHighlightToClient(serverLevel, this.worldPosition, this.highlightColor, true);
+                    this.sendHighlightToClient(serverLevel, this.worldPosition, true);
                     return;
                 }
                 this.removeHighlightToClient(serverLevel, this.worldPosition);
@@ -115,6 +117,7 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
             BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity blockEntity, CallbackInfo ci) {
         if (blockEntity == null) return;
         AbstractFurnaceBlockEntityMixin self = (AbstractFurnaceBlockEntityMixin) (Object) blockEntity;
+        self.logger = LoggerRegistry.getLogger("allFurnace");
         ItemStack itemStack = blockEntity.getItem(0);
         boolean hasRecipe = self.quickCheck.getRecipeFor(
                 //#if MC <= 12006
@@ -123,11 +126,11 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
                 new SingleRecipeInput(itemStack)
                 //#endif
                 , level).isPresent();
-        if (IGNYSettings.furnaceHasIncombustibleHighlight) {
+        if (IGNYLoggerRegistry.__allFurnace && self.logger.hasOnlineSubscribers()) {
             if (level instanceof ServerLevel) {
                 if (level != null && !level.isClientSide() && (level.getGameTime() + self.id) % 60 == 0) {
                     if (!itemStack.isEmpty() && !hasRecipe) {
-                        self.sendHighlightToClient(level, blockPos, self.highlightColor, false);
+                        self.sendHighlightToClient(level, blockPos, false);
                     }
                 }
             }
@@ -139,34 +142,19 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
 
     @Unique
     private boolean igny$shouldSleep(BlockState state) {
-        return this.level != null && !this.isLit() &&
+        return this.level != null &&
+                //#if MC >= 26.1
+                //$$ this.litTimeRemaining > 0
+                //#else
+                !this.isLit()
+                //#endif
+                &&
                 //#if MC >= 12104
                 //$$ this.cookingTimer == 0
                 //#else
                 this.cookingProgress == 0
                 //#endif
                 && (state.is(Blocks.FURNACE) || state.is(Blocks.BLAST_FURNACE) || state.is(Blocks.SMOKER));
-    }
-
-    @Inject(method = "serverTick", at = @At("RETURN"))
-    private static void onTick2(
-            //#if MC >= 12102
-            //$$ ServerLevel level,
-            //#else
-            Level level,
-            //#endif
-            BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity blockEntity, CallbackInfo ci){
-        if (IGNYServerMod.LITHIUM) {
-            hookedIsLit.set(true);
-        }
-    }
-
-    @Inject(method = "isLit", at = @At("RETURN"), cancellable = true)
-    private static void onIsLit(CallbackInfoReturnable<Boolean> cir){
-        if (IGNYServerMod.LITHIUM && hookedIsLit.get()){
-            cir.setReturnValue(true);
-            hookedIsLit.set(false);
-        }
     }
 
     @Unique
@@ -176,20 +164,30 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
             //#else
             Level level,
             //#endif
-            BlockPos pos, int color, boolean permanent) {
+            BlockPos pos, boolean permanent) {
         if (!level.isClientSide()) {
-            //#if MC < 12005
-            //$$ FriendlyByteBuf buf = PacketByteBufs.create();
-            //$$ buf.writeBlockPos(pos);
-            //$$ buf.writeInt(color);
-            //$$ buf.writeInt(70);
-            //$$ buf.writeBoolean(permanent);
-            //#endif
+
             LevelChunk chunk = level.getChunkAt(pos);
             ChunkSource chunkSource = level.getChunkSource();
             if (chunkSource instanceof ServerChunkCache serverChunkCache) {
                 serverChunkCache.chunkMap.getPlayers(chunk.getPos(), false)
                         .forEach(player -> {
+                            String name = player.getGameProfile()
+                                    //#if MC >= 12110
+                                    //$$ .name();
+                                    //#else
+                                    .getName();
+                                    //#endif
+                            if (!((LoggerAccessor) this.logger).getSubscribedOnlinePlayers().containsKey(name)) return;
+                            String option = ((LoggerAccessor) this.logger).getSubscribedOnlinePlayers().get(name);
+                            if (!checkOptionIsInt(option)) return;
+                            //#if MC < 12005
+                            //$$ FriendlyByteBuf buf = PacketByteBufs.create();
+                            //$$ buf.writeBlockPos(pos);
+                            //$$ buf.writeInt(Integer.decode(option));
+                            //$$ buf.writeInt(70);
+                            //$$ buf.writeBoolean(permanent);
+                            //#endif
                             if (ServerPlayNetworking.canSend(player,
                                     //#if MC >= 12005
                                     HighlightPayload.TYPE
@@ -201,7 +199,7 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
                                 ServerPlayNetworking.send(
                                         player,
                                         //#if MC >= 12005
-                                        new HighlightPayload(pos, color, 70, permanent)
+                                        new HighlightPayload(pos, Integer.decode(option), 70, permanent)
                                         //#else
                                         //$$ IGNYServer.HIGHLIGHT_PACKET_ID,
                                         //$$ buf
@@ -248,6 +246,16 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
                                 );
                             }
                         });
+        }
+    }
+
+    @Unique
+    private boolean checkOptionIsInt(String option) {
+        try {
+            Integer.decode(option);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }

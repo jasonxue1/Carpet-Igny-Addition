@@ -375,12 +375,6 @@ public class IGNYSettings
     public static Boolean optimizedTNTErrorScopeFix = false;
 
     @Rule(
-            categories = {IGNY, CLIENT, SURVIVAL, FEATURE},
-            options = {"false", "true"}
-    )
-    public static Boolean furnaceHasIncombustibleHighlight = false;
-
-    @Rule(
             categories = {IGNY, COMMAND, CREATIVE, FEATURE},
             options = {"false", "true", "ops", "0", "1", "2", "3", "4"}
     )

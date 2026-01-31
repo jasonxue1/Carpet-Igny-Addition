@@ -14,6 +14,7 @@ package com.liuyue.igny.client.renderer.highlightBlocks;
 //#else
 import com.mojang.blaze3d.platform.GlStateManager;
 //#endif
+import com.liuyue.igny.client.utils.ClientUtils;
 
 //#if MC > 12101
 //#if MC < 12105
@@ -37,7 +38,6 @@ import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class HighlightBlocksRenderer {
-
     private static final Map<BlockPos, HighlightEntry> HIGHLIGHTS = new HashMap<>();
 
     //#if MC >= 12105
@@ -95,7 +95,7 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
         PoseStack poseStack = context.matrixStack();
-        Vec3 cameraPos = context.camera().getPosition();
+        Vec3 cameraPos = ClientUtils.getCamera().getPosition();
 
         if (poseStack != null) {
             BufferBuilder vc = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);

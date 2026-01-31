@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import com.liuyue.igny.client.renderer.substitute.WorldRenderContext;
 import com.liuyue.igny.client.renderer.substitute.WorldRenderEvents;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -13,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
+import com.liuyue.igny.client.utils.ClientUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +86,7 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
         PoseStack poseStack = context.poseStack();
-        Vec3 cameraPos = context.camera().getPosition();
+        Vec3 cameraPos = ClientUtils.getCamera().getPosition();
 
         if (poseStack != null) {
             BufferBuilder vc = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);

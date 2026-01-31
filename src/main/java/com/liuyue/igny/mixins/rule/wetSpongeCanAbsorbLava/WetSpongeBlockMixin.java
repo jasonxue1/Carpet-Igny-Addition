@@ -40,7 +40,7 @@ public abstract class WetSpongeBlockMixin extends Block{
     //#endif
 
     @Override
-    //#if MC <= 11904
+    //#if MC <= 12005
     //$$ @SuppressWarnings("deprecation")
     //#endif
     public void neighborChanged(BlockState blockState, Level level, BlockPos blockPos, Block block,

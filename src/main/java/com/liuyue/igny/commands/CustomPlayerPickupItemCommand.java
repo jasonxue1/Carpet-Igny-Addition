@@ -160,7 +160,12 @@ public class CustomPlayerPickupItemCommand {
         if (action.equals("clear")) {
             currentItems.clear();
         } else {
-            Item item = ItemArgument.getItem(ctx, "item").getItem();
+            Item item = ItemArgument.getItem(ctx, "item")
+                    //#if MC >= 26.1
+                    //$$ .item().value();
+                    //#else
+                    .getItem();
+                    //#endif
             String itemId = BuiltInRegistries.ITEM.getKey(item).toString();
 
             if (action.equals("add")) {

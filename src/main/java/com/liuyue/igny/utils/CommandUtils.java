@@ -3,12 +3,15 @@ package com.liuyue.igny.utils;
 import com.liuyue.igny.IGNYSettings;
 import net.minecraft.commands.CommandSourceStack;
 import carpet.patches.EntityPlayerMPFake;
-import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
+
+//#if MC >= 12111
+//$$ import net.minecraft.commands.Commands;
+//#endif
 
 import java.util.Locale;
 
-public class CommandPermissions {
+public class CommandUtils {
     public static boolean canDropEnderChest(CommandSourceStack source, ServerPlayer targetPlayer) {
         if (source == null) {
             return true;
@@ -89,4 +92,5 @@ public class CommandPermissions {
         return source == null || source.hasPermission(2);
         //#endif
     }
+
 }

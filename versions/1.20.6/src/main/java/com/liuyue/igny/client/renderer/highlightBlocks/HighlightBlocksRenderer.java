@@ -7,12 +7,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import com.mojang.blaze3d.vertex.*;
-import org.joml.Matrix4f;
+import com.liuyue.igny.client.utils.ClientUtils;
 
 //#if MC < 12005
 //$$ import org.joml.Matrix4f;
@@ -28,7 +29,7 @@ public class HighlightBlocksRenderer {
     private static final Map<BlockPos, HighlightEntry> HIGHLIGHTS = new HashMap<>();
 
     public static void init() {
-        WorldRenderEvents.LAST.register(HighlightBlocksRenderer::onWorldRender);
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(HighlightBlocksRenderer::onWorldRender);
     }
 
     public static void addHighlight(BlockPos pos, int argbColor, int durationTicks, boolean permanent) {
@@ -53,7 +54,7 @@ public class HighlightBlocksRenderer {
         if (HIGHLIGHTS.isEmpty()) return;
 
 
-        Vec3 cameraPos = context.camera().getPosition();
+        Vec3 cameraPos = ClientUtils.getCamera().getPosition();
         PoseStack poseStack = context.matrixStack();
         BufferBuilder vc = Tesselator.getInstance().getBuilder();
         vc.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
