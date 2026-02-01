@@ -82,9 +82,8 @@ public abstract class EntityMixin implements IEntity {
         if ((this.tickCount + this.getId()) % 100 == 0) {
             AABB myBox = this.getBoundingBox();
             double myVolume = (myBox.maxX - myBox.minX) * (myBox.maxY - myBox.minY) * (myBox.maxZ - myBox.minZ);
-
-            List<Entity> candidates = this.level.getEntities((Entity) (Object) this, myBox, EntitySelector.pushableBy((Entity) (Object) this));
-
+            Entity self = (Entity) (Object) this;
+            List<Entity> candidates = this.level.getEntities(self, myBox, EntitySelector.pushableBy(self));
             int tightCrammingCount = 0;
             for (Entity other : candidates) {
                 AABB otherBox = other.getBoundingBox();
