@@ -11,6 +11,7 @@ import net.minecraft.commands.arguments.item.ItemPredicateArgument;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.LevelResource;
 
@@ -61,6 +62,9 @@ public class CustomItemMaxStackSizeDataManager {
         customStacks.remove(pattern);
         rebuildRuntimeRules(context);
         save();
+        if (currentServer != null) {
+            currentServer.getPlayerList().getPlayers().forEach(PacketUtil::sendCustomStackSizeToClient);
+        }
     }
 
     public static void clear() {
@@ -76,12 +80,19 @@ public class CustomItemMaxStackSizeDataManager {
                 var result = ItemPredicateArgument.itemPredicate(context).parse(new StringReader(pattern));
                 newRules.add(new StackRule(pattern, result, count));
             } catch (Exception e) {
+                ResourceLocation rl = ResourceLocation.tryParse(pattern);
+                if (rl != null && BuiltInRegistries.ITEM.containsKey(rl)) {
+                    Item item = BuiltInRegistries.ITEM.get(rl);
+                    newRules.add(new StackRule(pattern, stack -> stack.is(item), count));
+                } else {
+                    IGNYServer.LOGGER.error("Invalid pattern received from server: {}", pattern);
+                }
                 IGNYServer.LOGGER.error("Failed to parse pattern: {} \n {}", pattern, e);
             }
         });
         newRules.sort((a, b) -> {
-            boolean aIsTag = a.pattern.startsWith("#");
-            boolean bIsTag = b.pattern.startsWith("#");
+            boolean aIsTag = a.pattern.startsWith("#") || a.pattern.startsWith("*");
+            boolean bIsTag = b.pattern.startsWith("#") || b.pattern.startsWith("*");
             String aId = aIsTag ? a.pattern.substring(1) : a.pattern.split("\\[")[0].split("\\{")[0];
             String bId = bIsTag ? a.pattern.substring(1) : a.pattern.split("\\[")[0].split("\\{")[0];
             boolean aExists = !aIsTag && BuiltInRegistries.ITEM.containsKey(ResourceLocation.tryParse(aId));
@@ -119,6 +130,14 @@ public class CustomItemMaxStackSizeDataManager {
 
     public static void clientUpdateData(Map<String, Integer> newData) {
         customStacks = new HashMap<>(newData);
+        var minecraft = net.minecraft.client.Minecraft.getInstance();
+        if (minecraft.level != null && minecraft.getConnection() != null) {
+            CommandBuildContext context = CommandBuildContext.simple(
+                    minecraft.getConnection().registryAccess(),
+                    minecraft.level.enabledFeatures()
+            );
+            rebuildRuntimeRules(context);
+        }
     }
 
     public static Map<String, Integer> getCustomStacks() {
