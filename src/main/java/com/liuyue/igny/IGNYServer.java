@@ -35,6 +35,7 @@ public class IGNYServer implements CarpetExtension {
     //$$ public static final ResourceLocation HIGHLIGHT_PACKET_ID = new ResourceLocation(MOD_ID, "highlight_block");
     //$$ public static final ResourceLocation REMOVE_HIGHLIGHT_PACKET_ID = new ResourceLocation(MOD_ID, "remove_highlight_block");
     //$$ public static final ResourceLocation SYNC_STACK_SIZE_PACKET_ID = new ResourceLocation(MOD_ID, "sync_custom_stack_size");
+    //$$ public static final ResourceLocation RENDER_BOX_PACKET_ID = new ResourceLocation(MOD_ID, "render_box");
     //#endif
     public static IGNYServer getInstance() {
         return INSTANCE;
@@ -68,7 +69,6 @@ public class IGNYServer implements CarpetExtension {
         ClearLightQueueCommand.register(dispatcher);
         CustomPlayerPickupItemCommand.register(dispatcher, commandBuildContext);
         CustomItemMaxStackSizeCommand.register(dispatcher, commandBuildContext);
-        IGNYCommand.register(dispatcher);
     }
 
     @Override

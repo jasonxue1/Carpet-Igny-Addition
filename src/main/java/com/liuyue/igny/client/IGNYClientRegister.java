@@ -1,11 +1,18 @@
 package com.liuyue.igny.client;
 
-import com.liuyue.igny.client.renderer.highlightBlocks.HighlightBlocksRenderer;
+import com.liuyue.igny.client.command.IGNYCommand;
+import com.liuyue.igny.client.renderer.BaseTickingShapeRenderer;
+import com.liuyue.igny.client.renderer.world.BoxRenderer;
+import com.liuyue.igny.client.renderer.world.HighlightBlocksRenderer;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
 import com.liuyue.igny.network.packet.block.HighlightPayload;
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
 import com.liuyue.igny.network.packet.config.SyncCustomStackSizePayload;
+import com.liuyue.igny.network.packet.render.BoxPayload;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.core.BlockPos;
 //#if MC < 12005
 //$$ import com.liuyue.igny.IGNYServer;
 //$$ import net.minecraft.core.BlockPos;
@@ -17,6 +24,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 public class IGNYClientRegister {
     public static void register() {
         registerNetworkPackReceiver();
+        registerTickEvent();
+        registerClientCommand();
     }
 
     private static void registerNetworkPackReceiver() {
@@ -49,11 +58,11 @@ public class IGNYClientRegister {
                 //#if MC < 12005
                 //$$ (client, handler, buf, responseSender) -> {
                 //$$     BlockPos pos = buf.readBlockPos();
-                //$$     client.execute(() -> HighlightBlocksRenderer.removeHighlight(pos));
+                //$$     client.execute(() -> HighlightBlocksRenderer.INSTANCE.remove(pos, null));
                 //$$ }
                 //#else
                 (payload, context) -> context.client().execute(() ->
-                        HighlightBlocksRenderer.removeHighlight(payload.pos())
+                        HighlightBlocksRenderer.INSTANCE.remove(payload.pos(), null)
                 )
                 //#endif
         );
@@ -80,5 +89,72 @@ public class IGNYClientRegister {
                 //#endif
         )));
         //#endif
+        ClientPlayNetworking.registerGlobalReceiver(
+                //#if MC < 12005
+                //$$ IGNYServer.RENDER_BOX_PACKET_ID,
+                //#else
+                BoxPayload.TYPE,
+                //#endif
+                //#if MC < 12005
+                //$$ (client, handler, buf, responseSender) -> {
+                //$$     BlockPos pos = buf.readBlockPos();
+                //$$     int color = buf.readInt();
+                //$$     int duration = buf.readInt();
+                //$$     boolean permanent = buf.readBoolean();
+                //$$     boolean deathTest = buf.readBoolean();
+                //$$     double minX = buf.readDouble();
+                //$$     double minY = buf.readDouble();
+                //$$     double minZ = buf.readDouble();
+                //$$     double maxX = buf.readDouble();
+                //$$     double maxY = buf.readDouble();
+                //$$     double maxZ = buf.readDouble();
+                //$$     boolean withLine = buf.readBoolean();
+                //$$     boolean lineDeathTest = buf.readBoolean();
+                //$$     boolean smooth = buf.readBoolean();
+                //$$     client.execute(() -> BoxRenderer.addBox(pos, color, duration, permanent, deathTest, minX, minY, minZ, maxX, maxY, maxZ, withLine, lineDeathTest, smooth));
+                //$$ }
+                //#else
+                (payload, context) -> {
+                    BlockPos pos = payload.pos();
+                    int color = payload.color();
+                    int duration = payload.durationTicks();
+                    boolean permanent = payload.permanent();
+                    boolean deathTest = payload.deathTest();
+                    double minX = payload.minX();
+                    double minY = payload.minY();
+                    double minZ = payload.minZ();
+                    double maxX = payload.maxX();
+                    double maxY = payload.maxY();
+                    double maxZ = payload.maxZ();
+                    boolean withLine = payload.withLine();
+                    boolean lineDeathTest = payload.lineDeathTest();
+                    boolean smooth = payload.smooth();
+
+                    context.client().execute(() ->
+                            BoxRenderer.addBox(pos, color, duration, permanent, deathTest, minX, minY, minZ, maxX, maxY, maxZ, withLine, lineDeathTest, smooth)
+                    );
+                }
+                //#endif
+        );
+    }
+
+    private static void registerTickEvent() {
+        ClientTickEvents.
+                //#if MC >= 26.1
+                //$$ END_LEVEL_TICK
+                //#else
+                        END_WORLD_TICK
+                //#endif
+                .register(level -> {
+            if (level != null) {
+                BaseTickingShapeRenderer.tickAll();
+            }
+        });
+    }
+
+    private static void registerClientCommand(){
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, r) -> {
+            IGNYCommand.register(dispatcher);
+        });
     }
 }

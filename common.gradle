@@ -46,6 +46,12 @@ dependencies {
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.2")))
     autoImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     autoImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	if (!unobfuscated) {
+		include(autoImplementation("io.github.hotpad100c:ryansrenderingkit:${project.ryansrenderingkit_version}"))
+	} else {
+		def unobfuscatedJar = rootProject.files("libs/26.1/ryansrenderingkit-1.0.6+26.1.jar")
+		include(autoImplementation(unobfuscatedJar))
+	}
 
     // Carpet
     autoImplementation "carpet:fabric-carpet:${project.carpet_core_version}"

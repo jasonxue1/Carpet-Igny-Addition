@@ -26,6 +26,10 @@
     "debug.ParsedRuleMixin",
     "exceptions.PacketUtilsMixin",
     "interfaces.MinecraftServerMixin",
+    "logger.LoggerAccessor",
+    "logger.allFurnace.AbstractFurnaceBlockEntityMixin",
+    "logger.allFurnace.LevelMixin",
+    "logger.beacon.BeaconBlockEntityMixin",
     "logger.piston.PistonBaseBlockMixin",
     "logger.piston.PistonStructureResolverMixin",
     "optimizations.BrainMixin",
@@ -34,7 +38,6 @@
     "optimizations.PiglinAiMixin",
     "optimizations.SetEntityLookTargetMixin",
     "optimizations.SetLookAndInteractMixin",
-    "render.RenderTypeInvoker",
     "rule.accelerateBabyVillagerGrowth.VillagerMixin",
     "rule.allowInvalidMotion.EntityMixin",
     "rule.allowInvalidMotion.Vec3Mixin",
@@ -46,9 +49,6 @@
     "rule.fakePlayerLoginLogoutNoChatInfo.PlayerListMixin",
     "rule.fakePlayerLoginLogoutNoChatInfo.ServerGamePacketListenerImplMixin",
     "rule.floatingIceWater.IceBlockMixin",
-    "logger.allFurnace.AbstractFurnaceBlockEntityMixin",
-    "logger.allFurnace.LevelMixin",
-    "logger.allFurnace.LoggerAccessor",
     "rule.generateNetherPortal.BaseFireBlockInvoker",
     "rule.generateNetherPortal.FireChargeItemMixin",
     "rule.generateNetherPortal.FlintAndSteelItemMixin",
@@ -100,7 +100,6 @@
     "rule.wetSpongeCanAbsorbLava.WetSpongeBlockMixin"
   ],
   "client": [
-    "render.substitute.LevelRendererMixin",
     "rule.happyGhastNoClip.LevelRendererMixin",
     "rule.playerLowHungryValueCanSprint.LocalPlayerMixin"
   ],

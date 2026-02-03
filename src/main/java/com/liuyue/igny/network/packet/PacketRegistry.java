@@ -4,6 +4,7 @@ package com.liuyue.igny.network.packet;
 import com.liuyue.igny.network.packet.block.HighlightPayload;
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
 import com.liuyue.igny.network.packet.config.SyncCustomStackSizePayload;
+import com.liuyue.igny.network.packet.render.BoxPayload;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 //#endif
 
@@ -14,10 +15,12 @@ public class PacketRegistry {
         //$$ PayloadTypeRegistry.clientboundPlay().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
         //$$ PayloadTypeRegistry.clientboundPlay().register(RemoveHighlightPayload.TYPE, RemoveHighlightPayload.CODEC);
         //$$ PayloadTypeRegistry.clientboundPlay().register(SyncCustomStackSizePayload.TYPE, SyncCustomStackSizePayload.CODEC);
+        //$$ PayloadTypeRegistry.clientboundPlay().register(BoxPayload.TYPE, BoxPayload.CODEC);
         //#else
         PayloadTypeRegistry.playS2C().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(RemoveHighlightPayload.TYPE, RemoveHighlightPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncCustomStackSizePayload.TYPE, SyncCustomStackSizePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(BoxPayload.TYPE, BoxPayload.CODEC);
         //#endif
     }
     //#endif

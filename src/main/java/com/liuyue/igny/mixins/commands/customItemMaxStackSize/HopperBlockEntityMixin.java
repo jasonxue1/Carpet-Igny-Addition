@@ -216,7 +216,7 @@ import java.util.function.BooleanSupplier;
  */
 
 @SuppressWarnings("JavadocLinkAsPlainText")
-@Mixin(value = HopperBlockEntity.class)
+@Mixin(value = HopperBlockEntity.class, priority = 990)
 public abstract class HopperBlockEntityMixin extends BlockEntity {
     @Shadow
     private Direction facing;

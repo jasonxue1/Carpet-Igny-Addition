@@ -1,8 +1,5 @@
 package com.liuyue.igny.mixins.rule.instantSpawnEnderDragon;
 
-import carpet.CarpetServer;
-import carpet.api.settings.CarpetRule;
-import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.utils.RuleUtils;
 import net.minecraft.core.BlockPos;
@@ -13,11 +10,18 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
+//#if MC >= 26.1
+//$$ import net.minecraft.world.level.dimension.end.DragonRespawnStage;
+//$$ import net.minecraft.world.level.dimension.end.EnderDragonFight;
+//$$ import net.minecraft.world.level.levelgen.feature.EndSpikeFeature;
+//$$ import net.minecraft.world.level.levelgen.feature.configurations.EndSpikeConfiguration;
+//#else
 import net.minecraft.world.level.dimension.end.DragonRespawnAnimation;
 import net.minecraft.world.level.dimension.end.EndDragonFight;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.SpikeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.SpikeConfiguration;
+//#endif
+import net.minecraft.world.level.levelgen.feature.Feature;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -31,7 +35,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.UUID;
 
-@Mixin(targets = "net/minecraft/world/level/dimension/end/EndDragonFight", priority = 1100)
+//#if MC >= 26.1
+//$$ @Mixin(value = EnderDragonFight.class, priority = 1100)
+//#else
+@Mixin(value = EndDragonFight.class, priority = 1100)
+//#endif
 public abstract class EndDragonFightMixin {
 
     @Shadow
@@ -45,7 +53,11 @@ public abstract class EndDragonFightMixin {
 
     @Shadow
     @Nullable
+    //#if MC >= 26.1
+    //$$ private DragonRespawnStage respawnStage;
+    //#else
     private DragonRespawnAnimation respawnStage;
+    //#endif
 
     @Shadow
     private boolean dragonKilled;
@@ -77,7 +89,11 @@ public abstract class EndDragonFightMixin {
     @Inject(method = "respawnDragon", at = @At(value = "HEAD"), cancellable = true)
     private void respawnDragon(List<EndCrystal> list , CallbackInfo ci) {
         if (IGNYSettings.instantSpawnEnderDragon) {
+            //#if MC >= 26.1
+            //$$ EnderDragonFight self = (EnderDragonFight) (Object) this;
+            //#else
             EndDragonFight self = (EndDragonFight) (Object) this;
+            //#endif
             if (!this.dragonKilled || this.respawnStage != null) {
                 return;
             }
@@ -106,22 +122,38 @@ public abstract class EndDragonFightMixin {
                 }
             }
             if (!RuleUtils.getCarpetRulesValue("carpet-ams-addition", "preventEndSpikeRespawn").equals("true")) {
+                //#if MC >= 26.1
+                //$$ List<EndSpikeFeature.EndSpike> spikes = EndSpikeFeature.getSpikesForLevel(this.level);
+                //#else
                 List<SpikeFeature.EndSpike> spikes = SpikeFeature.getSpikesForLevel(this.level);
+                //#endif
                 if (RuleUtils.getCarpetRulesValue("carpet-ams-addition", "preventEndSpikeRespawn").equals("keepEndCrystal")) {
+                    //#if MC >= 26.1
+                    //$$ for (EndSpikeFeature.EndSpike spike : spikes) {
+                    //#else
                     for (SpikeFeature.EndSpike spike : spikes) {
+                        //#endif
                         EndCrystal crystal = getEndCrystal(spike);
                         this.level.addFreshEntity(crystal);
                     }
                 } else if (RuleUtils.getCarpetRulesValue("carpet-ams-addition", "preventEndSpikeRespawn").equals("false")) {
                     RandomSource random = RandomSource.create();
+                    //#if MC >= 26.1
+                    //$$ for (EndSpikeFeature.EndSpike spike : spikes) {
+                    //#else
                     for (SpikeFeature.EndSpike spike : spikes) {
+                        //#endif
                         for (BlockPos pos : BlockPos.betweenClosed(
                                 new BlockPos(spike.getCenterX() - 10, spike.getHeight() - 10, spike.getCenterZ() - 10),
                                 new BlockPos(spike.getCenterX() + 10, spike.getHeight() + 10, spike.getCenterZ() + 10)
                         )) {
                             this.level.removeBlock(pos, false);
                         }
+                        //#if MC >= 26.1
+                        //$$ EndSpikeConfiguration config = new EndSpikeConfiguration(true, List.of(spike), BlockPos.ZERO);
+                        //#else
                         SpikeConfiguration config = new SpikeConfiguration(true, List.of(spike), BlockPos.ZERO);
+                        //#endif
                         Feature.END_SPIKE.place(
                                 config,
                                 this.level,
@@ -142,7 +174,11 @@ public abstract class EndDragonFightMixin {
     }
 
     @Unique
+    //#if MC >= 26.1
+    //$$ private @NotNull EndCrystal getEndCrystal(EndSpikeFeature.EndSpike spike) {
+    //#else
     private @NotNull EndCrystal getEndCrystal(SpikeFeature.EndSpike spike) {
+        //#endif
         BlockPos crystalPos = new BlockPos(spike.getCenterX(), spike.getHeight() + 1, spike.getCenterZ());
         EndCrystal crystal = new EndCrystal(
                 this.level,

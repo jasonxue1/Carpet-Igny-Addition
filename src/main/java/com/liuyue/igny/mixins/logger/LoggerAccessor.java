@@ -1,4 +1,4 @@
-package com.liuyue.igny.mixins.logger.allFurnace;
+package com.liuyue.igny.mixins.logger;
 
 import carpet.logging.Logger;
 import org.spongepowered.asm.mixin.Mixin;

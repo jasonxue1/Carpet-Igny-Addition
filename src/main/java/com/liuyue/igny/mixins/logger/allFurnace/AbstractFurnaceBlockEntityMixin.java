@@ -4,6 +4,7 @@ import carpet.logging.Logger;
 import carpet.logging.LoggerRegistry;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.logging.IGNYLoggerRegistry;
+import com.liuyue.igny.mixins.logger.LoggerAccessor;
 import com.liuyue.igny.network.packet.block.HighlightPayload;
 
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
