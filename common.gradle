@@ -15,6 +15,9 @@ repositories {
 	maven {
 		url = 'https://jitpack.io'
 	}
+	flatDir {
+		dirs '../../libs/26.1'
+	}
 }
 
 // https://github.com/FabricMC/fabric-loader/issues/783
@@ -49,8 +52,7 @@ dependencies {
 	if (!unobfuscated) {
 		include(autoImplementation("io.github.hotpad100c:ryansrenderingkit:${project.ryansrenderingkit_version}"))
 	} else {
-		def unobfuscatedJar = rootProject.files("libs/26.1/ryansrenderingkit-1.0.6+26.1.jar")
-		include(autoImplementation(unobfuscatedJar))
+		include(implementation(name: 'ryansrenderingkit', version: '1.0.6+26.1'))
 	}
 
     // Carpet
