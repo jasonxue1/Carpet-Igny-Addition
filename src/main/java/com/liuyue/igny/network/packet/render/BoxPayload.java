@@ -7,16 +7,16 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.jetbrains.annotations.NotNull;
 //#endif
+import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 
 public record BoxPayload(
-        BlockPos pos,           // 动画基准点 & 唯一 ID
+        BlockPos pos,
         int color,
         int durationTicks,
         boolean permanent,
         boolean deathTest,
-        double minX, double minY, double minZ,
-        double maxX, double maxY, double maxZ,
+        AABB box,
         boolean withLine,
         boolean lineDeathTest,
         boolean smooth
@@ -27,6 +27,7 @@ public record BoxPayload(
 {
     //#if MC >= 12005
     public static final Type<BoxPayload> TYPE = PacketUtil.createId("render_box");
+    public static final AABB ZERO = new AABB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
@@ -38,8 +39,7 @@ public record BoxPayload(
                     return new BoxPayload(
                             buf.readBlockPos(), buf.readInt(), buf.readInt(),
                             buf.readBoolean(), buf.readBoolean(),
-                            buf.readDouble(), buf.readDouble(), buf.readDouble(),
-                            buf.readDouble(), buf.readDouble(), buf.readDouble(),
+                            new AABB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble()),
                             buf.readBoolean(), buf.readBoolean(), buf.readBoolean()
                     );
                 }
@@ -51,12 +51,13 @@ public record BoxPayload(
                     buf.writeInt(v.durationTicks);
                     buf.writeBoolean(v.permanent);
                     buf.writeBoolean(v.deathTest);
-                    buf.writeDouble(v.minX);
-                    buf.writeDouble(v.minY);
-                    buf.writeDouble(v.minZ);
-                    buf.writeDouble(v.maxX);
-                    buf.writeDouble(v.maxY);
-                    buf.writeDouble(v.maxZ);
+                    AABB box = v.box();
+                    buf.writeDouble(box.minX);
+                    buf.writeDouble(box.minY);
+                    buf.writeDouble(box.minZ);
+                    buf.writeDouble(box.maxX);
+                    buf.writeDouble(box.maxY);
+                    buf.writeDouble(box.maxZ);
                     buf.writeBoolean(v.withLine);
                     buf.writeBoolean(v.lineDeathTest);
                     buf.writeBoolean(v.smooth);

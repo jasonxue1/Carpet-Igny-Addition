@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
 //#if MC < 12005
 //$$ import com.liuyue.igny.IGNYServer;
 //$$ import net.minecraft.core.BlockPos;
@@ -120,12 +121,13 @@ public class IGNYClientRegister {
                     int duration = payload.durationTicks();
                     boolean permanent = payload.permanent();
                     boolean deathTest = payload.deathTest();
-                    double minX = payload.minX();
-                    double minY = payload.minY();
-                    double minZ = payload.minZ();
-                    double maxX = payload.maxX();
-                    double maxY = payload.maxY();
-                    double maxZ = payload.maxZ();
+                    AABB box = payload.box();
+                    double minX = box.minX;
+                    double minY = box.minY;
+                    double minZ = box.minZ;
+                    double maxX = box.maxX;
+                    double maxY = box.maxY;
+                    double maxZ = box.maxZ;
                     boolean withLine = payload.withLine();
                     boolean lineDeathTest = payload.lineDeathTest();
                     boolean smooth = payload.smooth();

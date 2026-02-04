@@ -54,9 +54,7 @@ public abstract class BeaconBlockEntityMixin {
             //$$ buf.writeBoolean(true); buf.writeBoolean(false); buf.writeBoolean(true);
             //#else
             BoxPayload payload = new BoxPayload(
-                    pos, 0x4400FFFF, 90, false, true,
-                    aabb.minX, aabb.minY, aabb.minZ,
-                    aabb.maxX, aabb.maxY, aabb.maxZ,
+                    pos, 0x4400FFFF, 90, false, true, aabb,
                     true, false, true
             );
             //#endif
@@ -105,8 +103,7 @@ public abstract class BeaconBlockEntityMixin {
             //$$ stopBuf.writeBoolean(true); stopBuf.writeBoolean(false); stopBuf.writeBoolean(true);
             //#else
             BoxPayload stopPayload = new BoxPayload(
-                    beacon.getBlockPos(), 0, 0, false, true,
-                    0, 0, 0, 0, 0, 0,
+                    beacon.getBlockPos(), 0, 0, false, true, BoxPayload.ZERO,
                     true, false, true
             );
             //#endif

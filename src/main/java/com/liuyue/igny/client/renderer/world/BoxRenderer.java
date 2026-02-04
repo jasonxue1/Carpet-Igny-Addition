@@ -60,6 +60,17 @@ public class BoxRenderer extends BaseTickingShapeRenderer {
         Vec3 center = data.pos.getCenter();
         double p = data.currentSize;
 
+        if (!data.smooth){
+            renderBox(id, color, data.deathTest, data.minX, data.minY, data.minZ, data.maxX, data.maxY, data.maxZ);
+            data.curMinX = data.minX;
+            data.curMinY = data.minY;
+            data.curMinZ = data.minZ;
+            data.curMaxX = data.maxX;
+            data.curMaxY = data.maxY;
+            data.curMaxZ = data.maxZ;
+            return;
+        }
+
         boolean allCoordsReached =
                 Math.abs(data.curMinX - data.minX) < 0.001 &&
                         Math.abs(data.curMinY - data.minY) < 0.001 &&
@@ -68,7 +79,7 @@ public class BoxRenderer extends BaseTickingShapeRenderer {
                         Math.abs(data.curMaxY - data.maxY) < 0.001 &&
                         Math.abs(data.curMaxZ - data.maxZ) < 0.001;
 
-        if (!data.isRemoving && allCoordsReached && !data.smooth) {
+        if (!data.isRemoving && allCoordsReached) {
             renderBox(id, color, data.deathTest, data.minX, data.minY, data.minZ, data.maxX, data.maxY, data.maxZ);
         } else {
             double rMinX = Mth.lerp(p, center.x, data.curMinX);
