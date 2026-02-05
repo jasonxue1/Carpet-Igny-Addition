@@ -39,6 +39,9 @@ public abstract class ExplosionMixin
     @Unique
     boolean original;
 
+    @Unique
+    private final Object igny$lock = new Object();
+
     @Inject(
             //#if MC < 12102
             method = "explode",
@@ -55,9 +58,11 @@ public abstract class ExplosionMixin
             //#endif
     )
     {
-        this.original = CarpetSettings.optimizedTNT;
-        if (IGNYSettings.optimizedTNTErrorScopeFix) {
-            CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
+        synchronized (igny$lock) {
+            this.original = CarpetSettings.optimizedTNT;
+            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+                CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
+            }
         }
     }
 
@@ -77,8 +82,10 @@ public abstract class ExplosionMixin
             //#endif
     )
     {
-        if (IGNYSettings.optimizedTNTErrorScopeFix) {
-            CarpetSettings.optimizedTNT = this.original;
+        synchronized (igny$lock) {
+            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+                CarpetSettings.optimizedTNT = this.original;
+            }
         }
     }
 
@@ -89,9 +96,11 @@ public abstract class ExplosionMixin
     )
     private void onExplosionBHighPriority(CallbackInfo ci)
     {
-        this.original = CarpetSettings.optimizedTNT;
-        if (IGNYSettings.optimizedTNTErrorScopeFix) {
-            CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
+        synchronized (igny$lock) {
+            this.original = CarpetSettings.optimizedTNT;
+            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+                CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
+            }
         }
     }
 
@@ -101,8 +110,10 @@ public abstract class ExplosionMixin
     )
     private void onExplosionBHighPriorityB(CallbackInfo ci)
     {
-        if (IGNYSettings.optimizedTNTErrorScopeFix) {
-            CarpetSettings.optimizedTNT = this.original;
+        synchronized (igny$lock) {
+            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+                CarpetSettings.optimizedTNT = this.original;
+            }
         }
     }
     //#endif
