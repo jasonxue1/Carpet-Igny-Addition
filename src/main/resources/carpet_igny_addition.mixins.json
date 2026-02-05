@@ -38,6 +38,8 @@
     "optimizations.PiglinAiMixin",
     "optimizations.SetEntityLookTargetMixin",
     "optimizations.SetLookAndInteractMixin",
+    "render.DefaultTransformerMixin",
+    "render.MainRenderMixin",
     "rule.accelerateBabyVillagerGrowth.VillagerMixin",
     "rule.allowInvalidMotion.EntityMixin",
     "rule.allowInvalidMotion.Vec3Mixin",

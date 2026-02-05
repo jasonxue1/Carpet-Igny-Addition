@@ -16,7 +16,7 @@ repositories {
 		url = 'https://jitpack.io'
 	}
 	flatDir {
-		dirs '../../libs/26.1'
+		dirs '../../libs'
 	}
 }
 
@@ -52,7 +52,7 @@ dependencies {
 	if (!unobfuscated) {
 		include(autoImplementation("io.github.hotpad100c:ryansrenderingkit:${project.ryansrenderingkit_version}"))
 	} else {
-		include(implementation(name: 'ryansrenderingkit', version: '1.0.6+26.1'))
+		include(implementation(name: 'ryansrenderingkit', version: '1.0.5+26.1'))
 	}
 
     // Carpet
