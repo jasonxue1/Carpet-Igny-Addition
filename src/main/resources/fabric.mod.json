@@ -7,6 +7,17 @@
     "authors": [
         "Liuyue_awa"
     ],
+    "contact": {
+        "sources": "https://github.com/liuyuexiaoyu1/Carpet-Igny-Addition"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.QQGroup": "https://qm.qq.com/cgi-bin/qm/qr?k=YhMAATwf3KkDwdE3xRnP6vQ0A7NdS1Pt&jump_from=webapi&authKey=90ykz2A/ExWM+yBm3/53+Vo1tZMjW+vHxSrW2OWzVee6bNov+lCBK9q2SXhMTTnt"
+            },
+            "update_checker": true
+        }
+    },
     "icon": "assets/carpet_igny_addition/icon.png",
     "environment": "*",
     "entrypoints": {

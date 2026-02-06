@@ -1,4 +1,7 @@
 {
+  "modmenu.nameTranslation.carpet_igny_addition": "Carpet Igny Addition",
+  "modmenu.descriptionTranslation.carpet_igny_addition": "A Carpet Mod extension that contains some useful or useless functions and some functions that I want but are not included\nUnder the default configuration conditions, this mod will not change any vanilla behavior at all.",
+  "modmenu.QQGroup": "QQ Group",
   "igny.settings.record.operator":"Operator",
   "igny.settings.record.change_time": "ChangeTime",
   "igny.settings.record.raw_value": "RawValue",
