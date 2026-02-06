@@ -2,22 +2,19 @@ package com.liuyue.igny.mixins.rule.optimizedTNTErrorScopeFix;
 
 import carpet.CarpetSettings;
 import com.liuyue.igny.IGNYSettings;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 
 //#if MC >= 12102
 //$$ import net.minecraft.core.BlockPos;
 //$$ import net.minecraft.world.level.ServerExplosion;
-//$$ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //$$ import java.util.List;
-//#else
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //#endif
 
 import org.spongepowered.asm.mixin.Final;
@@ -37,84 +34,63 @@ public abstract class ExplosionMixin
     private Entity source;
 
     @Unique
-    boolean original;
+    private static final Object igny$lock = new Object();
 
-    @Unique
-    private final Object igny$lock = new Object();
-
-    @Inject(
+    @WrapMethod(
             //#if MC < 12102
-            method = "explode",
+            method = "explode"
             //#else
-            //$$ method = "calculateExplodedPositions",
-            //#endif
-            at = @At("HEAD")
-    )
-    private void onExplosionAHighPriority(
-            //#if MC < 12102
-            CallbackInfo ci
-            //#else
-            //$$ CallbackInfoReturnable<List<BlockPos>> cir
+            //$$ method = "calculateExplodedPositions"
             //#endif
     )
-    {
+    private
+            //#if MC >= 12102
+            //$$ List<BlockPos>
+            //#else
+            void
+            //#endif
+    onExplosionAHighPriority(
+            //#if MC < 12102
+            Operation<Void> original
+            //#else
+            //$$ Operation<List<BlockPos>> original
+            //#endif
+    ) {
         synchronized (igny$lock) {
-            this.original = CarpetSettings.optimizedTNT;
-            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+            boolean changed = CarpetSettings.optimizedTNT;
+            if (changed && IGNYSettings.optimizedTNTErrorScopeFix) {
                 CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
             }
-        }
-    }
-
-    @Inject(
-            //#if MC < 12102
-            method = "explode",
-            //#else
-            //$$ method = "calculateExplodedPositions",
-            //#endif
-            at = @At("TAIL")
-    )
-    private void onExplosionAHighPriorityB(
-            //#if MC < 12102
-            CallbackInfo ci
-            //#else
-            //$$ CallbackInfoReturnable<List<BlockPos>> cir
-            //#endif
-    )
-    {
-        synchronized (igny$lock) {
-            if (IGNYSettings.optimizedTNTErrorScopeFix) {
-                CarpetSettings.optimizedTNT = this.original;
+            try {
+                //#if MC >= 12102
+                //$$ return original.call();
+                //#else
+                original.call();
+                //#endif
+            } finally {
+                CarpetSettings.optimizedTNT = changed;
             }
         }
+
     }
 
     //#if MC < 12102
-    @Inject(
-            method = "finalizeExplosion",
-            at = @At("HEAD")
+    @WrapMethod(
+            method = "finalizeExplosion"
     )
-    private void onExplosionBHighPriority(CallbackInfo ci)
-    {
+    private void onExplosionBHighPriority(boolean bl, Operation<Void> original) {
         synchronized (igny$lock) {
-            this.original = CarpetSettings.optimizedTNT;
-            if (IGNYSettings.optimizedTNTErrorScopeFix) {
+            boolean changed = CarpetSettings.optimizedTNT;
+            if (changed && IGNYSettings.optimizedTNTErrorScopeFix) {
                 CarpetSettings.optimizedTNT = this.source instanceof PrimedTnt;
             }
-        }
-    }
-
-    @Inject(
-            method = "finalizeExplosion",
-            at = @At("TAIL")
-    )
-    private void onExplosionBHighPriorityB(CallbackInfo ci)
-    {
-        synchronized (igny$lock) {
-            if (IGNYSettings.optimizedTNTErrorScopeFix) {
-                CarpetSettings.optimizedTNT = this.original;
+            try {
+                original.call(bl);
+            } finally {
+                CarpetSettings.optimizedTNT = changed;
             }
         }
+
     }
     //#endif
 }

@@ -457,18 +457,14 @@ canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他�
 
 修复`optimizedTNT`规则启用时，错误优化风弹等实体爆炸的问题。 [#1928](https://github.com/gnembon/fabric-carpet/issues/1928)
 
-### 警告：可能会与一些多线程优化模组冲突！！
-
 - 类型: `boolean`
 - 默认值: `false`
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `BUGFIX`
 
-## 熔炉含不可燃烧物高亮 (furnaceHasIncombustibleHighlight) 
+## 熔炉含不可燃烧物高亮 (furnaceHasIncombustibleHighlight) `🐛Beta[迁移]`
 
 当熔炉的原料槽中含有不可燃烧的物品时，自身颜色变为淡红色，可透过方块显示。
-
-高亮未生效需重新加载熔炉所在区块。
 
 需要客户端同时安装有此MOD。
 
@@ -552,3 +548,25 @@ canBoatTrade：当载具上有村民或者流浪商人时移除载具，其他�
 - 默认值: `false`
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `FEATURE`
+
+## 发射器交易 (dispenserTrade) `🐛Beta`
+
+发射器可以与村民进行交易。
+
+将发射器命名为希望交易的村民目标交易选项(`数字1-10`)，然后放置发射器面向村民。
+
+发射器任意槽位或多个槽位满足交易货币需求即可交易。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## 发射器交易失败不喷出物品 (dispenserTrade) `🐛Beta`
+
+发射器交易失败时(交易选项缺货等)，不喷出货币，而是使发射器喷出失败。
+
+- 类型: `boolean`
+- 默认值: `true`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`

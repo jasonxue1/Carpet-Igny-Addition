@@ -168,9 +168,6 @@
   "carpet.rule.safeSoundSuppression.desc": "When the sound suppressor has no redstone signal input, it has no effect.",
   "carpet.rule.twoChangedRuleValueSetDefault.desc": "When changing a rule value with the /carpet command, if the new value is the same as the previous one, reset it to the default.",
   "carpet.rule.optimizedTNTErrorScopeFix.desc": "Fixes an issue where entities like Wind Charges have their explosions incorrectly optimized when optimizedTNT Rule is enabled.",
-  "carpet.rule.furnaceHasIncombustibleHighlight.desc": "When the input slot of a furnace contains non-smeltable items, the furnace itself turns light red and becomes visible through blocks (X-ray highlight).",
-  "carpet.rule.furnaceHasIncombustibleHighlight.extra.0": "Highlighting is not effective. The chunk where the furnace is located needs to be reloaded.",
-  "carpet.rule.furnaceHasIncombustibleHighlight.extra.1": "Requires this mod to be installed on the client side as well.",
   "carpet.rule.commandCustomPlayerPickupItem.desc": "Use /customPlayerPickupItem to control player custom pickup items",
   "carpet.rule.commandCustomItemMaxStackSize.desc": "Use /customItemMaxStackSize to control the maximum stack size of the item",
   "carpet.rule.playerHungryValueNoDecrease.desc": "The player's hunger value will not decrease",
@@ -180,5 +177,9 @@
   "carpet.rule.accelerateBabyVillagerGrowth.desc": "Players can feed baby villagers bread, carrots, potatoes, wheat, wheat seeds, beetroots, beetroot seeds, torchflower seeds, or pitcher pods to accelerate their growth.",
   "carpet.rule.accelerateBabyVillagerGrowth.extra.0": "Each feeding reduces the remaining growth time by approximately 10%. A minimum of 100 ticks is reduced per feeding, and feeding has no effect once the remaining growth time reaches 200 ticks.",
   "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "Particles are displayed upon successful feeding.",
-  "carpet.rule.lightningBoltNoFire.desc": "Lightning Bolt will not generate fire blocks or ignite entities."
+  "carpet.rule.lightningBoltNoFire.desc": "Lightning Bolt will not generate fire blocks or ignite entities.",
+  "carpet.rule.dispenserTrade.desc": "Dispensers can trade with villagers.",
+  "carpet.rule.dispenserTrade.extra.0": "Name the dispenser after the target villager's trade slot (number 1-10), then place it facing the villager.",
+  "carpet.rule.dispenserTrade.extra.1": "Any single slot or combination of slots in the dispenser that fulfills the trade's currency requirement will trigger the trade.",
+  "carpet.rule.dispenserTradeFailDisperseItem.desc": "When a dispenser trade fails, do not eject the currency items; instead, cause the dispenser to fail its ejection attempt."
 }

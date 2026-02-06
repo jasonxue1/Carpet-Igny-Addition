@@ -238,5 +238,11 @@
   "carpet.rule.accelerateBabyVillagerGrowth.extra.0": "一次可以减少约剩余成长时间的10%，每次喂食最少减少剩余成长时间100tick，当剩余成长时间达到200tick时喂食将不再减少",
   "carpet.rule.accelerateBabyVillagerGrowth.extra.1": "每次喂食会产生粒子",
   "carpet.rule.lightningBoltNoFire.name": "无火闪电束",
-  "carpet.rule.lightningBoltNoFire.desc": "闪电束不会生成火方块与点燃实体"
+  "carpet.rule.lightningBoltNoFire.desc": "闪电束不会生成火方块与点燃实体",
+  "carpet.rule.dispenserTrade.name": "发射器交易",
+  "carpet.rule.dispenserTrade.desc": "发射器可以与村民进行交易",
+  "carpet.rule.dispenserTrade.extra.0": "将发射器命名为希望交易的村民目标交易选项(数字1-10)，然后放置发射器面向村民",
+  "carpet.rule.dispenserTrade.extra.1": "发射器任意槽位或多个槽位满足交易货币需求即可交易",
+  "carpet.rule.dispenserTradeFailDisperseItem.name": "发射器交易失败不喷出物品",
+  "carpet.rule.dispenserTradeFailDisperseItem.desc": "发射器交易失败时(交易选项缺货等)，不喷出货币，而是使发射器喷出失败"
 }

@@ -425,4 +425,16 @@ public class IGNYSettings
             options = {"false", "true"}
     )
     public static Boolean lightningBoltNoFire = false;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean dispenserTrade = false;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE},
+            options = {"false", "true"}
+    )
+    public static Boolean dispenserTradeFailDisperseItem = true;
 }

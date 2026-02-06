@@ -457,18 +457,14 @@ Enables optimization when the number of stacked entities reaches the value set b
 
 Fixes an issue where entities like Wind Charges have their explosions incorrectly optimized when optimizedTNT Rule is enabled. [#1928](https://github.com/gnembon/fabric-carpet/issues/1928)
 
-### Warning: Potential conflicts with certain multi-threading optimization mods!!
-
 - Type: `boolean`
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `BUGFIX`
 
-## furnaceHasIncombustibleHighlight
+## furnaceHasIncombustibleHighlight `🐛Beta[Migrated]`
 
 When the input slot of a furnace contains non-smeltable items, the furnace itself turns light red and becomes visible through blocks (X-ray highlight).
-
-Highlighting is not effective. The chunk where the furnace is located needs to be reloaded.
 
 Requires this mod to be installed on the client side as well.
 
@@ -553,6 +549,27 @@ Lightning Bolt will not generate fire blocks or ignite entities.
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
+## dispenserTrade `🐛Beta`
+
+Dispensers can trade with villagers.
+
+Name the dispenser after the target villager's trade slot (number 1-10), then place it facing the villager.
+
+Any single slot or combination of slots in the dispenser that fulfills the trade's currency requirement will trigger the trade.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## dispenserTradeFailDisperseItem `🐛Beta`
+
+When a dispenser trade fails, do not eject the currency items; instead, cause the dispenser to fail its ejection attempt.
+
+- Type: `boolean`
+- Default value: `true`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`
 
 
 

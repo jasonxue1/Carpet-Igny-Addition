@@ -46,6 +46,7 @@
     "rule.allowInvalidMotion.Vec3Mixin",
     "rule.candlePlaceOnIncompleteBlock.CandleBlockMixin",
     "rule.creativeDestroyWaterloggedBlockNoWater.ServerPlayerGameModeMixin",
+    "rule.dispenserTrade.DispenserBlockMixin",
     "rule.enderDragonDeathDropExp.EnderDragonMixin",
     "rule.enderDragonDeathRiseLimit.EnderDragonMixin",
     "rule.fakePlayerCanPush.EntityMixin",
