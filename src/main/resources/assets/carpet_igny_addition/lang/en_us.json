@@ -93,6 +93,7 @@
   "igny.logger.piston.pull": "pull",
   "igny.logger.piston.retract": "retract",
   "igny.logger.piston.pushed.blocks": "Pushed blocks (total %s):",
+  "igny.logger.piston.destroyed.blocks": "Destroyed blocks (total %s):",
   "igny.logger.piston.pulled.blocks": "Pulled blocks (total %s):",
   "igny.logger.piston.no.blocks.moved": "No blocks moved",
   "igny.logger.piston.push.failed": "push failed",

@@ -149,24 +149,37 @@ public abstract class PistonBaseBlockMixin {
                 );
     }
 
-    @Inject(method = "moveBlocks", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Lists;newArrayList()Ljava/util/ArrayList;"))
-    private void pushBlocks(Level level, BlockPos blockPos, Direction direction, boolean extend, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true) boolean isExtend, @Local List<BlockPos> list) {
+    @Inject(method = "moveBlocks", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I", ordinal = 0))
+    private void pushBlocks(Level level, BlockPos blockPos, Direction direction, boolean extend, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true) boolean isExtend, @Local PistonStructureResolver pistonStructureResolver) {
         if (!IGNYLoggerRegistry.__piston || !(level instanceof ServerLevel)) return;
         carpet.logging.Logger logger = carpet.logging.LoggerRegistry.getLogger("piston");
         if (logger == null || !logger.hasOnlineSubscribers()) return;
-
+        List<BlockPos> list = pistonStructureResolver.getToPush();
+        List<BlockPos> list2 = pistonStructureResolver.getToDestroy();
         if (!isExtend) {
             handleRetract(logger, level, blockPos, direction, this.isSticky, list);
         } else {
             Block block = level.getBlockState(blockPos).getBlock();
             Component actionPart;
-            if (!list.isEmpty()) {
+            if (!list.isEmpty() || !list2.isEmpty()) {
                 MutableComponent hover = Component.empty();
-                hover.append(Component.literal(sTr("igny.logger.piston.pushed.blocks", list.size())));
-                for (BlockPos original : list) {
-                    String name = BlockUtils.getTranslatedName(level.getBlockState(original).getBlock()).getString();
-                    BlockPos newPos = original.relative(direction);
-                    hover.append(Component.literal("\n• " + name + " @ " + original.toShortString() + " → " + newPos.toShortString()));
+                if (!list.isEmpty()) {
+                    hover.append(Component.literal(sTr("igny.logger.piston.pushed.blocks", list.size())));
+                    for (BlockPos original : list) {
+                        String name = BlockUtils.getTranslatedName(level.getBlockState(original).getBlock()).getString();
+                        BlockPos newPos = original.relative(direction);
+                        hover.append(Component.literal("\n• " + name + " @ " + original.toShortString() + " → " + newPos.toShortString()));
+                    }
+                }
+                if (!list2.isEmpty()) {
+                    if (!list.isEmpty()) {
+                        hover.append("\n");
+                    }
+                    hover.append(Component.literal(sTr("igny.logger.piston.destroyed.blocks", list2.size())));
+                    for (BlockPos original : list2) {
+                        String name = BlockUtils.getTranslatedName(level.getBlockState(original).getBlock()).getString();
+                        hover.append(Component.literal("\n• " + name + " @ " + original.toShortString()));
+                    }
                 }
                 actionPart = cTr("igny.logger.piston.push").withStyle(s -> s.withColor(ChatFormatting.AQUA)
                                 //#if MC >= 12105
