@@ -1,6 +1,8 @@
 package com.liuyue.igny.mixins.rule.playerMiningFatigueFreeGuardian;
 
 import com.liuyue.igny.IGNYSettings;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Guardian;
@@ -8,7 +10,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 //#if MC >= 12103
 //$$import net.minecraft.server.level.ServerLevel;
@@ -16,10 +17,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(targets = "net.minecraft.world.entity.monster.Guardian$GuardianAttackGoal")
 public class GuardianAttackGoalMixin {
-
     @Shadow @Final private Guardian guardian;
 
-    @Redirect(
+    @WrapOperation(
             method = "tick",
             at = @At(
                     value = "INVOKE",
@@ -30,25 +30,25 @@ public class GuardianAttackGoalMixin {
                     //#endif
             )
     )
-    private boolean redirectAttack(
+    private boolean hurt(
             //#if MC >= 12103
-            //$$ LivingEntity target, ServerLevel level, DamageSource originalSource, float amount
+            //$$ LivingEntity target, ServerLevel level, DamageSource originalSource, float amount, Operation<Boolean> original
             //#else
-            LivingEntity target, DamageSource originalSource, float amount
+            LivingEntity target, DamageSource originalSource, float amount, Operation<Boolean> original
             //#endif
     ) {
         if (IGNYSettings.playerMiningFatigueFreeGuardian) {
             DamageSource newSource = target.damageSources().mobAttack(guardian);
             //#if MC >= 12103
-            //$$ return target.hurtServer(level, newSource, amount);
+            //$$ return original.call(target, level, newSource, amount);
             //#else
-            return target.hurt(newSource, amount);
+            return original.call(target, newSource, amount);
             //#endif
         }
         //#if MC >= 12103
-        //$$ return target.hurtServer(level, originalSource, amount);
+        //$$ return original.call(target, level, originalSource, amount);
         //#else
-        return target.hurt(originalSource, amount);
+        return original.call(target, originalSource, amount);
         //#endif
     }
 }
