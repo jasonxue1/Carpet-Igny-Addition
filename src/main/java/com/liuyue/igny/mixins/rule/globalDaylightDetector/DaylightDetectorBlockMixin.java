@@ -7,9 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
+//#if MC < 26.1
 import net.minecraft.world.level.LightLayer;
+//#endif
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.DaylightDetectorBlock;
@@ -43,8 +44,10 @@ public class DaylightDetectorBlockMixin {
             mutableCheckPos.set(pos.getX(), pos.getY() + 1, pos.getZ());
             boolean isExposed = true;
             while (mutableCheckPos.getY() <= instance.getMaxBuildHeight()) {
-                BlockState checkState = instance.getBlockState(mutableCheckPos);
-                //#if MC >= 12102
+                net.minecraft.world.level.block.state.BlockState checkState = instance.getBlockState(mutableCheckPos);
+                //#if MC >= 26.1
+                //$$ if (((BlockStateBaseAccessor) checkState).getLightBlock() >= 15 && !checkState.is(Blocks.BEDROCK)) {
+                //#elseif MC >= 12102
                 //$$ if (checkState.getLightBlock() >= 15 && !checkState.is(Blocks.BEDROCK)) {
                 //#else
                 if (checkState.getLightBlock(instance, mutableCheckPos) >= 15 && !checkState.is(Blocks.BEDROCK)) {
