@@ -34,7 +34,11 @@ public abstract class EnchantedCountIncreaseFunctionMixin {
         Entity entity = lootContext.getParamOrNull(LootContextParams.ATTACKING_ENTITY);
         //#endif
         if (IGNYSettings.noOwnerTntLootingIII && entity == null) {
+            //#if MC >= 26.1
+            //$$ float f = 3 * this.count.getFloat(lootContext);
+            //#else
             float f = 3 * this.value.getFloat(lootContext);
+            //#endif
             itemStack.grow(Math.round(f));
             //#if MC <= 12004
             //$$ if (this.hasLimit() && itemStack.getCount() > this.limit) {
