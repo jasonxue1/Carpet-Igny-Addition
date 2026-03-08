@@ -8,31 +8,20 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-
 @Mixin(StructureTemplate.class)
 public abstract class StructureTemplateMixin {
-    @Shadow
-    public static List<StructureTemplate.StructureBlockInfo> processBlockInfos(ServerLevelAccessor serverLevelAccessor, BlockPos blockPos, BlockPos blockPos2, StructurePlaceSettings structurePlaceSettings, List<StructureTemplate.StructureBlockInfo> list) {
-        return null;
-    }
-
-    @Inject(method = "placeInWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;processBlockInfos(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Ljava/util/List;)Ljava/util/List;"))
-    private static void setBlock(ServerLevelAccessor serverLevelAccessor, BlockPos blockPos, BlockPos blockPos2, StructurePlaceSettings structurePlaceSettings, RandomSource randomSource, int i, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 0) List<StructureTemplate.StructureBlockInfo> list) {
-        List<StructureTemplate.StructureBlockInfo> list1 = processBlockInfos(serverLevelAccessor, blockPos, blockPos2, structurePlaceSettings, list);
-        if (IGNYSettings.structureBlockNoBlockUpdate && list1 != null) {
-            for (StructureTemplate.StructureBlockInfo structureBlockInfo : list1) {
-                //#if MC <= 11904
-                //$$ IGNYSettings.noUpdatePos.add(structureBlockInfo.pos);
-                //#else
-                IGNYSettings.noUpdatePos.add(structureBlockInfo.pos());
-                //#endif
-            }
+    @Inject(method = "placeInWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/structure/BoundingBox;isInside(Lnet/minecraft/core/Vec3i;)Z"))
+    private static void setBlock(ServerLevelAccessor serverLevelAccessor, BlockPos blockPos, BlockPos blockPos2, StructurePlaceSettings structurePlaceSettings, RandomSource randomSource, int i, CallbackInfoReturnable<Boolean> cir, @Local StructureTemplate.StructureBlockInfo info) {
+        if (IGNYSettings.structureBlockNoBlockUpdate) {
+            //#if MC <= 11904
+            //$$ IGNYSettings.noUpdatePos.add(info.pos);
+            //#else
+            IGNYSettings.noUpdatePos.add(info.pos());
+            //#endif
         }
     }
 
