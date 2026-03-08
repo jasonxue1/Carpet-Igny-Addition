@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class DispenserBlockMixin {
     @Inject(method = "dispenseFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/DispenserBlockEntity;getRandomSlot(Lnet/minecraft/util/RandomSource;)I"), cancellable = true)
     private void dispenseFrom(ServerLevel serverLevel,
-                              //#if MC > 12002
+                              //#if MC >= 12002
                               BlockState blockState,
                               //#endif
                               BlockPos blockPos, CallbackInfo ci, @Local DispenserBlockEntity blockEntity) {
