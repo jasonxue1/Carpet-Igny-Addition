@@ -3,6 +3,8 @@ package com.liuyue.igny.mixins.rule.disableWatchDog;
 import com.liuyue.igny.IGNYSettings;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.dedicated.ServerWatchdog;
 import org.spongepowered.asm.mixin.Final;
@@ -10,7 +12,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ServerWatchdog.class)
+@Environment(EnvType.SERVER)
+@Mixin(value = ServerWatchdog.class)
 public class ServerWatchdogMixin {
     @Shadow
     @Final
