@@ -25,17 +25,21 @@ package com.liuyue.igny.mixins.commands.customItemMaxStackSize;
 import com.liuyue.igny.IGNYSettings;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DropperBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+//#if MC < 12006
+//$$ import com.liuyue.igny.utils.compat.DummyClass;
+//#endif
 
-@Restriction(require = @Condition(value = "minecraft", versionPredicates = ">= 1.20.6"))
+//#if MC >= 12006
 @Mixin(value = DropperBlock.class, priority = 900)
+//#else
+//$$ @Mixin(DummyClass.class)
+//#endif
 public class DropperBlockMixin {
     @WrapOperation(method = "dispenseFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;addItem(Lnet/minecraft/world/Container;Lnet/minecraft/world/Container;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/core/Direction;)Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack dispenseFrom(Container from, Container to, ItemStack stack, Direction side, Operation<ItemStack> original) {

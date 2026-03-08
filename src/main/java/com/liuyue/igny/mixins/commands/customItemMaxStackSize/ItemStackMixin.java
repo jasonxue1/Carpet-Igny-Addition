@@ -24,8 +24,6 @@ package com.liuyue.igny.mixins.commands.customItemMaxStackSize;
 
 import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.data.CustomItemMaxStackSizeDataManager;
-import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,9 +32,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//#if MC < 12006
+//$$ import com.liuyue.igny.utils.compat.DummyClass;
+//#endif
 
-@Restriction(require = @Condition(value = "minecraft", versionPredicates = ">= 1.20.6"))
+//#if MC >= 12006
 @Mixin(value = ItemStack.class, priority = 999)
+//#else
+//$$ @Mixin(DummyClass.class)
+//#endif
 public class ItemStackMixin {
     @Unique
     private final ItemStack thisStack = (ItemStack) (Object) this;

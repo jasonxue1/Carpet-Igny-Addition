@@ -25,13 +25,17 @@ package com.liuyue.igny.mixins.commands.customItemMaxStackSize;
 import com.liuyue.igny.utils.RuleUtils;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.entity.vehicle.MinecartHopper;
 import org.spongepowered.asm.mixin.Mixin;
+//#if MC < 12006
+//$$ import com.liuyue.igny.utils.compat.DummyClass;
+//#endif
 
-@Restriction(require = @Condition(value = "minecraft", versionPredicates = ">= 1.20.6"))
+//#if MC >= 12006
 @Mixin(value = MinecartHopper.class, priority = 900)
+//#else
+//$$ @Mixin(DummyClass.class)
+//#endif
 public class MinecartHopperMixin {
     @WrapMethod(method = "tick")
     private void tick(Operation<Void> original) {

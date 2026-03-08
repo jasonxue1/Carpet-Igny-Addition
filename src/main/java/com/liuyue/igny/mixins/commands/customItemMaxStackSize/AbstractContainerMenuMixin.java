@@ -25,14 +25,18 @@ package com.liuyue.igny.mixins.commands.customItemMaxStackSize;
 import com.liuyue.igny.IGNYSettings;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.spongepowered.asm.mixin.Mixin;
+//#if MC < 12006
+//$$ import com.liuyue.igny.utils.compat.DummyClass;
+//#endif
 
-@Restriction(require = @Condition(value = "minecraft", versionPredicates = ">= 1.20.6"))
+//#if MC >= 12006
 @Mixin(value = AbstractContainerMenu.class, priority = 900)
+//#else
+//$$ @Mixin(DummyClass.class)
+//#endif
 public abstract class AbstractContainerMenuMixin {
     @WrapMethod(method = "getRedstoneSignalFromContainer(Lnet/minecraft/world/Container;)I")
     private static int getRedstoneSignalFromContainer(Container inventory, Operation<Integer> original) {
