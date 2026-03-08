@@ -45,7 +45,7 @@ public abstract class DispenserBlockMixin {
         } catch (NumberFormatException e) {
             return;
         }
-        //#if MC <= 12002
+        //#if MC < 12002
         //$$ BlockState blockState = serverLevel.getBlockState(blockPos);
         //#endif
         Direction facing = blockState.getValue(DispenserBlock.FACING);
