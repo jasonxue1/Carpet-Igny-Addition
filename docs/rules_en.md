@@ -693,3 +693,12 @@ Prevents Ender Pearl loading tickets from expiring completely before being renew
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`
+
+## noteBlockSelfCheck `🐛Beta`
+
+Note blocks will correct their block state upon placement.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `CREATIVE`

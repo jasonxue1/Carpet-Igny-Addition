@@ -85,6 +85,7 @@
     "rule.looseEnderPearlChunkLoading.ThrownEnderpearlMixin",
     "rule.maxEndPortalSize.EnderEyeItemMixin",
     "rule.noOwnerTntLootingIII.EnchantedCountIncreaseFunctionMixin",
+    "rule.noteBlockSelfCheck.NoteBlockMixin",
     "rule.noWardenDarkness.WardenMixin",
     "rule.noWitherEffect.WitherRoseBlockMixin",
     "rule.noWitherEffect.WitherSkeletonMixin",
