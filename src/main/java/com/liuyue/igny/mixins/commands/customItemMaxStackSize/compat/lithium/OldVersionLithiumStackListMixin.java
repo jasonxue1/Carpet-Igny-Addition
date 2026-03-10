@@ -12,11 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Restriction(
         require = {
-                @Condition("lithium")
+                @Condition(value = "lithium", versionPredicates = "<=0.13.1")
         }
 )
 @Mixin(targets = "me.jellysquid.mods.lithium.common.hopper.LithiumStackList")
-@Pseudo
 public abstract class OldVersionLithiumStackListMixin {
     //#if MC >= 12006
     @WrapOperation(method = {
