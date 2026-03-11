@@ -13,6 +13,10 @@ repositories {
 		url = 'https://masa.dy.fi/maven'
 	}
 	maven {
+		name = 'ParchmentMC'
+		url = 'https://maven.parchmentmc.org'
+	}
+	maven {
 		url = 'https://maven.fallenbreath.me/jitpack'
 		content { includeGroupAndSubgroups('com.github') }
 	}
@@ -62,6 +66,7 @@ dependencies {
     if (!unobfuscated) {
         mappings loom.layered() {
             officialMojangMappings()
+			parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
         }
     }
     // Mixin Extras
