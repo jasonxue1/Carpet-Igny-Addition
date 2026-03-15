@@ -103,6 +103,7 @@
     "rule.playerOperationLimiter.ServerPlayerGameModeMixin",
     "rule.playerOperationLimiter.ServerPlayerMixin",
     "rule.podzolSpread.BlockMixin",
+    "rule.prioritizeFlyingUseItem.ServerPlayerGameModeMixin",
     "rule.projectileDuplicationReintroduced.EntityInvoker",
     "rule.projectileDuplicationReintroduced.ProjectileInvoker",
     "rule.projectileDuplicationReintroduced.ThrowableProjectileMixin",
@@ -114,7 +115,8 @@
     "rule.skeletonsPickupSwordsReintroduced.MobInvoker",
     "rule.skeletonsPickupSwordsReintroduced.MobMixin",
     "rule.spawnMaxCountIgnoresChunkOverlap.DistanceManagerMixin",
-    "rule.spawnMaxCountIgnoresChunkOverlap.MobCountsMixin",
+    "rule.spawnMaxCountIgnoresChunkOverlap.LocalMobCapCalculatorMixin",
+    "rule.spawnMaxCountIgnoresChunkOverlap.LocalMobCapCalculatorMixin$MobCountsMixin",
     "rule.structureBlockNoBlockUpdate.DiodeBlockMixin",
     "rule.structureBlockNoBlockUpdate.LevelTicksMixin",
     "rule.structureBlockNoBlockUpdate.NeighborUpdaterMixin",
@@ -133,8 +135,7 @@
   ],
   "client": [
     "rule.happyGhastNoClip.LevelRendererMixin",
-    "rule.playerLowHungryValueCanSprint.LocalPlayerMixin",
-    "rule.prioritizeFlyingUseItem.MultiPlayerGameModeMixin"
+    "rule.playerLowHungryValueCanSprint.LocalPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -21,7 +21,6 @@ public abstract class MinecraftServerMixin {
     private void afterServerLoadWorld(CallbackInfo ci){
         MinecraftServer server = IGNYServer.getInstance().getMinecraftServer();
         if (server != null && server.isRunning()) {
-            IGNYSettings.cachedServer = server;
             RuleChangeTracker.init(server);
             CustomPickupDataManager.setServer(server);
             //#if MC >= 12006
