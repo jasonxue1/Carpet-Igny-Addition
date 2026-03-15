@@ -85,7 +85,7 @@ public abstract class SettingsManagerMixin {
                 return entry.getKey();
             }
         }
-        return "carpet";
+        return "unknown";
     }
 
     @WrapOperation(method = {"setRule", "setDefault"}, at= @At(value = "INVOKE", target = "Lcarpet/api/settings/CarpetRule;set(Lnet/minecraft/commands/CommandSourceStack;Ljava/lang/String;)V"))

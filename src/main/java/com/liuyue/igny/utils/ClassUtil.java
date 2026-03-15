@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModOrigin;
 
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -34,7 +35,7 @@ public class ClassUtil {
         }).thenAccept(callback);
     }
 
-    public static void getModIdFromClassAsync(Class<?> clazz, Consumer<String> callback) {
+    public static void getModIdFromClass(Class<?> clazz, Consumer<String> callback) {
         CompletableFuture.supplyAsync(() -> getModIdFromClass(clazz)).thenAccept(callback);
     }
 
@@ -45,11 +46,11 @@ public class ClassUtil {
 
             Path classPath = Path.of(location.toURI());
             for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
+                if (mod.getOrigin().getKind() != ModOrigin.Kind.PATH) continue;
                 String id = mod.getMetadata().getId();
                 for (Path path : mod.getOrigin().getPaths()) {
                     String classFileName = classPath.getFileName().toString();
                     String modFileName = path.getFileName().toString();
-
                     if (modFileName.equals(classFileName) || id.equals(getModIdFromMetadata(classPath))) {
                         return id;
                     }
@@ -80,6 +81,6 @@ public class ClassUtil {
                 return json.get("id").getAsString();
             }
         } catch (Exception ignored) {}
-        return "carpet";
+        return "unknown";
     }
 }
