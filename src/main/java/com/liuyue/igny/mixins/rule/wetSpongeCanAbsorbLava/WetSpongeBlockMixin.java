@@ -43,11 +43,7 @@ public abstract class WetSpongeBlockMixin extends Block{
     //#if MC <= 12005
     //$$ @SuppressWarnings("deprecation")
     //#endif
-    //#if MC <= 12004
-    //$$ public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-    //#else
     public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-        //#endif
         if (!blockState2.is(blockState.getBlock())) {
             this.tryAbsorbWater(level, blockPos);
         }

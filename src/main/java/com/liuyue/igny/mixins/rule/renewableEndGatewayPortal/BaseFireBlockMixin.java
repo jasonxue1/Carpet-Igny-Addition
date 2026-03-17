@@ -13,6 +13,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//#if MC >= 12102
+//$$ import net.minecraft.world.entity.EntitySpawnReason;
+//#endif
 
 import java.util.List;
 
@@ -31,7 +34,11 @@ public class BaseFireBlockMixin {
             }
             if (canPlacePortal) {
                 level.setBlock(pos, Blocks.END_GATEWAY.defaultBlockState(), 3);
+                //#if MC >= 12102
+                //$$ LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
+                //#else
                 LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level);
+                //#endif
                 if (lightningBolt != null) {
                     lightningBolt.moveTo(pos.getCenter());
                     level.addFreshEntity(lightningBolt);
