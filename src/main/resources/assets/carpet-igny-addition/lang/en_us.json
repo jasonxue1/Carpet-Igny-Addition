@@ -216,5 +216,6 @@
   "carpet.rule.showRuleSource.desc": "Display the ID of the Mod that registered the current rule in the rule details",
   "carpet.rule.theEndCanCreateNetherPortal.desc": "Allows Nether portals to be created and activated in the End dimension",
   "carpet.rule.renewableEndGatewayPortal.desc": "Allows players to create an End Gateway portal by surrounding an air block with Dragon Eggs at the same height and lighting a fire in the center",
-  "carpet.rule.endGatewayPortalNoCooldown.desc": "Removes the 40gt cooldown for End Gateways, whether triggered by an entity entry or the periodic 2400gt cooldown"
+  "carpet.rule.endGatewayPortalNoCooldown.desc": "Removes the 40gt cooldown for End Gateways, whether triggered by an entity entry or the periodic 2400gt cooldown",
+  "carpet.rule.liquidSourceCanDestroy.desc": "Allows fluid sources to be targeted and destroyed"
 }

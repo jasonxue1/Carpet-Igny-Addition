@@ -738,3 +738,12 @@ Removes the 40gt cooldown for End Gateways, whether triggered by an entity entry
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
+
+## liquidSourceCanDestroy `🐛Beta`
+
+Allows fluid sources to be targeted and destroyed.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`

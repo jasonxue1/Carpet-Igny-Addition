@@ -294,5 +294,7 @@
   "carpet.rule.renewableEndGatewayPortal.name": "可再生末地折跃门",
   "carpet.rule.renewableEndGatewayPortal.desc": "使用龙蛋在同一高度上围住空气，并在中间点火，可生成一个末地折跃门",
   "carpet.rule.endGatewayPortalNoCooldown.name": "末地折跃门无冷却",
-  "carpet.rule.endGatewayPortalNoCooldown.desc": "取消末地折跃门有实体进入后或是间隔2400gt触发的40gt冷却"
+  "carpet.rule.endGatewayPortalNoCooldown.desc": "取消末地折跃门有实体进入后或是间隔2400gt触发的40gt冷却",
+  "carpet.rule.liquidSourceCanDestroy.name": "流体源可挖掘",
+  "carpet.rule.liquidSourceCanDestroy.desc": "允许选中流体源并且破坏"
 }
