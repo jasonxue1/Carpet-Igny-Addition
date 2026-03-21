@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.Unique;
 //#if MC > 12001
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+//#endif
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//#endif
 
 //#if MC <= 11904
 //$$ import net.minecraft.util.Tuple;
