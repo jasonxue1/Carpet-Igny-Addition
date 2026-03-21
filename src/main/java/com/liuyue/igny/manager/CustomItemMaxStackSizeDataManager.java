@@ -1,5 +1,6 @@
 package com.liuyue.igny.manager;
 
+//#if MC >= 12006
 import com.google.gson.reflect.TypeToken;
 import com.liuyue.igny.network.packet.PacketUtil;
 import com.mojang.brigadier.StringReader;
@@ -15,8 +16,11 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
+//#endif
 
-public class CustomItemMaxStackSizeDataManager extends BaseDataManager<Map<String, Integer>> {
+public class CustomItemMaxStackSizeDataManager
+    //#if MC >= 12006
+        extends BaseDataManager<Map<String, Integer>> {
     public static final CustomItemMaxStackSizeDataManager INSTANCE = new CustomItemMaxStackSizeDataManager();
 
     private Map<String, Integer> customStacks = new HashMap<>();
@@ -102,4 +106,5 @@ public class CustomItemMaxStackSizeDataManager extends BaseDataManager<Map<Strin
     }
 
     private record StackRule(String pattern, Predicate<ItemStack> predicate, int size) {}
+    //#endif
 }
