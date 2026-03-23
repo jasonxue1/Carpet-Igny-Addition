@@ -97,18 +97,15 @@ dependencies {
 		autoRuntimeOnly ('me.fallenbreath:mixin-auditor:0.2.0-u') {
 			exclude group: "net.fabricmc.fabric-api"
 		}
-		if (mcVersion >= 12110) {
-			include(autoImplementation("io.github.hotpad100c:ryansrenderingkit:${project.ryansrenderingkit_version}"))
-		} else {
-			include(autoImplementation("io.github.hotpad100c:ryansrenderingkit:${project.ryansrenderingkit_version}")) {
-				exclude group: "net.fabricmc.fabric-api"
-			}
-		}
 	} else {
 		autoRuntimeOnly ('me.fallenbreath:mixin-auditor:0.2.0-o') {
 			exclude group: "net.fabricmc.fabric-api"
 		}
-		include(autoImplementation(name: 'ryansrenderingkit', version: '1.0.5+26.1')) {
+	}
+	if (mcVersion >= 12110) {
+		include(autoImplementation(name: 'ryansrenderingkit', version: project.ryansrenderingkit_version))
+	} else {
+		include(autoImplementation(name: 'ryansrenderingkit', version: project.ryansrenderingkit_version)) {
 			exclude group: "net.fabricmc.fabric-api"
 		}
 	}
