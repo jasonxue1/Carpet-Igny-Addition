@@ -496,4 +496,9 @@ public class IGNYSettings {
             categories = {IGNY}
     )
     public static Boolean showClassMixinList = false;
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE}
+    )
+    public static Boolean piglinNeutralBehavior = false;
 }

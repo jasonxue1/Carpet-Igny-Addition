@@ -778,3 +778,12 @@ Displays the Mixin classes of all injected classes in the stack trace of a crash
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`
+
+## piglinNeutralBehavior `🐛Beta`
+
+Piglins remain neutral towards players unless they are attacked first.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `SURVIVAL`, `FEATURE`

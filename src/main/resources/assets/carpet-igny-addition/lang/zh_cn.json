@@ -305,5 +305,7 @@
   "carpet.rule.tripwireHookDupeReintroduced.name": "重新引入绊线钩复制",
   "carpet.rule.tripwireHookDupeReintroduced.desc": "重新引入绊线钩被破坏时，不检查方块状态而触发的绊线钩复制，回退了26.1-pre-2的更改",
   "carpet.rule.showClassMixinList.name": "显示类Mixin列表",
-  "carpet.rule.showClassMixinList.desc": "在崩溃报告的堆栈跟踪中显示堆栈中所有被注入的类的Mixin类"
+  "carpet.rule.showClassMixinList.desc": "在崩溃报告的堆栈跟踪中显示堆栈中所有被注入的类的Mixin类",
+  "carpet.rule.piglinNeutralBehavior.name": "猪灵中立行为",
+  "carpet.rule.piglinNeutralBehavior.desc": "在玩家不攻击猪灵时，猪灵不会攻击玩家"
 }

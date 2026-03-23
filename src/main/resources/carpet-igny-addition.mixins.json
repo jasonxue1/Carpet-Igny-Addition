@@ -102,6 +102,7 @@
     "rule.noZombifiedPiglinNetherPortalSpawn.NetherPortalBlockMixin",
     "rule.optimizedSpawning.NaturalSpawnerMixin",
     "rule.optimizedTNTErrorScopeFix.ExplosionMixin",
+    "rule.piglinNeutralBehavior.PiglinAiMixin",
     "rule.placeComposterCompost.BlockItemMixin",
     "rule.playerHungryValueNoDecrease.FoodDataMixin",
     "rule.playerLevitationFreeShulkerBullet.ShulkerBulletMixin",
