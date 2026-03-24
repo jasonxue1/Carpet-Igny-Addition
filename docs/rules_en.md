@@ -770,7 +770,7 @@ Reintroduces tripwire hook duplication by skipping block state checks upon destr
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`
 
-## showClassMixinList `🐛Beta`
+## showClassMixinList
 
 Displays the Mixin classes of all injected classes in the stack trace of a crash report.
 
@@ -779,7 +779,7 @@ Displays the Mixin classes of all injected classes in the stack trace of a crash
 - Suggested options: `false`, `true`
 - Categories: `IGNY`
 
-## piglinNeutralBehavior `🐛Beta`
+## piglinNeutralBehavior
 
 Piglins remain neutral towards players unless they are attacked first.
 
