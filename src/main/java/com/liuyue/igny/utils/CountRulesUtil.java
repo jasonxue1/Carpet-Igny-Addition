@@ -1,6 +1,5 @@
 package com.liuyue.igny.utils;
 
-
 import com.liuyue.igny.IGNYSettings;
 import carpet.api.settings.Rule;
 
