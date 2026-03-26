@@ -35,11 +35,17 @@ public class FakeClientConnectionMixin
     @Override
     //#if MC >= 12106
     //$$ public void send(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, boolean bl)
-    //#else
+    //#elseif MC >= 12002
     public void send(Packet<?> packet, @Nullable PacketSendListener channelFutureListener, boolean bl)
+    //#else
+    //$$ public void send(Packet<?> packet, @Nullable PacketSendListener channelFutureListener)
     //#endif
     {
+        //#if MC >= 12002
         if (!IGNYSettings.fakePlayerMemoryLeakFix) super.send(packet, channelFutureListener, bl);
+        //#else
+        //$$ if (!IGNYSettings.fakePlayerMemoryLeakFix) super.send(packet, channelFutureListener);
+        //#endif
     }
     //#endif
 }
