@@ -1,9 +1,13 @@
-package com.liuyue.igny.mixins.rule.fakePlayerMemoryLeakFix;
+package com.liuyue.igny.mixins.carpet.fix.fakePlayerMemoryLeakFix;
 
 //#if MC < 26.1
 import carpet.patches.NetHandlerPlayServerFake;
 import com.liuyue.igny.IGNYSettings;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,13 +22,16 @@ import org.spongepowered.asm.mixin.Mixin;
 //#else
 @Mixin(NetHandlerPlayServerFake.class)
 //#endif
-public class NetHandlerPlayServerFakeMixin {
+public class NetHandlerPlayServerFakeMixin extends ServerGamePacketListenerImpl {
+    public NetHandlerPlayServerFakeMixin(MinecraftServer server, Connection connection, ServerPlayer player, CommonListenerCookie cookie) {
+        super(server, connection, player, cookie);
+    }
+
     //#if MC < 26.1
     @Inject(method = "send", at = @At(value = "HEAD"))
     private void send(Packet<?> packetIn, CallbackInfo ci) {
         if (IGNYSettings.fakePlayerMemoryLeakFix) {
-            ServerGamePacketListenerImpl connection = (ServerGamePacketListenerImpl) (Object) this;
-            connection.send(packetIn);
+            super.send(packetIn);
         }
     }
     //#endif

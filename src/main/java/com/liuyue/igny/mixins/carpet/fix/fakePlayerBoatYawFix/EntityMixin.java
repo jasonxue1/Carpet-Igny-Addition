@@ -1,4 +1,4 @@
-package com.liuyue.igny.mixins.carpet.fix.FakePlayerBoatYawFix;
+package com.liuyue.igny.mixins.carpet.fix.fakePlayerBoatYawFix;
 
 //#if MC < 12111
 import carpet.patches.EntityPlayerMPFake;

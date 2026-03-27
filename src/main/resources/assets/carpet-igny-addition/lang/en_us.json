@@ -225,5 +225,5 @@
   "carpet.rule.tripwireHookDupeReintroduced.desc": "Reintroduces tripwire hook duplication by skipping block state checks upon destruction, reverting changes made in 26.1-pre-2",
   "carpet.rule.showClassMixinList.desc": "Displays the Mixin classes of all injected classes in the stack trace of a crash report",
   "carpet.rule.piglinNeutralBehavior.desc": "Piglins remain neutral towards players unless they are attacked first",
-  "carpet.rule.fakePlayerMemoryLeakFix.desc": "Fix memory leak caused by fake player packet caching and queue accumulation during server runtime"
+  "carpet.rule.fakePlayerMemoryLeakFix.desc": "Resolve fake player memory leak by disabling packet sending and preventing queue buildup"
 }
