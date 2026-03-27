@@ -15,7 +15,7 @@ public class RuleObserver {
         for (Field field : settingsClass.getDeclaredFields()) {
             if (!field.isAnnotationPresent(ObservedRule.class)) continue;
             ObservedRule anno = field.getAnnotation(ObservedRule.class);
-            Class<? extends RuleCallback<?>> clazz = anno.callback();
+            Class<? extends RuleCallback<?>> clazz = anno.value();
             var constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
             RuleCallback<?> instance = constructor.newInstance();

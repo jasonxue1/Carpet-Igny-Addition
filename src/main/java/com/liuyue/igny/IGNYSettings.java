@@ -1,14 +1,11 @@
 package com.liuyue.igny;
 
-import carpet.api.settings.CarpetRule;
 import carpet.api.settings.Rule;
-import com.liuyue.igny.rule.RuleCallback;
 import com.liuyue.igny.rule.annotation.ObservedRule;
+import com.liuyue.igny.rule.callback.*;
 import com.liuyue.igny.rule.validators.CrammingEntityValidator;
 import com.liuyue.igny.rule.validators.EndPortalSizeValidator;
 import com.liuyue.igny.rule.validators.SyncmaticaValidator;
-import com.liuyue.igny.utils.TickUtil;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 
 import java.util.*;
@@ -150,6 +147,7 @@ public class IGNYSettings {
     //$$ @Rule(
     //$$        categories = {IGNY, FEATURE}
     //$$ )
+    //$$ @ObservedRule(LocatorBarCallback.class)
     //$$ public static Boolean locatorBarNoFakePlayer = false;
     //#endif
 
@@ -476,15 +474,8 @@ public class IGNYSettings {
             categories = {IGNY, SURVIVAL, FEATURE},
             options = {"false", "true", "playerJoin"}
     )
-    @ObservedRule(callback = GameTickCallback.class)
+    @ObservedRule(GameTickCallback.class)
     public static String betterSprintGameTick = "false";
-
-    static class GameTickCallback implements RuleCallback<String> {
-        @Override
-        public void onChange(CommandSourceStack source, CarpetRule<String> rule, String oldValue, String newValue) {
-            TickUtil.checkTickRate(IGNYServer.getInstance().getMinecraftServer());
-        }
-    }
 
     //#if MC >= 26.1
     //$$ @Rule(
