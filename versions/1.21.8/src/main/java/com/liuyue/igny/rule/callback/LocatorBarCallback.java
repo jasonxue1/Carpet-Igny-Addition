@@ -2,7 +2,6 @@ package com.liuyue.igny.rule.callback;
 
 import carpet.api.settings.CarpetRule;
 import carpet.patches.EntityPlayerMPFake;
-import com.liuyue.igny.rule.RuleCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
