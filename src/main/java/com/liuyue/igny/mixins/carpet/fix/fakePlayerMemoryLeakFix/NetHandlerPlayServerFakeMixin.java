@@ -24,6 +24,7 @@ import net.minecraft.server.network.CommonListenerCookie;
 //#else
 @Mixin(NetHandlerPlayServerFake.class)
 //#endif
+//#if MC < 26.1
 public class NetHandlerPlayServerFakeMixin extends ServerGamePacketListenerImpl {
     //#if MC >= 12002
     public NetHandlerPlayServerFakeMixin(MinecraftServer server, Connection connection, ServerPlayer player, CommonListenerCookie cookie)
@@ -47,3 +48,6 @@ public class NetHandlerPlayServerFakeMixin extends ServerGamePacketListenerImpl 
     }
     //#endif
 }
+//#else
+//$$ public class NetHandlerPlayServerFakeMixin  {}
+//#endif
