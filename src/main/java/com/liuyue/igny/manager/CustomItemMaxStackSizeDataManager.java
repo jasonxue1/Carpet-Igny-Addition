@@ -96,8 +96,19 @@ public class CustomItemMaxStackSizeDataManager extends BaseDataManager<Map<Strin
             } catch (Exception e) {
                 ResourceLocation rl = ResourceLocation.tryParse(pattern);
                 if (rl != null) {
-                    Item item = BuiltInRegistries.ITEM.get(rl);
-                    if (item != BuiltInRegistries.ITEM.get(BuiltInRegistries.ITEM.getDefaultKey())) {
+                    Item item = BuiltInRegistries.ITEM.
+                            //#if MC >= 12102
+                            //$$ getValue(rl);
+                            //#else
+                                    get(rl);
+                    //#endif
+                    if (item != BuiltInRegistries.ITEM.
+                            //#if MC >= 12102
+                            //$$ getValue(BuiltInRegistries.ITEM.getDefaultKey())
+                            //#else
+                            get(BuiltInRegistries.ITEM.getDefaultKey()))
+                    //#endif
+                    {
                         newRules.add(new StackRule(pattern, stack -> stack.is(item), count));
                     }
                 }
