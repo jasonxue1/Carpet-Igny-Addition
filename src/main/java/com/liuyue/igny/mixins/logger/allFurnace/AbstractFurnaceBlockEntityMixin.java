@@ -2,6 +2,7 @@ package com.liuyue.igny.mixins.logger.allFurnace;
 
 import carpet.logging.Logger;
 import carpet.logging.LoggerRegistry;
+import com.bawnorton.mixinsquared.TargetHandler;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.logging.IGNYLoggers;
 import com.liuyue.igny.mixins.logger.LoggerAccessor;
@@ -51,7 +52,7 @@ import net.minecraft.world.level.Level;
 //$$ import net.minecraft.world.level.storage.ValueInput;
 //#endif
 
-@Mixin(value = AbstractFurnaceBlockEntity.class, priority = 990)
+@Mixin(value = AbstractFurnaceBlockEntity.class, priority = 1001)
 public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
     @Shadow
     @Final
@@ -175,6 +176,40 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
         }
         original.call(level, blockPos, blockState, blockEntity);
         self.checkSleep(blockState);
+    }
+
+    @SuppressWarnings("all")
+    @TargetHandler(
+            mixin = "net.caffeinemc.mods.lithium.mixin.world.block_entity_ticking.sleeping.furnace.AbstractFurnaceBlockEntityMixin",
+            name = "checkSleep",
+            prefix = "handler"
+    )
+    @Inject(method = "@MixinSquared:Handler", at = @At(value = "HEAD"), cancellable = true, require = 0)
+    private static void checkSleep(
+            //#if MC >= 12102
+            //$$ ServerLevel level,
+            //#else
+            Level level,
+            //#endif
+            BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity abstractFurnaceBlockEntity, CallbackInfo originalCi, CallbackInfo ci) {
+        ci.cancel();
+    }
+
+    @SuppressWarnings("all")
+    @TargetHandler(
+            mixin = "me.jellysquid.mods.lithium.mixin.world.block_entity_ticking.sleeping.furnace.AbstractFurnaceBlockEntityMixin",
+            name = "checkSleep",
+            prefix = "handler"
+    )
+    @Inject(method = "@MixinSquared:Handler", at = @At(value = "HEAD"), cancellable = true, require = 0)
+    private static void checkSleep2(
+            //#if MC >= 12102
+            //$$ ServerLevel level,
+            //#else
+            Level level,
+            //#endif
+            BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity abstractFurnaceBlockEntity, CallbackInfo originalCi, CallbackInfo ci) {
+        ci.cancel();
     }
 
     @Unique

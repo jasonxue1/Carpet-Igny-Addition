@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
                 @Condition(value = "lithium", versionPredicates = ">0.13.1")
         }
 )
-@Mixin(targets = "net/caffeinemc/mods/lithium/common/hopper/LithiumStackList")
+@Mixin(targets = "net.caffeinemc.mods.lithium.common.hopper.LithiumStackList")
 public abstract class LithiumStackListMixin {
     //#if MC >= 12006
     @WrapOperation(method = {
