@@ -805,3 +805,16 @@ Restore pathfinding timeout logic to use wall-clock time instead of game ticks, 
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `FEATURE`, `PORTING`
+
+## liquidNeverSpread `🐛Beta`
+
+Prevent the fluid from spreading horizontally or downwards.
+
+liquid_source: Only liquid sources will not spread.
+
+"true: Neither liquid sources nor flowing liquids will spread.
+
+- Type: `string`
+- Default value: `false`
+- Suggested options: `false`, `true`, `liquid_source`
+- Categories: `IGNY`, `FEATURE`

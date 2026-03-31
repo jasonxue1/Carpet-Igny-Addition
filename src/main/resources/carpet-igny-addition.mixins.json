@@ -84,6 +84,8 @@
     "rule.killFakePlayerRemoveVehicle.EntityPlayerMPFakeMixin",
     "rule.lightningBoltNoFire.EntityMixin",
     "rule.lightningBoltNoFire.LightningBoltMixin",
+    "rule.liquidNeverSpread.FlowingFluidMixin",
+    "rule.liquidNeverSpread.LiquidBlockMixin",
     "rule.liquidSourceCanDestroy.BlockStateBaseMixin",
     "rule.liquidSourceCanDestroy.ClipContextMixin",
     "rule.liquidSourceCanDestroy.ItemMixin",

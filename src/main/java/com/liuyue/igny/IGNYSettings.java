@@ -500,4 +500,10 @@ public class IGNYSettings {
             categories = {IGNY, FEATURE, PORTING}
     )
     public static boolean mobPathNavigationRealTimeTimerReintroduced = true;
+
+    @Rule(
+            categories = {IGNY, FEATURE},
+            options = {"false", "true", "liquid_source"}
+    )
+    public static String liquidNeverSpread = "false";
 }
