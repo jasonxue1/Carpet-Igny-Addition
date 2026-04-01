@@ -148,6 +148,9 @@
     "rule.wetSpongeCanAbsorbLava.WetSpongeBlockMixin"
   ],
   "client": [
+    "easterEgg.ScreenMixin",
+    "easterEgg.SplashManagerMixin",
+    "easterEgg.TitleScreenMixin",
     "rule.happyGhastNoClip.LevelRendererMixin",
     "rule.playerLowHungryValueCanSprint.LocalPlayerMixin"
   ],

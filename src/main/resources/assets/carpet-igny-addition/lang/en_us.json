@@ -10,6 +10,7 @@
   "igny.settings.command.total_rules": "total rules",
   "igny.settings.failure.unknown_entity": "Unknown Entity ID : %s",
   "igny.settings.source": "Source",
+  "menu.igny.surrender": "I Surrender",
 
   "igny.command.enderchest.no_permission": "You don't have permission to drop ender chest items",
   "igny.command.enderchest.real_player_op_only": "Only operators can drop ender chest items of real players",

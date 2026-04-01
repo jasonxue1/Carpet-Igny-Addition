@@ -10,6 +10,7 @@
   "igny.settings.command.total_rules": "总规则数",
   "igny.settings.failure.unknown_entity": "未知实体ID：%s",
   "igny.settings.source": "来源",
+  "menu.igny.surrender": "我投降",
 
   "igny.command.enderchest.no_permission": "你没有权限丢弃末影箱物品",
   "igny.command.enderchest.real_player_op_only": "只有OP可以丢弃真实玩家的末影箱物品",
