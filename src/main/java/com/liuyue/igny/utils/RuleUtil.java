@@ -4,6 +4,9 @@ import carpet.CarpetServer;
 import carpet.api.settings.CarpetRule;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.IGNYSettings;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+
 import java.util.Objects;
 
 public class RuleUtil {
@@ -22,6 +25,21 @@ public class RuleUtil {
         return Objects.equals(IGNYSettings.simpleSoundSuppression.toLowerCase(), name.toLowerCase());
     }
     //#endif
+
+    public static Boolean canEntityIDSuppression(Entity entity) {
+        if ("false".equalsIgnoreCase(IGNYSettings.simpleEntityIDSuppression)) {
+            return false;
+        }
+        if (entity.getCustomName() == null || !(entity instanceof ArmorStand)) {
+            return false;
+        }
+        String name = entity.getCustomName().getString();
+        if ("true".equalsIgnoreCase(IGNYSettings.simpleSoundSuppression)) {
+            return "实体ID抑制器".equals(name) || "entityIDSuppression".equalsIgnoreCase(name);
+        }
+
+        return Objects.equals(IGNYSettings.simpleEntityIDSuppression.toLowerCase(), name.toLowerCase());
+    }
 
     public static Object getCarpetRulesValue(String modId, String ruleName) {
         if(IGNYServerMod.CARPET_ADDITION_MOD_IDS.contains(modId)){

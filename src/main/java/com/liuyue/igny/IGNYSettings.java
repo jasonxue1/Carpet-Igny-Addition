@@ -2,8 +2,9 @@ package com.liuyue.igny;
 
 import carpet.api.settings.Rule;
 import com.liuyue.igny.rule.annotation.ObservedRule;
-import com.liuyue.igny.rule.callback.*;
-import com.liuyue.igny.rule.validators.*;
+import com.liuyue.igny.rule.callback.GameTickCallback;
+import com.liuyue.igny.rule.validators.CrammingEntityValidator;
+import com.liuyue.igny.rule.validators.SyncmaticaValidator;
 import net.minecraft.core.BlockPos;
 
 import java.util.*;
@@ -20,6 +21,7 @@ public class IGNYSettings {
     public static final ThreadLocal<Boolean> itemStackCountChanged = ThreadLocal.withInitial(() -> true);
     public static float originalTPS = 20.0f;
     public static final Set<UUID> sprintWhitelistPlayers = new HashSet<>();
+    public static boolean hasEID = false;
 
     @Rule(
             categories = {IGNY, SURVIVAL, FEATURE}
@@ -274,6 +276,7 @@ public class IGNYSettings {
 
     @Rule(
             categories = {IGNY, CREATIVE, FEATURE},
+            options = {"false", "true"},
             strict = false
     )
     public static String simpleSoundSuppression = "false";
@@ -506,4 +509,16 @@ public class IGNYSettings {
             options = {"false", "true", "liquid_source"}
     )
     public static String liquidNeverSpread = "false";
+
+    @Rule(
+            categories = {IGNY, FEATURE}
+    )
+    public static boolean superEffectLevel = false;
+
+    @Rule(
+            categories = {IGNY, CREATIVE, FEATURE},
+            options = {"false", "true"},
+            strict = false
+    )
+    public static String simpleEntityIDSuppression = "false";
 }

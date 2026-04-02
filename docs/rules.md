@@ -818,3 +818,31 @@ true: 流体源和流体都不会传播。
 - 默认值: `false`
 - 参考选项: `false`, `true`, `liquid_source`
 - 分类: `IGNY`, `FEATURE`
+
+## 超级效果等级 (superEffectLevel) `🐛Beta`
+
+让使用/effect指令给予的效果的最高等级为2147483647。
+
+设为默认后重新加载存档后生效。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `FEATURE`
+
+## 简易实体ID抑制器 (simpleEntityIDSuppression) `🐛Beta`
+
+通过将盔甲架实体命名为指定名称来制作基于创建实体时抛出“IllegalStateException”的更新抑制器。
+
+规则值为false时，规则不生效。
+
+规则值为true时，命名为“实体ID抑制器”或“entityIDSuppression”的盔甲架实体可以用来制作声音抑制器。
+
+规则值为其它字符串时，命名为该字符串的盔甲架实体可以用来制作实体ID抑制器。
+
+盔甲架实体需要保持运算。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `CREATIVE`, `FEATURE`

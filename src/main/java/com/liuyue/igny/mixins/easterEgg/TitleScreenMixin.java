@@ -193,10 +193,17 @@ public abstract class TitleScreenMixin extends Screen {
 
             if (idleTicks > 100) {
                 Vector2d orig = originalPos.get(widget);
-                double dToO = pos.distance(orig);
-                if (dToO > 1.0) {
-                    acc.x += (orig.x - pos.x) * 0.06;
-                    acc.y += (orig.y - pos.y) * 0.06;
+                double distToOrig = pos.distance(orig);
+                if (distance < radius + 20.0) {
+                    idleTicks = 0;
+                } else if (distToOrig > 0.1) {
+                    if (distToOrig < 0.5 && vel.length() < 0.1) {
+                        pos.set(orig.x, orig.y);
+                        vel.set(0, 0);
+                    } else {
+                        acc.x += (orig.x - pos.x) * 0.06;
+                        acc.y += (orig.y - pos.y) * 0.06;
+                    }
                 }
             }
 

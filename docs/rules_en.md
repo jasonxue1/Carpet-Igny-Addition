@@ -818,3 +818,31 @@ liquid_source: Only liquid sources will not spread.
 - Default value: `false`
 - Suggested options: `false`, `true`, `liquid_source`
 - Categories: `IGNY`, `FEATURE`
+
+## superEffectLevel `🐛Beta`
+
+Allows the maximum level of effects given via the /effect command to reach 2147483647.
+
+Takes effect after reloading the world/save if set to default.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`
+
+## simpleEntityIDSuppression `🐛Beta`
+
+Creates an update suppressor based on throwing an 'IllegalStateException' during entity creation by naming an Armor Stand to a specific name.
+
+When the rule value is 'false', the rule is disabled.
+
+When the rule value is 'true', Armor Stand entities named 'Entity ID Suppressor' or 'entityIDSuppression' can be used to create sound suppressors.
+
+When the rule value is any other string, Armor Stand entities named with that string can be used to create Entity ID suppressors.
+
+Armor Stand entities must remain within loaded/ticking chunks.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `CREATIVE`, `FEATURE`
