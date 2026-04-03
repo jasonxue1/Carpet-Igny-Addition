@@ -27,7 +27,11 @@ public class ServerLevelMixin {
         original.call(instance, entity);
     }
 
+    //#if MC >= 26.1
+    //$$ @Inject(method = "lambda$tick$0", at = @At(value = "RETURN"))
+    //#else
     @Inject(method = "method_31420", at = @At(value = "RETURN"))
+    //#endif
     private void tickEntity(
             //#if MC >= 12003
             TickRateManager tickRateManager,
