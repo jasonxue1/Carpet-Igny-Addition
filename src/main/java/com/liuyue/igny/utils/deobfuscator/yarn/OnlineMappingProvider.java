@@ -136,7 +136,9 @@ public class OnlineMappingProvider {
             loadMappings(mappingStream, yarnVersion);
 
         } catch (IOException e) {
-            IGNYServer.LOGGER.error("Failed to get Yarn mapping, the stack trace deobfuscator will not work: {}", e.toString());
+            if (EnvironmentUtil.isMinecraftObfuscated()) {
+                IGNYServer.LOGGER.error("Failed to get Yarn mapping, the stack trace deobfuscator will not work: {}", e.toString());
+            }
         }
     }
 
