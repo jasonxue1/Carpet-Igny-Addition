@@ -21,7 +21,7 @@ public class ChunkMapMixin {
         if (IGNYSettings.entityIDSuppressionWhitelist.equals("#all")) {
             return original.call(instance, i);
         }
-        if (IGNYSettings.entityIDSuppressionWhitelist.equals("#none") || IGNYSettings.EIDWhitelist.contains(entityTypeName)) {
+        if (IGNYSettings.entityIDSuppressionWhitelist.equals("#none") || !IGNYSettings.EIDWhitelist.contains(entityTypeName)) {
             return false;
         }
         return original.call(instance, i);
