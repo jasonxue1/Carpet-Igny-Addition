@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class ChunkMapMixin {
     @WrapOperation(method = "addEntity", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;containsKey(I)Z"))
     private boolean containsKey(Int2ObjectMap<?> instance, int i, Operation<Boolean> original, @Local(argsOnly = true) Entity entity) {
-        MinecraftServer server = entity.getServer();
+        MinecraftServer server = entity.level().getServer();
         if (server == null) return original.call(instance, i);
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             if (!(entity instanceof EntityPlayerMPFake) || player.equals(entity)) {
