@@ -26,27 +26,23 @@ public class IGNYLoggers {
 
     public static void registerLoggers() {
         for (Field field : IGNYLoggers.class.getDeclaredFields()) {
+            if (!field.isAnnotationPresent(Logger.class)) {
+                continue;
+            }
             Logger anno = field.getAnnotation(Logger.class);
-            String defaultValue = anno.defaultValue();
-            if (defaultValue.isEmpty()) {
-                defaultValue = null;
-            }
-            String[] options = anno.options();
-            if (options[0].isEmpty()) {
-                options = null;
-            }
+            String defaultValue = "".equals(anno.defaultValue()) ? null : anno.defaultValue();
+            String[] options = "".equals(anno.options()[0]) ? null : anno.options();
             boolean strictOptions = anno.strictOptions();
-            boolean observe = anno.observe();
             LoggerRegistry.registerLogger(field.getName(), new carpet.logging.Logger(field, field.getName(), defaultValue, options, strictOptions));
-            if (observe) {
-                try {
-                    Class<? extends LoggerCallback> clazz = anno.callback();
+            try {
+                Class<? extends LoggerCallback> clazz = anno.callback();
+                if (clazz != LoggerCallback.class) {
                     var constructor = clazz.getDeclaredConstructor();
                     constructor.setAccessible(true);
                     LoggerCallback instance = constructor.newInstance();
                     callbacks.put(field.getName(), instance);
-                } catch (Exception ignored) {}
-            }
+                }
+            } catch (Exception ignored) {}
         }
     }
 

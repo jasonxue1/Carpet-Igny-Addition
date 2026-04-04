@@ -18,8 +18,16 @@ public class EntityValidator extends Validator<String> {
     @Override
     public String validate(CommandSourceStack source, CarpetRule<String> rule, String newValue, String string) {
         if (newValue == null || newValue.equals("#none")) {
+            IGNYSettings.CRAMMING_ENTITIES.clear();
+            if (rule.name().equals("optimizedEntityList")) {
                 IGNYSettings.CRAMMING_ENTITIES.clear();
-            return "#none";
+            } else if (rule.name().equals("entityIDSuppressionWhitelist")) {
+                IGNYSettings.EIDWhitelist.clear();
+            }
+            return newValue;
+        }
+        if (newValue.startsWith("#")) {
+            return newValue;
         }
         if (source != null) {
             var registry = source.getServer().registryAccess().registryOrThrow(Registries.ENTITY_TYPE);

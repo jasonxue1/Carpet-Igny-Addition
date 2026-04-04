@@ -11,8 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Logger {
     String defaultValue() default "";
-    String[] options() default "";
+    String[] options() default {""};
     boolean strictOptions() default false;
-    boolean observe() default false;
     Class<? extends LoggerCallback> callback() default LoggerCallback.class;
 }
