@@ -124,7 +124,6 @@
     "rule.showClassMixinList.CrashReportMixin",
     "rule.showClassMixinList.CrashReportSectionMixin",
     "rule.simpleEntityIDSuppression.ChunkMapMixin",
-    "rule.simpleEntityIDSuppression.ServerLevelMixin",
     "rule.simpleSoundSuppression.CalibratedSculkSensorVibrationUserMixin",
     "rule.skeletonsPickupSwordsReintroduced.MobInvoker",
     "rule.skeletonsPickupSwordsReintroduced.MobMixin",
