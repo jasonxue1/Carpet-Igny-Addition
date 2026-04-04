@@ -20,7 +20,7 @@ public class ChunkMapMixin {
         MinecraftServer server = entity.level().getServer();
         if (server == null) return original.call(instance, i);
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            if (!(entity instanceof EntityPlayerMPFake) || player.equals(entity)) {
+            if (!(player instanceof EntityPlayerMPFake) || player.equals(entity)) {
                 continue;
             }
             if (RuleUtil.canEntityIDSuppression(player)) {
