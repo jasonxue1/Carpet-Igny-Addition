@@ -2,7 +2,6 @@ package com.liuyue.igny.mixins.logger.allFurnace;
 
 import carpet.logging.Logger;
 import carpet.logging.LoggerRegistry;
-import com.bawnorton.mixinsquared.TargetHandler;
 import com.liuyue.igny.IGNYServerMod;
 import com.liuyue.igny.logging.IGNYLoggers;
 import com.liuyue.igny.mixins.logger.LoggerAccessor;
@@ -52,7 +51,7 @@ import net.minecraft.world.level.Level;
 //$$ import net.minecraft.world.level.storage.ValueInput;
 //#endif
 
-@Mixin(value = AbstractFurnaceBlockEntity.class, priority = 1001)
+@Mixin(value = AbstractFurnaceBlockEntity.class, priority = 940)
 public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
     @Shadow
     @Final
@@ -77,6 +76,8 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
 
     //#if MC >= 26.1
     //$$ @Shadow private int litTimeRemaining;
+    //#else
+    @Shadow int litTime;
     //#endif
 
     @Unique
@@ -175,48 +176,47 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BlockEntity {
             if (!hasRecipe && self.isSleeping) return;
         }
         original.call(level, blockPos, blockState, blockEntity);
-        self.checkSleep(blockState);
+        //#if MC >= 26.1
+        //$$ if (IGNYServerMod.LITHIUM) {
+        //$$     if (self.litTimeRemaining == 5201314) {
+        //$$         self.litTimeRemaining = 0;
+        //$$     }
+        //$$ }
+        //#else
+        if (IGNYServerMod.LITHIUM) {
+            if (self.litTime == 5201314) {
+                self.litTime = 0;
+            }
+        }
+        //#endif
+        self.igny$checkSleep(blockState);
     }
 
-    @SuppressWarnings("all")
-    @TargetHandler(
-            mixin = "net.caffeinemc.mods.lithium.mixin.world.block_entity_ticking.sleeping.furnace.AbstractFurnaceBlockEntityMixin",
-            name = "checkSleep",
-            prefix = "handler"
-    )
-    @Inject(method = "@MixinSquared:Handler", at = @At(value = "HEAD"), cancellable = true, require = 0)
-    private static void checkSleep(
-            //#if MC >= 12102
-            //$$ ServerLevel level,
+    @Inject(method = "serverTick", at = @At(value = "RETURN"))
+    private static void onServerTick(Level level, BlockPos pos, BlockState state, AbstractFurnaceBlockEntity blockEntity, CallbackInfo ci) {
+        AbstractFurnaceBlockEntityMixin self = (AbstractFurnaceBlockEntityMixin) (Object) blockEntity;
+        if (self != null) {
+            //#if MC >= 26.1
+            //$$ if (IGNYServerMod.LITHIUM) {
+            //$$     if (self.litTimeRemaining <= 0) {
+            //$$         self.litTimeRemaining = 5201314;
+            //$$     }
+            //$$ }
             //#else
-            Level level,
+            if (IGNYServerMod.LITHIUM) {
+                if (self.litTime <= 0) {
+                    self.litTime = 5201314;
+                }
+            }
             //#endif
-            BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity abstractFurnaceBlockEntity, CallbackInfo originalCi, CallbackInfo ci) {
-        ci.cancel();
-    }
-
-    @SuppressWarnings("all")
-    @TargetHandler(
-            mixin = "me.jellysquid.mods.lithium.mixin.world.block_entity_ticking.sleeping.furnace.AbstractFurnaceBlockEntityMixin",
-            name = "checkSleep",
-            prefix = "handler"
-    )
-    @Inject(method = "@MixinSquared:Handler", at = @At(value = "HEAD"), cancellable = true, require = 0)
-    private static void checkSleep2(
-            //#if MC >= 12102
-            //$$ ServerLevel level,
-            //#else
-            Level level,
-            //#endif
-            BlockPos blockPos, BlockState blockState, AbstractFurnaceBlockEntity abstractFurnaceBlockEntity, CallbackInfo originalCi, CallbackInfo ci) {
-        ci.cancel();
+        }
     }
 
     @Unique
-    private void checkSleep(BlockState state) {
+    private void igny$checkSleep(BlockState state) {
         if (this.level != null &&
                 //#if MC >= 26.1
-                //$$ this.litTimeRemaining > 0
+                //$$ this.litTimeRemaining <= 0
                 //#else
                 !this.isLit()
                 //#endif

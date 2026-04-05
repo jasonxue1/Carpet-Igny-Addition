@@ -19,8 +19,10 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-//#if MC >= 26.1
+//#if MC >= 12110
 //$$ import net.minecraft.client.input.MouseButtonEvent;
+//#endif
+//#if MC >= 26.1
 //$$ import net.minecraft.client.gui.GuiGraphicsExtractor;
 //#elseif MC > 11904
 import net.minecraft.client.gui.GuiGraphics;
@@ -82,7 +84,7 @@ public abstract class TitleScreenMixin extends Screen {
     }
 
     @Inject(method = "mouseClicked", at = @At("RETURN"))
-    //#if MC >= 26.1
+    //#if MC >= 12110
     //$$ private void onButtonClicked(MouseButtonEvent event, boolean doubleClick, CallbackInfoReturnable<Boolean> cir)
     //#else
     private void onButtonClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir)
@@ -92,7 +94,7 @@ public abstract class TitleScreenMixin extends Screen {
 
         for (Renderable renderable : ((ScreenMixin) this).getRenderalbe()) {
             if (renderable instanceof AbstractWidget widget && widget != surrenderButton) {
-                //#if MC >= 26.1
+                //#if MC >= 12110
                 //$$ if (widget.isMouseOver(event.x(), event.y()))
                 //#else
                 if (widget.isMouseOver(mouseX, mouseY))
