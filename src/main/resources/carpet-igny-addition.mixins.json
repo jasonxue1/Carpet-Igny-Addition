@@ -123,6 +123,8 @@
     "rule.safeSoundSuppression.CalibratedSculkSensorVibrationUserMixin",
     "rule.showClassMixinList.CrashReportMixin",
     "rule.showClassMixinList.CrashReportSectionMixin",
+    "rule.shulkerBoxInShulkerBox.ShulkerBoxBlockEntityMixin",
+    "rule.shulkerBoxInShulkerBox.ShulkerBoxSlotMixin",
     "rule.simpleEntityIDSuppression.ChunkMapMixin",
     "rule.simpleSoundSuppression.CalibratedSculkSensorVibrationUserMixin",
     "rule.skeletonsPickupSwordsReintroduced.MobInvoker",

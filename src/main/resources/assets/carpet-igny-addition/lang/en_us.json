@@ -239,5 +239,6 @@
   "carpet.rule.entityIDSuppressionWhitelist.desc": "Creation of entities not in this list will not trigger Entity ID Suppression",
   "carpet.rule.entityIDSuppressionWhitelist.extra.0": "#all: Any entity",
   "carpet.rule.entityIDSuppressionWhitelist.extra.1": "#none: No entities",
-  "carpet.rule.entityIDSuppressionWhitelist.extra.2": "Separate each entity with a ','"
+  "carpet.rule.entityIDSuppressionWhitelist.extra.2": "Separate each entity with a ','",
+  "carpet.rule.shulkerBoxInShulkerBox.desc": "Allows shulker boxes to be placed inside other shulker boxes"
 }

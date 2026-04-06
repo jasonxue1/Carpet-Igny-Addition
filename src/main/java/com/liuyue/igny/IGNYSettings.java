@@ -525,4 +525,9 @@ public class IGNYSettings {
             validators = EntityValidator.class
     )
     public static String entityIDSuppressionWhitelist = "#all";
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE}
+    )
+    public static boolean shulkerBoxInShulkerBox = false;
 }

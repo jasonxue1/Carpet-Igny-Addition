@@ -1,6 +1,7 @@
 package com.liuyue.igny.mixins.rule.simpleEntityIDSuppression;
 
 import carpet.patches.EntityPlayerMPFake;
+import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.utils.RuleUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -17,14 +18,19 @@ import org.spongepowered.asm.mixin.injection.At;
 public class ChunkMapMixin {
     @WrapOperation(method = "addEntity", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;containsKey(I)Z"))
     private boolean containsKey(Int2ObjectMap<?> instance, int i, Operation<Boolean> original, @Local(argsOnly = true) Entity entity) {
-        MinecraftServer server = entity.level().getServer();
-        if (server == null) return original.call(instance, i);
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            if (!(player instanceof EntityPlayerMPFake) || player.equals(entity)) {
-                continue;
-            }
-            if (RuleUtil.canEntityIDSuppression(player)) {
-                return true;
+        if (!IGNYSettings.simpleEntityIDSuppression.equalsIgnoreCase("false")) {
+            MinecraftServer server = entity.level().getServer();
+            if (server == null) return original.call(instance, i);
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                if (!(player instanceof EntityPlayerMPFake)) {
+                    continue;
+                }
+                if (player.getId() == entity.getId()) {
+                    break;
+                }
+                if (RuleUtil.canEntityIDSuppression(player)) {
+                    return true;
+                }
             }
         }
         return original.call(instance, i);

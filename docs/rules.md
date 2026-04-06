@@ -850,3 +850,12 @@ true: 流体源和流体都不会传播。
 - 默认值: `#all`
 - 参考选项: `#all`, `#none`, `minecraft:item`
 - 分类: `IGNY`, `CREATIVE`, `FEATURE`
+
+## 潜影盒中潜影盒 (shulkerBoxInShulkerBox) `🐛Beta`
+
+使潜影盒中能塞入潜影盒。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `SURVIVAL`, `FEATURE`

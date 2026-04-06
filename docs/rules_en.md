@@ -850,3 +850,12 @@ Separate each entity with a `,`
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `CREATIVE`, `FEATURE`
+
+## shulkerBoxInShulkerBox `🐛Beta`
+
+Allows shulker boxes to be placed inside other shulker boxes.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `CREATIVE`, `FEATURE`

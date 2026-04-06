@@ -327,5 +327,7 @@
   "carpet.rule.entityIDSuppressionWhitelist.desc": "不在列表内的实体创建不会触发实体ID抑制",
   "carpet.rule.entityIDSuppressionWhitelist.extra.0": "#all: 任意实体",
   "carpet.rule.entityIDSuppressionWhitelist.extra.1":"#none: 没有实体",
-  "carpet.rule.entityIDSuppressionWhitelist.extra.2": "每个实体以','分割"
+  "carpet.rule.entityIDSuppressionWhitelist.extra.2": "每个实体以','分割",
+  "carpet.rule.shulkerBoxInShulkerBox.name": "潜影盒中潜影盒",
+  "carpet.rule.shulkerBoxInShulkerBox.desc": "使潜影盒中能塞入潜影盒"
 }
