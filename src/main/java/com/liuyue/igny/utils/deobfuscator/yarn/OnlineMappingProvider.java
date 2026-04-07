@@ -105,7 +105,7 @@ public class OnlineMappingProvider {
             String mappingJarUrl = String.format("%s%s/%s", YARN_MAPPING_URL_BASE, yarnVersion, mappingJar);
             String escapedUrl = UrlEscapers.urlFragmentEscaper().escape(mappingJarUrl);
 
-            IGNYServer.LOGGER.info("Downloading yarn mapping from {}", escapedUrl);
+            IGNYServer.LOGGER.debug("Downloading yarn mapping from {}", escapedUrl);
             File jarFile = new File(STORAGE_DIRECTORY + mappingJar);
             org.apache.commons.io.FileUtils.copyURLToFile(URI.create(escapedUrl).toURL(), jarFile);
 
@@ -119,7 +119,7 @@ public class OnlineMappingProvider {
 
     synchronized private static void loadMappings(InputStream mappingStream, String yarnVersion) {
         if (StackTraceDeobfuscator.loadMappings(mappingStream, "Yarn " + yarnVersion)) {
-            IGNYServer.LOGGER.info("Yarn mapping file {} loaded", getMappingFileNameFull(yarnVersion));
+            IGNYServer.LOGGER.debug("Yarn mapping file {} loaded", getMappingFileNameFull(yarnVersion));
         }
     }
 

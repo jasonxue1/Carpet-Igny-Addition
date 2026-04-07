@@ -35,7 +35,7 @@ public abstract class SettingsManagerMixin {
                 }
             }
             if (rawValue == value) {
-                setDefault(source, rule, rule.value().toString());
+                setDefault(source, rule, newValue);
                 cir.setReturnValue(1);
             }
         }

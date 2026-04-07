@@ -3,6 +3,7 @@ package com.liuyue.igny.mixins.carpet;
 import carpet.CarpetServer;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.SettingsManager;
+import carpet.api.settings.Validator;
 import carpet.settings.ParsedRule;
 import carpet.utils.Messenger;
 import com.liuyue.igny.IGNYServer;
@@ -92,16 +93,17 @@ public abstract class SettingsManagerMixin {
     @SuppressWarnings("removal")
     @WrapOperation(method = {"setRule", "setDefault"}, at= @At(value = "INVOKE", target = "Lcarpet/api/settings/CarpetRule;set(Lnet/minecraft/commands/CommandSourceStack;Ljava/lang/String;)V"))
     private <T> void onSetRuleValue(CarpetRule<T> instance, CommandSourceStack commandSourceStack, String s, Operation<Void> original){
-        T value = instance.value();
+        T rawValue = instance.value();
         original.call(instance, commandSourceStack, s);
         if (instance instanceof ParsedRule<T> parsedRule) {
-            for (carpet.api.settings.Validator<T> validator : parsedRule.realValidators) {
-                value = validator.validate(commandSourceStack, instance, value, s);
+            T value = null;
+            for (Validator<T> validator : parsedRule.validators) {
+                value = validator.validate(commandSourceStack, instance, instance.value(), s);
             }
-        }
-        RuleObserver.handleChange(commandSourceStack, instance, instance.value(), value);
-        if (IGNYSettings.showRuleChangeHistory) {
-            RuleChangeTracker.ruleChanged(commandSourceStack, instance, instance.value(), value);
+            RuleObserver.handleChange(commandSourceStack, instance, rawValue, value);
+            if (IGNYSettings.showRuleChangeHistory) {
+                RuleChangeTracker.ruleChanged(commandSourceStack, instance, rawValue, instance.value().toString());
+            }
         }
     }
 
