@@ -851,7 +851,7 @@ Separate each entity with a `,`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `CREATIVE`, `FEATURE`
 
-## shulkerBoxInShulkerBox `🐛Beta`
+## shulkerBoxInShulkerBox
 
 Allows shulker boxes to be placed inside other shulker boxes.
 
