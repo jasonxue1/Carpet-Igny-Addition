@@ -2,7 +2,7 @@ package com.liuyue.igny.mixins.logger.beacon;
 
 import carpet.logging.Logger;
 import carpet.logging.LoggerRegistry;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import com.liuyue.igny.mixins.logger.LoggerAccessor;
 import com.liuyue.igny.network.packet.render.BoxPayload;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

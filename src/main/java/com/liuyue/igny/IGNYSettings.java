@@ -530,4 +530,10 @@ public class IGNYSettings {
             categories = {IGNY, SURVIVAL, FEATURE}
     )
     public static boolean shulkerBoxInShulkerBox = false;
+
+    //#if MC >= 26.2
+    //$$ @Rule(
+    //$$         categories = {IGNY, FEATURE, PORTING}
+    //$$ )
+    //$$ public static boolean comparatorDupeReintroduced = false;
 }

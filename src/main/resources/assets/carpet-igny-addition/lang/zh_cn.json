@@ -329,5 +329,7 @@
   "carpet.rule.entityIDSuppressionWhitelist.extra.1":"#none: 没有实体",
   "carpet.rule.entityIDSuppressionWhitelist.extra.2": "每个实体以','分割",
   "carpet.rule.shulkerBoxInShulkerBox.name": "潜影盒中潜影盒",
-  "carpet.rule.shulkerBoxInShulkerBox.desc": "使潜影盒中能塞入潜影盒"
+  "carpet.rule.shulkerBoxInShulkerBox.desc": "使潜影盒中能塞入潜影盒",
+  "carpet.rule.comparatorDupeReintroduced.name": "重新引入比较器复制",
+  "carpet.rule.comparatorDupeReintroduced.desc": "让比较器可以在改变模式的时候复制自身，回退了26.2-snapshot-2的更改"
 }

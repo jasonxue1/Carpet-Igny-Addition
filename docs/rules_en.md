@@ -859,3 +859,12 @@ Allows shulker boxes to be placed inside other shulker boxes.
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `CREATIVE`, `FEATURE`
+
+## comparatorDupeReintroduced `🐛Beta` `MC>=26.2`
+
+Allow comparators to clone themselves when changing modes; reverted changes from 26.2-snapshot-2.
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `FEATURE`, `PORTING`

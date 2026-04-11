@@ -1,6 +1,6 @@
-package com.liuyue.igny.logging.annotation;
+package com.liuyue.igny.logger.annotation;
 
-import com.liuyue.igny.logging.callback.LoggerCallback;
+import com.liuyue.igny.logger.callback.LoggerCallback;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

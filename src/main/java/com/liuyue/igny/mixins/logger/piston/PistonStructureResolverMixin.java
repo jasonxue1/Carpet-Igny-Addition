@@ -2,7 +2,7 @@ package com.liuyue.igny.mixins.logger.piston;
 
 import carpet.CarpetSettings;
 import com.liuyue.igny.helper.PistonResolveContext;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 

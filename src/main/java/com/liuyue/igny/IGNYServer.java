@@ -3,7 +3,7 @@ package com.liuyue.igny;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import com.liuyue.igny.commands.*;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import com.liuyue.igny.network.packet.PacketUtil;
 import com.liuyue.igny.rule.RuleObserver;
 import com.liuyue.igny.utils.ComponentTranslate;

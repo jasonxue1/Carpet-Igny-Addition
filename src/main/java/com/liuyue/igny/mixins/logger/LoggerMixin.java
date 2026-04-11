@@ -2,7 +2,7 @@ package com.liuyue.igny.mixins.logger;
 
 import carpet.CarpetServer;
 import carpet.logging.Logger;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

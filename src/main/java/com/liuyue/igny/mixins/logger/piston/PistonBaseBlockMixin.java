@@ -4,7 +4,7 @@ import carpet.CarpetSettings;
 import carpet.utils.Messenger;
 import carpet.utils.Translations;
 import com.liuyue.igny.helper.PistonResolveContext;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import com.liuyue.igny.utils.BlockUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

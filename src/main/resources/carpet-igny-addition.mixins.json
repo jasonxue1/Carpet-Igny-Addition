@@ -52,6 +52,8 @@
     "rule.betterSprintGameTick.ServerTickRateManagerMixin",
     "rule.betterSprintGameTick.TickCommandMixin",
     "rule.candlePlaceOnIncompleteBlock.CandleBlockMixin",
+    "rule.comparatorDupeReintroduced.ComparatorBlockMixin",
+    "rule.comparatorDupeReintroduced.DiodeBlockMixin",
     "rule.creativeDestroyWaterloggedBlockNoWater.ServerPlayerGameModeMixin",
     "rule.disableWatchDog.ServerWatchdogMixin",
     "rule.dispenserTrade.DispenserBlockMixin",
@@ -154,7 +156,7 @@
     "rule.wetSpongeCanAbsorbLava.WetSpongeBlockMixin"
   ],
   "client": [
-    "easterEgg.ScreenMixin",
+    "easterEgg.ScreenAccessor",
     "easterEgg.SplashManagerMixin",
     "easterEgg.TitleScreenMixin",
     "rule.happyGhastNoClip.LevelRendererMixin",

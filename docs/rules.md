@@ -859,3 +859,12 @@ true: 流体源和流体都不会传播。
 - 默认值: `false`
 - 参考选项: `false`, `true`
 - 分类: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## 重新引入比较器复制 (comparatorDupeReintroduced) `🐛Beta` `MC>=26.2`
+
+让比较器可以在改变模式的时候复制自身，回退了26.2-snapshot-2的更改。
+
+- 类型: `boolean`
+- 默认值: `false`
+- 参考选项: `false`, `true`
+- 分类: `IGNY`, `FEATURE`, `PORTING`

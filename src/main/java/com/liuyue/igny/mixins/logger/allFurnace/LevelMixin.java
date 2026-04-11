@@ -2,7 +2,7 @@ package com.liuyue.igny.mixins.logger.allFurnace;
 
 import carpet.logging.Logger;
 import carpet.logging.LoggerRegistry;
-import com.liuyue.igny.logging.IGNYLoggers;
+import com.liuyue.igny.logger.IGNYLoggers;
 import com.liuyue.igny.network.packet.block.RemoveHighlightPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;

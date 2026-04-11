@@ -1,5 +1,6 @@
 package com.liuyue.igny.mixins.easterEgg;
 
+import com.liuyue.igny.manager.EasterEggDataManager;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
@@ -49,7 +50,7 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void onInit(CallbackInfo ci) {
-        if (isPrankFinishedPermanently) return;
+        if (isPrankFinishedPermanently || !EasterEggDataManager.INSTANCE.isAprilFoolsActive()) return;
 
         LocalDate now = LocalDate.now();
         boolean isDateValid = (now.getMonthValue() == 4 && (now.getDayOfMonth() == 1 || now.getDayOfMonth() == 2));
@@ -66,7 +67,7 @@ public abstract class TitleScreenMixin extends Screen {
         totalFleeDistance = 0;
         idleTicks = 0;
 
-        for (Renderable renderable : ((ScreenMixin) this).getRenderalbe()) {
+        for (Renderable renderable : ((ScreenAccessor) this).getRenderalbe()) {
             if (renderable instanceof AbstractWidget widget) {
                 Vector2d pos = new Vector2d(widget.getX(), widget.getY());
                 originalPos.put(widget, new Vector2d(pos));
@@ -90,9 +91,9 @@ public abstract class TitleScreenMixin extends Screen {
     private void onButtonClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir)
     //#endif
     {
-        if (!isAprilFoolsActive || !cir.getReturnValueZ()) return;
+        if (!isAprilFoolsActive || !cir.getReturnValueZ() || !EasterEggDataManager.INSTANCE.isAprilFoolsActive()) return;
 
-        for (Renderable renderable : ((ScreenMixin) this).getRenderalbe()) {
+        for (Renderable renderable : ((ScreenAccessor) this).getRenderalbe()) {
             if (renderable instanceof AbstractWidget widget && widget != surrenderButton) {
                 //#if MC >= 12110
                 //$$ if (widget.isMouseOver(event.x(), event.y()))
@@ -115,7 +116,7 @@ public abstract class TitleScreenMixin extends Screen {
         isAprilFoolsActive = false;
         isPrankFinishedPermanently = true;
 
-        for (Renderable renderable : ((ScreenMixin) this).getRenderalbe()) {
+        for (Renderable renderable : ((ScreenAccessor) this).getRenderalbe()) {
             if (renderable instanceof AbstractWidget widget && originalPos.containsKey(widget)) {
                 Vector2d orig = originalPos.get(widget);
                 widget.setX((int) Math.round(orig.x));
@@ -142,7 +143,7 @@ public abstract class TitleScreenMixin extends Screen {
     //$$ private void applyPclPhysics(PoseStack poseStack, int mouseX, int mouseY, float partialTick, CallbackInfo ci)
     //#endif
     {
-        if (!isAprilFoolsActive) return;
+        if (!isAprilFoolsActive || !EasterEggDataManager.INSTANCE.isAprilFoolsActive()) return;
 
         if (Math.abs(mouseX - lastMouseX) < 0.01 && Math.abs(mouseY - lastMouseY) < 0.01) {
             idleTicks++;
@@ -152,7 +153,7 @@ public abstract class TitleScreenMixin extends Screen {
             lastMouseY = mouseY;
         }
 
-        for (Renderable renderable : ((ScreenMixin) this).getRenderalbe()) {
+        for (Renderable renderable : ((ScreenAccessor) this).getRenderalbe()) {
             if (!(renderable instanceof AbstractWidget widget) || widget == surrenderButton) continue;
 
             String key = getTranslationKey(widget);

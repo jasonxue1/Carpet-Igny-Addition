@@ -1,8 +1,8 @@
-package com.liuyue.igny.logging;
+package com.liuyue.igny.logger;
 
-import com.liuyue.igny.logging.annotation.Logger;
+import com.liuyue.igny.logger.annotation.Logger;
 import carpet.logging.LoggerRegistry;
-import com.liuyue.igny.logging.callback.LoggerCallback;
+import com.liuyue.igny.logger.callback.LoggerCallback;
 import net.minecraft.server.MinecraftServer;
 
 import java.lang.reflect.Field;

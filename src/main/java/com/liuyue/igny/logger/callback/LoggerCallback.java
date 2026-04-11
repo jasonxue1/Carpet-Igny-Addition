@@ -1,4 +1,4 @@
-package com.liuyue.igny.logging.callback;
+package com.liuyue.igny.logger.callback;
 
 import carpet.logging.Logger;
 import net.minecraft.server.level.ServerPlayer;
