@@ -49,7 +49,7 @@ public class AmethystVaultManager extends BaseDataManager<Map<Long, String>> {
 
     @Override
     protected SideRestraint getSideRestraint() {
-        return SideRestraint.SERVER;
+        return SideRestraint.COMMON;
     }
 
     public void storeBud(BlockPos pos, BlockState state) {
