@@ -25,7 +25,7 @@ public class IGNYSettings {
     public static final Set<UUID> sprintWhitelistPlayers = new HashSet<>();
     public static Set<String> EIDWhitelist = new HashSet<>();
     public static final ThreadLocal<Boolean> effectCommandRegistering = ThreadLocal.withInitial(() -> false);
-    public static boolean replaceGameProfiles = true;
+    public static ThreadLocal<Boolean> movingBlocks = ThreadLocal.withInitial(() -> false);
 
     @Rule(
             categories = {IGNY, SURVIVAL, FEATURE}
@@ -498,12 +498,10 @@ public class IGNYSettings {
     )
     public static boolean piglinNeutralBehavior = false;
 
-    //#if MC >= 12111
-    //$$ @Rule(
-    //$$         categories = {IGNY, BUGFIX}
-    //$$ )
-    //$$ public static boolean fakePlayerMemoryLeakFix = false;
-    //#endif
+    @Rule(
+            categories = {IGNY, BUGFIX}
+    )
+    public static boolean fakePlayerMemoryLeakFix = false;
 
     @Rule(
             categories = {IGNY, FEATURE},
@@ -553,4 +551,9 @@ public class IGNYSettings {
             options = {"false", "nonFluid", "true"}
     )
     public static String drillAnvil = "false";
+
+    @Rule(
+            categories = {IGNY, SURVIVAL, FEATURE}
+    )
+    public static boolean transparentBuddingAmethyst = false;
 }
