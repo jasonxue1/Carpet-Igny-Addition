@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -147,7 +148,7 @@ public class LevelMixin {
         private void getCollisionShape(BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
             if (IGNYSettings.transparentBuddingAmethyst) {
                 BlockBehaviour.BlockStateBase state = (BlockBehaviour.BlockStateBase) (Object) this;
-                if (state.is(Blocks.BUDDING_AMETHYST)) {
+                if (state.is(Blocks.BUDDING_AMETHYST) || state.getBlock() instanceof AmethystClusterBlock) {
                     if (context instanceof EntityCollisionContext collisionContext) {
                         if (!(collisionContext.getEntity() instanceof Player)) {
                             cir.setReturnValue(Shapes.empty());
