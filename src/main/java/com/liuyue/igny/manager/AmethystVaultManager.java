@@ -10,72 +10,89 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-public class AmethystVaultManager extends BaseDataManager<Map<Long, String>> {
+public class AmethystVaultManager extends BaseDataManager<AmethystVaultManager.VaultData> {
     public static final AmethystVaultManager INSTANCE = new AmethystVaultManager();
 
-    private Map<Long, String> vault = new HashMap<>();
+    private VaultData data;
+    private boolean dirty = false;
+
+    public static class VaultData {
+        public Map<Long, String> vault = new HashMap<>();
+        public Set<Long> pendingRestore = new HashSet<>();
+    }
+
+    @Override protected String getFileName() { return "amethyst_vault.json"; }
+    @Override protected Type getDataType() { return new TypeToken<VaultData>(){}.getType(); }
+    @Override public VaultData getDefaultData() { return new VaultData(); }
 
     @Override
-    protected String getFileName() {
-        return "amethyst_vault.json";
+    protected void applyData(VaultData data) {
+        this.data = data != null ? data : new VaultData();
+        this.dirty = false;
     }
 
     @Override
-    protected Type getDataType() {
-        return new TypeToken<Map<Long, String>>(){}.getType();
+    public VaultData getCurrentData() {
+        if (this.data == null) this.data = new VaultData();
+        return this.data;
     }
 
-    @Override
-    public Map<Long, String> getDefaultData() {
-        return new HashMap<>();
-    }
-
-    @Override
-    protected void applyData(Map<Long, String> data) {
-        this.vault = data != null ? data : new HashMap<>();
-    }
-
-    @Override
-    public Map<Long, String> getCurrentData() {
-        return this.vault;
-    }
-
-    @Override
-    protected StorageScope getScope() {
-        return StorageScope.WORLD;
-    }
-
-    @Override
-    protected SideRestraint getSideRestraint() {
-        return SideRestraint.COMMON;
-    }
+    @Override protected StorageScope getScope() { return StorageScope.WORLD; }
+    @Override protected SideRestraint getSideRestraint() { return SideRestraint.COMMON; }
 
     public void storeBud(BlockPos pos, BlockState state) {
         String id = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
-        vault.put(pos.asLong(), id);
-        this.save();
+        getCurrentData().vault.put(pos.asLong(), id);
+        this.dirty = true;
+    }
+
+    public boolean has(BlockPos pos) {
+        return getCurrentData().vault.containsKey(pos.asLong());
     }
 
     public BlockState getAndRemove(BlockPos pos) {
-        String id = vault.remove(pos.asLong());
+        VaultData vData = getCurrentData();
+        String id = vData.vault.remove(pos.asLong());
+        boolean removedFromPending = vData.pendingRestore.remove(pos.asLong());
+
+        if (id == null && !removedFromPending) return null;
+
+        this.dirty = true;
         if (id == null) return null;
 
-        this.save();
         ResourceLocation rl = ResourceLocation.tryParse(id);
         if (rl == null) return null;
 
         Block block = BuiltInRegistries.BLOCK.
-        //#if MC >= 12102
-        //$$ getValue(rl);
-        //#else
-        get(rl);
+                //#if MC >= 12102
+                //$$ getValue(rl);
+                //#else
+                        get(rl);
         //#endif
         return (block != Blocks.AIR) ? block.defaultBlockState() : null;
     }
 
-    public boolean has(BlockPos pos) {
-        return vault.containsKey(pos.asLong());
+    public void markPending(BlockPos pos) {
+        VaultData vData = getCurrentData();
+        if (vData.vault.containsKey(pos.asLong())) {
+            if (vData.pendingRestore.add(pos.asLong())) {
+                this.dirty = true;
+            }
+        }
+    }
+
+    public void scheduledSave() {
+        if (this.dirty) {
+            this.save();
+            this.dirty = false;
+        }
+    }
+
+    public Set<Long> getPendingRestore() {
+        return getCurrentData().pendingRestore;
     }
 }

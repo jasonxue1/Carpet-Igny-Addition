@@ -4,13 +4,9 @@ import com.liuyue.igny.IGNYSettings;
 import com.liuyue.igny.manager.AmethystVaultManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
@@ -22,26 +18,83 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.*;
 
 @Mixin(Level.class)
-public class LevelMixin {
+public abstract class LevelMixin {
 
     @Unique
-    private static final Map<BlockPos, Integer> RETRY_QUEUES = new ConcurrentHashMap<>();
+    private final Map<BlockPos, Integer> igny$restoreTimers = new HashMap<>();
     @Unique
-    private static final Random RANDOM = new Random();
+    private final Map<BlockPos, BlockState[]> igny$neighborSnapshots = new HashMap<>();
+    @Unique
+    private int igny$saveTimer = 0;
+    @Unique
+    private boolean igny$initialized = false;
 
-    @Unique
-    private static final ScheduledExecutorService SCHEDULER = Executors.newScheduledThreadPool(1, r -> {
-        Thread t = new Thread(r, "Amethyst-Restore-Scheduler");
-        t.setDaemon(true);
-        return t;
-    });
+    @Inject(method = "tickBlockEntities", at = @At("TAIL"))
+    private void onTick(CallbackInfo ci) {
+        Level level = (Level) (Object) this;
+        if (level.isClientSide()) return;
+
+        if (++igny$saveTimer >= 6000) {
+            AmethystVaultManager.INSTANCE.scheduledSave();
+            igny$saveTimer = 0;
+        }
+
+        if (!igny$initialized) {
+            for (long posLong : AmethystVaultManager.INSTANCE.getPendingRestore()) {
+                BlockPos pos = BlockPos.of(posLong);
+                igny$restoreTimers.putIfAbsent(pos.immutable(), 20);
+            }
+            igny$initialized = true;
+        }
+
+        if (igny$restoreTimers.isEmpty()) return;
+
+        Iterator<Map.Entry<BlockPos, Integer>> it = igny$restoreTimers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<BlockPos, Integer> entry = it.next();
+            BlockPos pos = entry.getKey();
+            int attemptCount = entry.getValue();
+
+            if (attemptCount <= 0) {
+                AmethystVaultManager.INSTANCE.markPending(pos);
+                igny$neighborSnapshots.remove(pos);
+                it.remove();
+                continue;
+            }
+
+            boolean isAir = level.getBlockState(pos).isAir();
+            boolean changed = false;
+            BlockState[] lastStates = igny$neighborSnapshots.computeIfAbsent(pos, k -> new BlockState[6]);
+            Direction[] dirs = Direction.values();
+
+            for (int i = 0; i < 6; i++) {
+                BlockState currentState = level.getBlockState(pos.relative(dirs[i]));
+                if (lastStates[i] == null || !lastStates[i].equals(currentState)) {
+                    lastStates[i] = currentState;
+                    changed = true;
+                }
+            }
+
+            if (isAir && !changed) {
+                BlockState savedState = AmethystVaultManager.INSTANCE.getAndRemove(pos);
+                if (savedState != null) {
+                    level.setBlock(pos, savedState, 3);
+                }
+                igny$neighborSnapshots.remove(pos);
+                it.remove();
+            } else {
+                entry.setValue(attemptCount - 1);
+            }
+        }
+    }
 
     @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", at = @At(value = "HEAD"))
     private void setBlockHead(BlockPos pos, BlockState state, int flags, int recursionLeft, CallbackInfoReturnable<Boolean> cir) {
@@ -62,74 +115,11 @@ public class LevelMixin {
             Level level = (Level) (Object) this;
             if (level.isClientSide() || !cir.getReturnValue()) return;
 
-            if (newState.isAir()) {
-                if (AmethystVaultManager.INSTANCE.has(pos)) {
-                    scheduleRestore(level, pos.immutable());
-                }
-            } else if (newState.is(Blocks.PISTON) || newState.is(Blocks.STICKY_PISTON)) {
-                Direction facing = newState.getValue(PistonBaseBlock.FACING);
-                if (!newState.getValue(PistonBaseBlock.EXTENDED)) {
-                    BlockPos targetPos = pos.relative(facing);
-                    if (AmethystVaultManager.INSTANCE.has(targetPos)) {
-                        scheduleRestore(level, targetPos.immutable());
-                    }
-                }
+            if (newState.isAir() && AmethystVaultManager.INSTANCE.has(pos)) {
+                igny$restoreTimers.put(pos.immutable(), 20);
+                igny$neighborSnapshots.remove(pos);
             }
         }
-    }
-
-    @Unique
-    private void scheduleRestore(Level level, BlockPos pos) {
-        MinecraftServer server = level.getServer();
-        if (server == null) return;
-        int currentTry = RETRY_QUEUES.getOrDefault(pos, 0);
-        if (currentTry >= 4) {
-            RETRY_QUEUES.put(pos, 0);
-        }
-
-        startSamplingCycle(level, server, pos, 0);
-    }
-
-    @Unique
-    private void startSamplingCycle(Level level, MinecraftServer server, BlockPos pos, int tryCount) {
-        if (tryCount >= 4) {
-            RETRY_QUEUES.put(pos, 4);
-            return;
-        }
-
-        SCHEDULER.schedule(() -> server.execute(() -> {
-            if (!isSafe(level, pos)) {
-                retryLater(level, server, pos, tryCount);
-                return;
-            }
-
-            SCHEDULER.schedule(() -> server.execute(() -> {
-                if (isSafe(level, pos)) {
-                    BlockState savedState = AmethystVaultManager.INSTANCE.getAndRemove(pos);
-                    if (savedState != null) {
-                        RETRY_QUEUES.remove(pos);
-                        level.setBlock(pos, savedState, 130);
-                    }
-                } else {
-                    retryLater(level, server, pos, tryCount);
-                }
-            }), 100 + RANDOM.nextInt(200), TimeUnit.MILLISECONDS);
-
-        }), 50 + RANDOM.nextInt(150), TimeUnit.MILLISECONDS);
-    }
-
-    @Unique
-    private void retryLater(Level level, MinecraftServer server, BlockPos pos, int tryCount) {
-        SCHEDULER.schedule(() -> startSamplingCycle(level, server, pos, tryCount + 1), 2, TimeUnit.SECONDS);
-    }
-
-    @Unique
-    private boolean isSafe(Level level, BlockPos pos) {
-        if (!level.getBlockState(pos).isAir()) return false;
-        for (Direction dir : Direction.values()) {
-            if (level.getBlockState(pos.relative(dir)).is(Blocks.MOVING_PISTON)) return false;
-        }
-        return true;
     }
 
     @Mixin(BlockBehaviour.BlockStateBase.class)
@@ -145,21 +135,19 @@ public class LevelMixin {
         }
 
         @Inject(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;", at = @At("HEAD"), cancellable = true)
-        private void getCollisionShape(BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+        private void getCollisionShape(net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
             if (IGNYSettings.transparentBuddingAmethyst) {
                 BlockBehaviour.BlockStateBase state = (BlockBehaviour.BlockStateBase) (Object) this;
                 if (state.is(Blocks.BUDDING_AMETHYST) || state.getBlock() instanceof AmethystClusterBlock) {
-                    if (context instanceof EntityCollisionContext collisionContext) {
-                        if (!(collisionContext.getEntity() instanceof Player)) {
-                            cir.setReturnValue(Shapes.empty());
-                        }
+                    if (context instanceof EntityCollisionContext ecc && !(ecc.getEntity() instanceof net.minecraft.world.entity.player.Player)) {
+                        cir.setReturnValue(Shapes.empty());
                     }
                 }
             }
         }
 
         @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
-        private void getDestroySpeed(BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
+        private void getDestroySpeed(net.minecraft.world.level.BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
             if (IGNYSettings.transparentBuddingAmethyst) {
                 BlockBehaviour.BlockStateBase state = (BlockBehaviour.BlockStateBase) (Object) this;
                 if (state.is(Blocks.BUDDING_AMETHYST)) {
