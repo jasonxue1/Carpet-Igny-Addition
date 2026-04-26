@@ -12,6 +12,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+//#if MC >= 12106
+//$$ import net.minecraft.world.level.storage.TagValueInput;
+//$$ import com.mojang.logging.LogUtils;
+//$$ import net.minecraft.util.ProblemReporter;
+//#endif
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -50,8 +55,12 @@ public class BlockVaultManager extends BaseDataManager<BlockVaultManager.VaultDa
 
         BlockEntity be = level.getBlockEntity(pos);
         if (be != null) {
+            //#if MC >= 12005
             HolderLookup.Provider provider = level.registryAccess();
             snbt = be.saveWithFullMetadata(provider).toString();
+            //#else
+            //$$ snbt = be.saveWithFullMetadata().toString();
+            //#endif
         }
 
         getCurrentData().vault.put(pos.asLong(), new String[]{blockId, snbt});
@@ -83,11 +92,24 @@ public class BlockVaultManager extends BaseDataManager<BlockVaultManager.VaultDa
             level.setBlock(pos, block.defaultBlockState(), 3);
             if (info.length > 1 && !info[1].isEmpty()) {
                 try {
+                    //#if MC >= 12105
+                    //$$ CompoundTag nbt = TagParser.parseCompoundFully(info[1]);
+                    //#else
                     CompoundTag nbt = TagParser.parseTag(info[1]);
+                    //#endif
                     BlockEntity be = level.getBlockEntity(pos);
                     if (be != null) {
+                        //#if MC >= 12005
                         HolderLookup.Provider provider = level.registryAccess();
+                        //#if MC >= 12106
+                        //$$ ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(be.problemPath(), LogUtils.getLogger());
+                        //$$ be.loadWithComponents(TagValueInput.create(reporter, provider, nbt));
+                        //#else
                         be.loadWithComponents(nbt, provider);
+                        //#endif
+                        //#else
+                        //$$ be.load(nbt);
+                        //#endif
                         be.setChanged();
                     }
                 } catch (Exception ignored) {}
