@@ -90,7 +90,7 @@ public class BlockVaultManager extends BaseDataManager<BlockVaultManager.VaultDa
         //#endif
 
         if (block != Blocks.AIR) {
-            level.setBlock(pos, block.defaultBlockState(), 3);
+            level.setBlock(pos, block.defaultBlockState(), 2 | 16);
             if (info.length > 1 && !info[1].isEmpty()) {
                 try {
                     //#if MC >= 12105
