@@ -886,3 +886,12 @@ Make Trial Spawner, Vault, and Budding Amethyst blocks act like 'ghost' blocks: 
 - Default value: `false`
 - Suggested options: `false`, `true`
 - Categories: `IGNY`, `SURVIVAL`, `FEATURE`
+
+## 幽灵末影珍珠修复 (ghostEnderPearlFix) `🐛Beta`
+
+Fixed double persistence of ender pearls caused by a thread race condition. [MC-306936](https://bugs.mojang.com/browse/MC-306936)
+
+- Type: `boolean`
+- Default value: `false`
+- Suggested options: `false`, `true`
+- Categories: `IGNY`, `BUGFIX`

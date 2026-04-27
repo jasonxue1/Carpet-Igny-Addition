@@ -554,4 +554,11 @@ public class IGNYSettings {
             categories = {IGNY, SURVIVAL, FEATURE}
     )
     public static boolean transparentNightmarishBlock = false;
+
+    //#if MC >= 12102
+    //$$ @Rule(
+    //$$         categories = {IGNY, BUGFIX}
+    //$$ )
+    //$$ public static boolean ghostEnderPearlFix = false;
+    //#endif
 }
