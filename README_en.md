@@ -1,6 +1,6 @@
 # Carpet-Igny-Addition
 
-[![License](https://img.shields.io/github/license/liuyuexiaoyu1/Carpet-Igny-Addition)](https://choosealicense.com/licenses/mit/)
+[![License](https://img.shields.io/github/license/liuyuexiaoyu1/Carpet-Igny-Addition)](https://choosealicense.com/licenses/lgpl-3.0/)
 [![Modrinth](https://img.shields.io/modrinth/dt/carpet-igny-addition?color=00AF5C&label=Modrinth%20downloads&logo=modrinth)](https://modrinth.com/mod/carpet-igny-addition)
 [![CurseForge](https://img.shields.io/curseforge/dt/1479191?logo=curseforge&label=CurseForge%20downloads&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/carpet-igny-addition)
 [![MC Versions](https://cf.way2muchnoise.eu/versions/For%20MC_1479191_all.svg)](https://www.curseforge.com/minecraft/mc-mods/carpet-igny-addition)
